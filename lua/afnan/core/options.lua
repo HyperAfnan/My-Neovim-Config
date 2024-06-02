@@ -3,8 +3,6 @@ local set = vim.opt
 set.compatible = false
 vim.cmd("set t_Co=256")
 
-vim.cmd("colorscheme tokyonight ")
-
 vim.cmd("filetype on")
 vim.cmd("filetype plugin on")
 vim.cmd("filetype indent on")
@@ -63,8 +61,8 @@ set.formatoptions:remove("cro")
 set.shortmess:append("c")
 set.hlsearch = false
 
--- vim.g.node_host_prog = "/data/data/com.termux/files/usr/bin/neovim-node-host"
+vim.g.node_host_prog = true
 vim.g.loaded_perl_provider = false
 vim.g.loaded_ruby_provider = false
 vim.g.loaded_python2_provider = false
-vim.g.loaded_python3_provider = false	
+vim.g.loaded_python3_provider = false

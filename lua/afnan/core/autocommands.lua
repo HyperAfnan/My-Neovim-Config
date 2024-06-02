@@ -30,13 +30,6 @@ cmd("TextYankPost", {
 	end,
 })
 
-cmd("BufWritePost", {
-	desc = "Auto Compile plugins.lua file",
-	group = "_buffer",
-	command = "PackerCompile",
-	pattern = "plugins.lua",
-})
-
 augroup("_lsp", {})
 
 cmd({ "CursorHold" }, {
