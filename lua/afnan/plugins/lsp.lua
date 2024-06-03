@@ -30,22 +30,27 @@ return {
 				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 
 				-- document highlights
-				if client.resolved_capabilities.document_highlight then
-					vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
-					vim.api.nvim_create_autocmd("CursorHold", {
-						callback = function()
-							vim.lsp.buf.document_highlight()
-						end,
-						buffer = bufnr,
-					})
-					vim.api.nvim_create_autocmd("CursorMoved", {
-						callback = function()
-							vim.lsp.buf.clear_references()
-						end,
-						buffer = bufnr,
-					})
-				end
-				vim.notify(client.name .. " is Started", "INFO", {})
+				-- if client.resolved_capabilities.document_highlight then
+				-- 	vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
+				-- 	vim.api.nvim_create_autocmd("CursorHold", {
+				-- 		callback = function()
+				-- 			vim.lsp.buf.document_highlight()
+				-- 		end,
+				-- 		buffer = bufnr,
+				-- 	})
+				-- 	vim.api.nvim_create_autocmd("CursorMoved", {
+				-- 		callback = function()
+				-- 			vim.lsp.buf.clear_references()
+				-- 		end,
+				-- 		buffer = bufnr,
+				-- 	})
+				-- end
+
+				vim.notify("Language Server: " .. client.name .. " is started!", "INFO", {
+					title = "Language Server Protocol",
+					icon = "",
+					hide_from_history = true,
+				})
 			end
 
 			lightbulb.setup({
