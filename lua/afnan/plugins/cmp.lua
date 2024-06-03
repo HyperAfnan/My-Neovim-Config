@@ -6,6 +6,7 @@ return {
 		dependencies = {
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "hrsh7th/cmp-buffer" },
+         { "hrsh7th/cmp-nvim-lsp-signature-help" },
 			{ "hrsh7th/cmp-path" },
 			{ "hrsh7th/cmp-cmdline" },
 			{ "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp" },
@@ -44,6 +45,19 @@ return {
 				TypeParameter = "  ",
 			}
 			local borders = { " ", " ", " ", " ", " ", " ", " ", " " }
+			local sources = {
+				{ name = "luasnip", max_item_count = 2 },
+				{ name = "nvim_lsp", max_item_count = 4 },
+				{ name = "nvim_lsp_signature_help" },
+				{ name = "buffer", max_item_count = 2 },
+				{ name = "path" },
+				{ name = "devicons", priority = 500 },
+			}
+
+			if vim.o.ft == "lua" then
+				table.insert(sources, { name = "nvim_lua" })
+			end
+
 			vim.opt.pumheight = 8
 			vim.o.pumblend = 20
 			cmp.setup({
@@ -109,12 +123,7 @@ return {
 						return vim_item
 					end,
 				},
-				sources = cmp.config.sources({
-					{ name = "nvim_lsp" },
-					{ name = "luasnip" },
-					{ name = "buffer" },
-					{ name = "path" },
-				}),
+				sources = sources,
 			})
 
 			cmp.setup.cmdline({ "/", "?" }, {
