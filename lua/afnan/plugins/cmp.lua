@@ -6,17 +6,44 @@ return {
 		dependencies = {
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "hrsh7th/cmp-buffer" },
-         { "hrsh7th/cmp-nvim-lsp-signature-help" },
+			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 			{ "hrsh7th/cmp-path" },
 			{ "hrsh7th/cmp-cmdline" },
-			{ "L3MON4D3/LuaSnip", version = "v2.*", build = "make install_jsregexp" },
+			{
+				"L3MON4D3/LuaSnip",
+				version = "v2.*",
+				build = "make install_jsregexp",
+            dependencies = { "rafamadriz/friendly-snippets" },
+				config = function()
+
+					local ls = require("luasnip")
+					local types = require("luasnip.util.types")
+
+					ls.config.setup({
+						history = true,
+						updateevents = "TextChangedI",
+						enable_autosnippets = true,
+						ft_func = function()
+							return vim.split(vim.bo.filetype, ".", true)
+						end,
+						ext_opts = {
+							[types.choiceNode] = {
+								active = {
+									virt_text = { { "<-", "Error" } },
+								},
+							},
+						},
+					})
+
+					require("luasnip.loaders.from_vscode").lazy_load()
+				end,
+			},
 			{ "saadparwaiz1/cmp_luasnip" },
-			{ "rafamadriz/friendly-snippets" },
 		},
 		config = function()
 			local cmp = require("cmp")
 			local ls = require("luasnip")
-			local types = require("luasnip.util.types")
+
 			local kind = {
 				Text = "  ",
 				Method = "  ",
@@ -44,7 +71,9 @@ return {
 				Operator = "  ",
 				TypeParameter = "  ",
 			}
+
 			local borders = { " ", " ", " ", " ", " ", " ", " ", " " }
+
 			local sources = {
 				{ name = "luasnip", max_item_count = 2 },
 				{ name = "nvim_lsp", max_item_count = 4 },
@@ -142,24 +171,6 @@ return {
 				}),
 				matching = { disallow_symbol_nonprefix_matching = false },
 			})
-
-			ls.config.setup({
-				history = true,
-				updateevents = "TextChangedI",
-				enable_autosnippets = true,
-				ft_func = function()
-					return vim.split(vim.bo.filetype, ".", true)
-				end,
-				ext_opts = {
-					[types.choiceNode] = {
-						active = {
-							virt_text = { { "<-", "Error" } },
-						},
-					},
-				},
-			})
-
-			require("luasnip.loaders.from_vscode").lazy_load()
 		end,
 	},
 }

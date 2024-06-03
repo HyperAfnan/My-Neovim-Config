@@ -5,12 +5,10 @@ return {
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"b0o/schemastore.nvim",
-			"kosayoda/nvim-lightbulb",
 		},
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
 			local lspconfig = require("lspconfig")
-			local lightbulb = require("nvim-lightbulb")
 			local border = { " ", " ", " ", " ", " ", " ", " ", " " }
 			local capabilities = cmp_nvim_lsp.default_capabilities()
 
@@ -53,11 +51,6 @@ return {
 				})
 			end
 
-			lightbulb.setup({
-				autocmd = { enabled = true },
-				sign = { enable = false },
-				float = { enable = true },
-			})
 			lspconfig.tsserver.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
@@ -184,6 +177,7 @@ return {
 				end
 				return i .. "/" .. total .. " " .. icon .. "  ", highlight
 			end
+
 			local function wrap_options(custom, handler)
 				return function(opts)
 					opts = opts and vim.tbl_extend(opts, custom) or custom
@@ -195,6 +189,73 @@ return {
 				end
 			end
 
+         local codes = {
+		no_matching_function = {
+			message = " Can't find a matching function",
+			"redundant-parameter",
+			"ovl_no_viable_function_in_call",
+		},
+		empty_block = { message = " That shouldn't be empty here", "empty-block" },
+		missing_symbol = {
+			message = " Here should be a symbol",
+			"miss-symbol",
+		},
+		expected_semi_colon = {
+			message = " Remember the `;` or `,`",
+			"expected_semi_declaration",
+			"miss-sep-in-table",
+			"invalid_token_after_toplevel_declarator",
+		},
+		redefinition = {
+			message = " That variable was defined before",
+			"redefinition",
+			"redefined-local",
+		},
+		no_matching_variable = {
+			message = " Can't find that variable",
+			"undefined-global",
+			"reportUndefinedVariable",
+		},
+		trailing_whitespace = {
+			message = " Remove trailing whitespace",
+			"trailing-whitespace",
+			"trailing-space",
+		},
+		unused_variable = {
+			message = " Don't define variables you don't use",
+			"unused-local",
+		},
+		unused_function = {
+			message = " Don't define functions you don't use",
+			"unused-function",
+		},
+		useless_symbols = {
+			message = " Remove that useless symbols",
+			"unknown-symbol",
+		},
+		wrong_type = {
+			message = " Try to use the correct types",
+			"init_conversion_failed",
+		},
+		undeclared_variable = {
+			message = " Have you delcared that variable somewhere?",
+			"undeclared_var_use",
+		},
+		lowercase_global = {
+			message = " Should that be a global? (if so make it uppercase)",
+			"lowercase-global",
+		},
+	}
+
+local function format(diagnostic)
+		local code = diagnostic.user_data.lsp.code
+		for _, table in pairs(codes) do
+			if vim.tbl_contains(table, code) then
+				return table.message
+			end
+		return diagnostic.message
+	end
+end
 			-- Diagnostics Setup
 			vim.diagnostic.config({
 				signs = false,
@@ -204,10 +265,10 @@ return {
 				float = {
 					focusable = false,
 					border = border,
+               format = format,
 					scope = "cursor",
 					source = "if_many",
 					header = { "Cursor Diagnostics: ", "DiagnosticInfo" },
-					pos = 1,
 					prefix = prefix,
 				},
 			})
@@ -264,6 +325,17 @@ return {
 			end
 
 			vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
+		end,
+	},
+	{
+		"kosayoda/nvim-lightbulb",
+		config = function()
+			local lightbulb = require("nvim-lightbulb")
+			lightbulb.setup({
+				autocmd = { enabled = true },
+				sign = { enable = false },
+				float = { enable = true },
+			})
 		end,
 	},
 }
