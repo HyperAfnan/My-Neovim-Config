@@ -55,7 +55,6 @@ set.updatetime = 250
 set.scrolloff = 14
 
 set.splitright = true
-set.splitbelow = true
 
 set.formatoptions:remove("cro")
 set.shortmess:append("c")

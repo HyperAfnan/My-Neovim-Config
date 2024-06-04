@@ -1,4 +1,3 @@
----@diagnostic disable: param-type-mismatch
 return {
 	{
 		"neovim/nvim-lspconfig",
@@ -51,6 +50,7 @@ return {
 				})
 			end
 
+			-- JAVASCRIPT
 			lspconfig.tsserver.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
@@ -96,6 +96,8 @@ return {
 					end,
 				},
 			})
+
+			-- LUA
 			lspconfig.lua_ls.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
@@ -150,6 +152,7 @@ return {
 				},
 			})
 
+			-- EMMET
 			lspconfig.emmet_language_server.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
@@ -189,73 +192,73 @@ return {
 				end
 			end
 
-         local codes = {
-		no_matching_function = {
-			message = " Can't find a matching function",
-			"redundant-parameter",
-			"ovl_no_viable_function_in_call",
-		},
-		empty_block = { message = " That shouldn't be empty here", "empty-block" },
-		missing_symbol = {
-			message = " Here should be a symbol",
-			"miss-symbol",
-		},
-		expected_semi_colon = {
-			message = " Remember the `;` or `,`",
-			"expected_semi_declaration",
-			"miss-sep-in-table",
-			"invalid_token_after_toplevel_declarator",
-		},
-		redefinition = {
-			message = " That variable was defined before",
-			"redefinition",
-			"redefined-local",
-		},
-		no_matching_variable = {
-			message = " Can't find that variable",
-			"undefined-global",
-			"reportUndefinedVariable",
-		},
-		trailing_whitespace = {
-			message = " Remove trailing whitespace",
-			"trailing-whitespace",
-			"trailing-space",
-		},
-		unused_variable = {
-			message = " Don't define variables you don't use",
-			"unused-local",
-		},
-		unused_function = {
-			message = " Don't define functions you don't use",
-			"unused-function",
-		},
-		useless_symbols = {
-			message = " Remove that useless symbols",
-			"unknown-symbol",
-		},
-		wrong_type = {
-			message = " Try to use the correct types",
-			"init_conversion_failed",
-		},
-		undeclared_variable = {
-			message = " Have you delcared that variable somewhere?",
-			"undeclared_var_use",
-		},
-		lowercase_global = {
-			message = " Should that be a global? (if so make it uppercase)",
-			"lowercase-global",
-		},
-	}
+			local codes = {
+				no_matching_function = {
+					message = " Can't find a matching function",
+					"redundant-parameter",
+					"ovl_no_viable_function_in_call",
+				},
+				empty_block = { message = " That shouldn't be empty here", "empty-block" },
+				missing_symbol = {
+					message = " Here should be a symbol",
+					"miss-symbol",
+				},
+				expected_semi_colon = {
+					message = " Remember the `;` or `,`",
+					"expected_semi_declaration",
+					"miss-sep-in-table",
+					"invalid_token_after_toplevel_declarator",
+				},
+				redefinition = {
+					message = " That variable was defined before",
+					"redefinition",
+					"redefined-local",
+				},
+				no_matching_variable = {
+					message = " Can't find that variable",
+					"undefined-global",
+					"reportUndefinedVariable",
+				},
+				trailing_whitespace = {
+					message = " Remove trailing whitespace",
+					"trailing-whitespace",
+					"trailing-space",
+				},
+				unused_variable = {
+					message = " Don't define variables you don't use",
+					"unused-local",
+				},
+				unused_function = {
+					message = " Don't define functions you don't use",
+					"unused-function",
+				},
+				useless_symbols = {
+					message = " Remove that useless symbols",
+					"unknown-symbol",
+				},
+				wrong_type = {
+					message = " Try to use the correct types",
+					"init_conversion_failed",
+				},
+				undeclared_variable = {
+					message = " Have you delcared that variable somewhere?",
+					"undeclared_var_use",
+				},
+				lowercase_global = {
+					message = " Should that be a global? (if so make it uppercase)",
+					"lowercase-global",
+				},
+			}
 
-local function format(diagnostic)
-		local code = diagnostic.user_data.lsp.code
-		for _, table in pairs(codes) do
-			if vim.tbl_contains(table, code) then
-				return table.message
+			local function format(diagnostic)
+				local code = diagnostic.user_data.lsp.code
+				for _, table in pairs(codes) do
+					if vim.tbl_contains(table, code) then
+						return table.message
+					end
+					return diagnostic.message
+				end
 			end
-		return diagnostic.message
-	end
-end
 			-- Diagnostics Setup
 			vim.diagnostic.config({
 				signs = false,
@@ -265,7 +268,7 @@ end
 				float = {
 					focusable = false,
 					border = border,
-               format = format,
+					format = format,
 					scope = "cursor",
 					source = "if_many",
 					header = { "Cursor Diagnostics: ", "DiagnosticInfo" },
@@ -324,9 +327,10 @@ end
 				return handler
 			end
 
-			vim.lsp.handlers["textDocument/definition"] = goto_definition("split")
+			vim.lsp.handlers["textDocument/definition"] = goto_definition("vsplit")
 		end,
 	},
+
 	{
 		"kosayoda/nvim-lightbulb",
 		config = function()

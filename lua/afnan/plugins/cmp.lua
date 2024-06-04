@@ -13,9 +13,8 @@ return {
 				"L3MON4D3/LuaSnip",
 				version = "v2.*",
 				build = "make install_jsregexp",
-            dependencies = { "rafamadriz/friendly-snippets" },
+				dependencies = { "rafamadriz/friendly-snippets" },
 				config = function()
-
 					local ls = require("luasnip")
 					local types = require("luasnip.util.types")
 
@@ -89,16 +88,19 @@ return {
 
 			vim.opt.pumheight = 8
 			vim.o.pumblend = 20
+
 			cmp.setup({
 				snippet = {
 					expand = function(args)
 						ls.lsp_expand(args.body)
 					end,
 				},
+
 				window = {
 					completion = { border = borders },
 					documentation = { border = borders },
 				},
+
 				mapping = cmp.mapping.preset.insert({
 					["<C-b>"] = cmp.mapping.scroll_docs(-4),
 					["<C-f>"] = cmp.mapping.scroll_docs(4),
@@ -120,6 +122,7 @@ return {
 						end
 					end, { "i", "s" }),
 				}),
+
 				sorting = {
 					comparators = {
 						cmp.config.compare.offset,
@@ -142,6 +145,7 @@ return {
 						cmp.config.compare.order,
 					},
 				},
+
 				formatting = {
 					fields = { "abbr", "kind" },
 					kind_icons = kind,
