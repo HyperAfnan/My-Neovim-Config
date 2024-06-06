@@ -20,5 +20,5 @@ require("lazy").setup({ { import = "afnan.plugins" } }, {
 		notify = false,
 	},
 })
-vim.cmd("colorscheme onedark")
+vim.cmd("colorscheme vscode")
 vim.g.netrw_liststyle = 3

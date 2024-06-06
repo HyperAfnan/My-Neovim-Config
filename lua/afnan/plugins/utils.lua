@@ -2,6 +2,7 @@ return {
 	{ "nvim-lua/plenary.nvim" },
 	{
 		"rcarriga/nvim-notify",
+		event = "BufEnter",
 		config = function()
 			local notify = require("notify")
 			vim.notify = function(msg, level, opts)
@@ -21,4 +22,7 @@ return {
 			})
 		end,
 	},
+   {
+      "lewis6991/impatient.nvim"
+   }
 }

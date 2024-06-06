@@ -18,13 +18,6 @@ return {
 					close_command = "bdelete! %d",
 					sort_by = sort_by_mtime,
 					indicator_icon = "  ",
-					offsets = {
-						{
-							filetype = "NetrwTreeListing",
-							text = "Explorer",
-							text_align = "center",
-						},
-					},
 					buffer_close_icon = "",
 					modified_icon = "●",
 					show_buffer_icons = true,

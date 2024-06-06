@@ -2,8 +2,6 @@ local function set_keymap(mode, lhs, rhs)
 	vim.keymap.set(mode, lhs, rhs, { silent = true, noremap = true })
 end
 
---local wk = require 'which-key'
-
 set_keymap("", "k", "gk")
 set_keymap("", "j", "gj")
 set_keymap("n", "<CR>", "<esc>o")
@@ -62,32 +60,3 @@ set_keymap("n", ",K", ":m .-2<CR>==")
 set_keymap("n", ",J", ":m .+1<CR>==")
 set_keymap("v", "K", ":m '>+1<CR>gv=gv")
 set_keymap("v", "J", ":m '<-2<CR>gv=gv")
-
-local mappings = {
-	g = {
-		name = "Gitsigns",
-		h = {
-			name = "Hunk",
-			n = { ":Gitsigns next_hunk<CR>", "Next Hunk" },
-			p = { ":Gitsigns prev_hunk<CR>", "Previous Hunk" },
-			s = { ":Gitsigns stage_hunk<CR>", "Stage Hunk" },
-			u = { ":Gitsigns undo_stage_hunk<CR>", "Unstage Hunk" },
-			r = { ":Gitsigns reset_hunk<CR>", "Reset Hunk" },
-		},
-		b = {
-			name = "Buffer",
-			s = { ":Gitsigns stage_buffer<CR>", "Stage Buffer" },
-			r = { ":Gitsigns reset_buffer<CR>", "Reset Buffer" },
-		},
-		p = { name = "Preview", h = { ":Gitsigns preview_hunk<CR>", "Preview Hunk" } },
-	},
-	t = {
-		name = "Telescope",
-		f = { ":Telescope find_files<CR>", "Find Files" },
-		r = { ":Telescope live_grep<CR>", "Grep" },
-		n = { ":lua require('github-notifications.menu').notifications()<CR>", "Github Notifications" },
-		h = { ":Telescope help_tags<CR>", "Help tags" },
-	},
-}
-local opts = { prefix = ",", icons = { group = "➜" } }
--- wk.register(mappings, opts)

@@ -4,6 +4,17 @@ return {
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"b0o/schemastore.nvim",
+			{
+				"kosayoda/nvim-lightbulb",
+				config = function()
+					local lightbulb = require("nvim-lightbulb")
+					lightbulb.setup({
+						autocmd = { enabled = true },
+						sign = { enable = false },
+						float = { enable = true },
+					})
+				end,
+			},
 		},
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -328,18 +339,6 @@ return {
 			end
 
 			vim.lsp.handlers["textDocument/definition"] = goto_definition("vsplit")
-		end,
-	},
-
-	{
-		"kosayoda/nvim-lightbulb",
-		config = function()
-			local lightbulb = require("nvim-lightbulb")
-			lightbulb.setup({
-				autocmd = { enabled = true },
-				sign = { enable = false },
-				float = { enable = true },
-			})
 		end,
 	},
 }
