@@ -76,9 +76,6 @@ return {
 						includeCompletionsForImportStatements = true,
 					},
 				},
-				root_dir = function()
-					return vim.loop.cwd()
-				end,
 				single_file_support = true,
 			})
 
@@ -101,11 +98,6 @@ return {
 			lspconfig.html.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
-				settings = {
-					root_dir = function()
-						return vim.loop.cwd()
-					end,
-				},
 			})
 
 			-- LUA
@@ -167,11 +159,6 @@ return {
 			lspconfig.emmet_language_server.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
-				settings = {
-					root_dir = function()
-						return vim.loop.cwd()
-					end,
-				},
 			})
 
 			local function prefix(diagnostic, i, total)

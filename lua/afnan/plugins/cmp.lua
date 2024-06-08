@@ -99,7 +99,7 @@ return {
 			local borders = { " ", " ", " ", " ", " ", " ", " ", " " }
 
 			local sources = {
-				{ name = "luasnip", max_item_count = 2 },
+				-- { name = "luasnip", max_item_count = 2 },
 				{ name = "nvim_lsp", max_item_count = 4 },
 				{ name = "nvim_lsp_signature_help" },
 				{ name = "buffer", max_item_count = 2 },
@@ -111,6 +111,10 @@ return {
 				table.insert(sources, { name = "nvim_lua" })
 				table.insert(sources, { name = "plugins" })
 			end
+
+         if not vim.o.ft == "html" then
+            table.insert(sources, { name = "luasnip"})
+         end
 
 			function DeviconsCompletion()
 				local devicons = require("nvim-web-devicons")
