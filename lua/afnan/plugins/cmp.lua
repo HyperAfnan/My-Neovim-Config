@@ -112,9 +112,9 @@ return {
 				table.insert(sources, { name = "plugins" })
 			end
 
-         if not vim.o.ft == "html" then
-            table.insert(sources, { name = "luasnip"})
-         end
+			if not vim.o.ft == "html" then
+				table.insert(sources, { name = "luasnip" })
+			end
 
 			function DeviconsCompletion()
 				local devicons = require("nvim-web-devicons")

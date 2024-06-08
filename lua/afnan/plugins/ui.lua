@@ -1,7 +1,7 @@
 ---@diagnostic disable: cast-local-type
 return {
 	"MunifTanjim/nui.nvim",
-   event = "InsertEnter",
+	event = "InsertEnter",
 	config = function()
 		local Input = require("nui.input")
 		local Menu = require("nui.menu")
