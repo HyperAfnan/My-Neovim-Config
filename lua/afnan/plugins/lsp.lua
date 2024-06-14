@@ -37,23 +37,6 @@ return {
 				set_keymap("n", "ga", ":lua vim.lsp.buf.code_action()<CR>")
 				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 
-				-- document highlights
-				-- if client.resolved_capabilities.document_highlight then
-				-- 	vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
-				-- 	vim.api.nvim_create_autocmd("CursorHold", {
-				-- 		callback = function()
-				-- 			vim.lsp.buf.document_highlight()
-				-- 		end,
-				-- 		buffer = bufnr,
-				-- 	})
-				-- 	vim.api.nvim_create_autocmd("CursorMoved", {
-				-- 		callback = function()
-				-- 			vim.lsp.buf.clear_references()
-				-- 		end,
-				-- 		buffer = bufnr,
-				-- 	})
-				-- end
-
 				vim.notify("Language Server: " .. client.name .. " is started!", "INFO", {
 					title = "Language Server Protocol",
 					icon = "",
@@ -249,12 +232,16 @@ return {
 			}
 
 			local function format(diagnostic)
+				if diagnostic.user_data == nil then
+					return diagnostic.message
+				elseif vim.tbl_isempty(diagnostic.user_data) then
+					return diagnostic.message
+				end
 				local code = diagnostic.user_data.lsp.code
 				for _, table in pairs(codes) do
 					if vim.tbl_contains(table, code) then
 						return table.message
 					end
-					return diagnostic.message
 				end
 			end
 			-- Diagnostics Setup

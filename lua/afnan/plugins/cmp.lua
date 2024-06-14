@@ -4,6 +4,7 @@ return {
 		"hrsh7th/nvim-cmp",
 		event = "InsertEnter",
 		dependencies = {
+			{ "hrsh7th/cmp-nvim-lua", ft = "lua" },
 			{ "hrsh7th/cmp-nvim-lsp" },
 			{ "hrsh7th/cmp-buffer" },
 			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
@@ -12,6 +13,7 @@ return {
 			{ "hrsh7th/cmp-cmdline" },
 			{
 				"KadoBOT/cmp-plugins",
+            ft = "lua",
 				config = function()
 					require("cmp-plugins").setup({
 						files = { ".*\\.lua" },
@@ -83,6 +85,8 @@ return {
 			local function kind_settings1(entry, vim_item)
 				if entry.source.name == "plugins" then
 					return "Plugin"
+				elseif vim.split(entry.source:get_debug_name(), ":")[2] == "emmet_language_server" then
+					return "Emmet"
 				else
 					return vim_item.kind
 				end
@@ -90,7 +94,9 @@ return {
 
 			local function kind_settings2(entry, vim_item)
 				if entry.source.name == "plugins" then
-					return ""
+					return "  "
+				elseif vim.split(entry.source:get_debug_name(), ":")[2] == "emmet_language_server" then
+					return "  "
 				else
 					return kind[vim_item.kind]
 				end
@@ -99,7 +105,7 @@ return {
 			local borders = { " ", " ", " ", " ", " ", " ", " ", " " }
 
 			local sources = {
-				-- { name = "luasnip", max_item_count = 2 },
+				{ name = "luasnip", max_item_count = 2 },
 				{ name = "nvim_lsp", max_item_count = 4 },
 				{ name = "nvim_lsp_signature_help" },
 				{ name = "buffer", max_item_count = 2 },
@@ -112,8 +118,9 @@ return {
 				table.insert(sources, { name = "plugins" })
 			end
 
-			if not vim.o.ft == "html" then
-				table.insert(sources, { name = "luasnip" })
+			if vim.o.ft == "html" then
+				table.remove(sources, 1)
+				print(vim.inspect(sources))
 			end
 
 			function DeviconsCompletion()
@@ -173,28 +180,28 @@ return {
 					end, { "i", "s" }),
 				}),
 
-				sorting = {
-					comparators = {
-						cmp.config.compare.offset,
-						cmp.config.compare.exact,
-						cmp.config.compare.score,
-						function(entry1, entry2)
-							local _, entry1_under = entry1.completion_item.label:find("^_+")
-							local _, entry2_under = entry2.completion_item.label:find("^_+")
-							entry1_under = entry1_under or 0
-							entry2_under = entry2_under or 0
-							if entry1_under > entry2_under then
-								return false
-							elseif entry1_under < entry2_under then
-								return true
-							end
-						end,
-						cmp.config.compare.kind,
-						cmp.config.compare.sort_text,
-						cmp.config.compare.length,
-						cmp.config.compare.order,
-					},
-				},
+				-- sorting = {
+				-- 	comparators = {
+				-- 		cmp.config.compare.offset,
+				-- 		cmp.config.compare.exact,
+				-- 		cmp.config.compare.score,
+				-- 		function(entry1, entry2)
+				-- 			local _, entry1_under = entry1.completion_item.label:find("^_+")
+				-- 			local _, entry2_under = entry2.completion_item.label:find("^_+")
+				-- 			entry1_under = entry1_under or 0
+				-- 			entry2_under = entry2_under or 0
+				-- 			if entry1_under > entry2_under then
+				-- 				return false
+				-- 			elseif entry1_under < entry2_under then
+				-- 				return true
+				-- 			end
+				-- 		end,
+				-- 		cmp.config.compare.kind,
+				-- 		cmp.config.compare.sort_text,
+				-- 		cmp.config.compare.length,
+				-- 		cmp.config.compare.order,
+				-- 	},
+				-- },
 
 				formatting = {
 					fields = { "abbr", "kind", "menu" },

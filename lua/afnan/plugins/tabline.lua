@@ -1,3 +1,4 @@
+---@diagnostic disable: cast-local-type
 return {
 	{
 		"akinsho/bufferline.nvim",
@@ -12,21 +13,31 @@ return {
 				return mod_a > mod_b
 			end
 
+			local function diagnostics_indicator(_, _, diagnostics)
+				local symbols = { error = " ", warning = " ", info = " " }
+				local result = {}
+				for name, count in pairs(diagnostics) do
+					if symbols[name] and count > 0 then
+						table.insert(result, symbols[name] .. count)
+					end
+				end
+				result = table.concat(result, " ")
+				return #result > 0 and result or ""
+			end
+
 			require("bufferline").setup({
 				options = {
 					numbers = "none",
 					close_command = "bdelete! %d",
+					diagnostics = "nvim_lsp",
+					diagnostics_update_in_insert = true,
+					diagnostics_indicator = diagnostics_indicator,
 					sort_by = sort_by_mtime,
 					indicator_icon = "  ",
 					buffer_close_icon = "",
 					modified_icon = "●",
 					show_buffer_icons = true,
 					show_buffer_close_icons = true,
-					custom_filter = function(buf_number)
-						if vim.bo[buf_number].filetype ~= "dashboard" then
-							return true
-						end
-					end,
 					show_close_icon = false,
 					show_tab_indicators = true,
 					persist_buffer_sort = true,

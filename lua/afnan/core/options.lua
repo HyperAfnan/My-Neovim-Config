@@ -41,6 +41,7 @@ set.smartindent = true
 set.shiftround = true
 set.shiftwidth = 0
 set.tabstop = 3
+set.cursorline = true
 
 set.smarttab = true
 set.expandtab = true
