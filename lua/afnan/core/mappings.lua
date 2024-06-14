@@ -10,7 +10,6 @@ set_keymap("n", "w", ":w<CR>")
 set_keymap("n", "<space>", ":")
 set_keymap("v", "<space>", ":")
 set_keymap("n", ",,x", ":write<CR> :source %<CR>")
-set_keymap("n", "e", ":Vexplore<CR>")
 set_keymap("n", "\\", "$")
 set_keymap("v", "\\", "$")
 
