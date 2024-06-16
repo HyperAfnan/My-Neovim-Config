@@ -143,6 +143,25 @@ return {
 				capabilities = capabilities,
 			})
 
+			lspconfig.ccls.setup({
+				on_attach = on_attach,
+				capabilities = capabilities,
+				init_options = {
+					compilationDatabaseDirectory = "build",
+					index = {
+						threads = 0,
+					},
+					clang = {
+						excludeArgs = { "-frounding-math" },
+					},
+				},
+			})
+
+         lspconfig.clangd.setup({
+            on_attach = on_attach,
+            capabilities = capabilities
+         })
+
 			local function prefix(diagnostic, i, total)
 				local icon, highlight
 				if diagnostic.severity == 1 then
