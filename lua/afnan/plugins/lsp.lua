@@ -19,7 +19,6 @@ return {
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
 			local lspconfig = require("lspconfig")
-			local border = { " ", " ", " ", " ", " ", " ", " ", " " }
 			local capabilities = cmp_nvim_lsp.default_capabilities()
 
 			local function on_attach(client, bufnr)
@@ -252,8 +251,8 @@ return {
 				underline = true,
 				float = {
 					focusable = false,
-					border = border,
-					format = format,
+					border = "rounded",
+					-- format = format,
 					scope = "cursor",
 					source = "if_many",
 					header = { "Cursor Diagnostics: ", "DiagnosticInfo" },
@@ -263,12 +262,12 @@ return {
 
 			-- Hover
 			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				border = border,
+				border = "rounded",
 			})
 
 			-- Signature Help
 			vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-				border = border,
+				border = "rounded",
 			})
 
 			-- Reference

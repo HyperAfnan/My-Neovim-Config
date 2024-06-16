@@ -13,7 +13,7 @@ return {
 			{ "hrsh7th/cmp-cmdline" },
 			{
 				"KadoBOT/cmp-plugins",
-            ft = "lua",
+				ft = "lua",
 				config = function()
 					require("cmp-plugins").setup({
 						files = { ".*\\.lua" },
@@ -102,8 +102,6 @@ return {
 				end
 			end
 
-			local borders = { " ", " ", " ", " ", " ", " ", " ", " " }
-
 			local sources = {
 				{ name = "luasnip", max_item_count = 2 },
 				{ name = "nvim_lsp", max_item_count = 4 },
@@ -147,6 +145,7 @@ return {
 			vim.o.pumblend = 20
 
 			cmp.setup({
+				completion = { completeopt = "menu,menuone,preview,noselect" },
 				snippet = {
 					expand = function(args)
 						ls.lsp_expand(args.body)
@@ -154,8 +153,17 @@ return {
 				},
 
 				window = {
-					completion = { border = borders },
-					documentation = { border = borders },
+					-- completion = { border = borders },
+					-- documentation = { border = borders },
+					documentation = {
+						border = "rounded",
+						winhighlight = "NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
+					},
+					completion = {
+						border = "rounded",
+						winhighlight = "NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
+					},
+					scrollbar = true,
 				},
 
 				mapping = cmp.mapping.preset.insert({
@@ -180,28 +188,28 @@ return {
 					end, { "i", "s" }),
 				}),
 
-				-- sorting = {
-				-- 	comparators = {
-				-- 		cmp.config.compare.offset,
-				-- 		cmp.config.compare.exact,
-				-- 		cmp.config.compare.score,
-				-- 		function(entry1, entry2)
-				-- 			local _, entry1_under = entry1.completion_item.label:find("^_+")
-				-- 			local _, entry2_under = entry2.completion_item.label:find("^_+")
-				-- 			entry1_under = entry1_under or 0
-				-- 			entry2_under = entry2_under or 0
-				-- 			if entry1_under > entry2_under then
-				-- 				return false
-				-- 			elseif entry1_under < entry2_under then
-				-- 				return true
-				-- 			end
-				-- 		end,
-				-- 		cmp.config.compare.kind,
-				-- 		cmp.config.compare.sort_text,
-				-- 		cmp.config.compare.length,
-				-- 		cmp.config.compare.order,
-				-- 	},
-				-- },
+				sorting = {
+					comparators = {
+						cmp.config.compare.offset,
+						cmp.config.compare.exact,
+						cmp.config.compare.score,
+						function(entry1, entry2)
+							local _, entry1_under = entry1.completion_item.label:find("^_+")
+							local _, entry2_under = entry2.completion_item.label:find("^_+")
+							entry1_under = entry1_under or 0
+							entry2_under = entry2_under or 0
+							if entry1_under > entry2_under then
+								return false
+							elseif entry1_under < entry2_under then
+								return true
+							end
+						end,
+						cmp.config.compare.kind,
+						cmp.config.compare.sort_text,
+						cmp.config.compare.length,
+						cmp.config.compare.order,
+					},
+				},
 
 				formatting = {
 					fields = { "abbr", "kind", "menu" },
