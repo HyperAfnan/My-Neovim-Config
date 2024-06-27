@@ -6,12 +6,9 @@ set_keymap("", "k", "gk")
 set_keymap("", "j", "gj")
 set_keymap("n", "<CR>", "<esc>o")
 set_keymap("n", "q", ":q<CR>")
-set_keymap("n", "w", ":w<CR>")
 set_keymap("n", "<space>", ":")
 set_keymap("v", "<space>", ":")
 set_keymap("n", ",,x", ":write<CR> :source %<CR>")
-set_keymap("n", "\\", "$")
-set_keymap("v", "\\", "$")
 
 -- single line movement
 set_keymap("n", "<A-left>", "0")
@@ -34,8 +31,8 @@ set_keymap("", "<A-k>", "<C-w>k")
 set_keymap("", "<A-l>", "<C-w>l")
 
 -- for buffer
-set_keymap("n", "<tab>", ":bnext<CR>")
-set_keymap("n", "<S-tab>", ":bprevious<CR>")
+set_keymap("n", "<tab>", ":BufferLineCycleWindowlessNext<CR>")
+set_keymap("n", "<S-tab>", ":BufferLineCycleWindowlessPrev<CR>")
 set_keymap("n", "bd", ":bdelete<CR>")
 
 -- For quickfix list

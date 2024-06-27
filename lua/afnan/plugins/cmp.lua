@@ -53,6 +53,7 @@ return {
 		config = function()
 			local cmp = require("cmp")
 			local ls = require("luasnip")
+			local context = require("cmp.config.context")
 
 			local kind = {
 				Text = "  ",
@@ -118,7 +119,11 @@ return {
 
 			if vim.o.ft == "html" then
 				table.remove(sources, 1)
-				print(vim.inspect(sources))
+				if context.in_treesitter_capture("attribute_value") then
+					sources = {
+						{ name = "nvim_lsp", max_item_count = 4 },
+					}
+				end
 			end
 
 			function DeviconsCompletion()

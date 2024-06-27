@@ -69,6 +69,8 @@ return {
 			})
 			load("fzf")
 			load("ghn")
+			load("noice")
+			load("catppuccin")
 
 			local opts = { prefix = ",", icons = { group = "➜" } }
 			local mappings = {

@@ -5,16 +5,50 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"b0o/schemastore.nvim",
 			{
-				"kosayoda/nvim-lightbulb",
+				"folke/trouble.nvim",
+				opts = {},
+				cmd = "Trouble",
+				keys = {
+					{
+						"<leader>xx",
+						"<cmd>Trouble diagnostics toggle<cr>",
+						desc = "Diagnostics (Trouble)",
+					},
+					{
+						"<leader>xX",
+						"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+						desc = "Buffer Diagnostics (Trouble)",
+					},
+					{
+						"<leader>cs",
+						"<cmd>Trouble symbols toggle focus=false<cr>",
+						desc = "Symbols (Trouble)",
+					},
+					{
+						"<leader>cl",
+						"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+						desc = "LSP Definitions / references / ... (Trouble)",
+					},
+					{
+						"<leader>xL",
+						"<cmd>Trouble loclist toggle<cr>",
+						desc = "Location List (Trouble)",
+					},
+					{
+						"<leader>xQ",
+						"<cmd>Trouble qflist toggle<cr>",
+						desc = "Quickfix List (Trouble)",
+					},
+				},
+			},
+			{
+				"simrat39/symbols-outline.nvim",
+				cmd = "SymbolsOutline",
 				config = function()
-					local lightbulb = require("nvim-lightbulb")
-					lightbulb.setup({
-						autocmd = { enabled = true },
-						sign = { enable = false },
-						float = { enable = true },
-					})
+					require("symbols-outline").setup()
 				end,
 			},
+			{ "pmizio/typescript-tools.nvim" },
 		},
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -35,6 +69,7 @@ return {
 				set_keymap("n", "gr", ":lua vim.lsp.buf.rename()<CR>")
 				set_keymap("n", "ga", ":lua vim.lsp.buf.code_action()<CR>")
 				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+				set_keymap("n", "gs", ":SymbolsOutline<CR>")
 
 				vim.notify("Language Server: " .. client.name .. " is started!", "INFO", {
 					title = "Language Server Protocol",
@@ -143,24 +178,11 @@ return {
 				capabilities = capabilities,
 			})
 
-			lspconfig.ccls.setup({
+			-- CLANGD
+			lspconfig.clangd.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
-				init_options = {
-					compilationDatabaseDirectory = "build",
-					index = {
-						threads = 0,
-					},
-					clang = {
-						excludeArgs = { "-frounding-math" },
-					},
-				},
 			})
-
-         lspconfig.clangd.setup({
-            on_attach = on_attach,
-            capabilities = capabilities
-         })
 
 			local function prefix(diagnostic, i, total)
 				local icon, highlight
@@ -248,7 +270,7 @@ return {
 					"lowercase-global",
 				},
 			}
-
+			--- FIX: FIX error whle showing diagnostics open_float
 			local function format(diagnostic)
 				if diagnostic.user_data == nil then
 					return diagnostic.message
@@ -271,7 +293,7 @@ return {
 				float = {
 					focusable = false,
 					border = "rounded",
-					-- format = format,
+					format = format,
 					scope = "cursor",
 					source = "if_many",
 					header = { "Cursor Diagnostics: ", "DiagnosticInfo" },
@@ -299,38 +321,38 @@ return {
 			vim.lsp.handlers["textDocument/documentSymbol"] = require("telescope.builtin").lsp_document_symbols
 
 			-- Defination
-			local function goto_definition(split_cmd)
-				local util = vim.lsp.util
-				local log = require("vim.lsp.log")
-				local api = vim.api
-
-				local handler = function(_, result, ctx)
-					if result == nil or vim.tbl_isempty(result) then
-						local _ = log.info() and log.info(ctx.method, "No location found")
-						return nil
-					end
-
-					if split_cmd then
-						vim.cmd(split_cmd)
-					end
-
-					if vim.tbl_islist(result) then
-						util.jump_to_location(result[1])
-
-						if #result > 1 then
-							util.set_qflist(util.locations_to_items(result))
-							api.nvim_command("copen")
-							api.nvim_command("wincmd p")
-						end
-					else
-						util.jump_to_location(result)
-					end
-				end
-
-				return handler
-			end
-
-			vim.lsp.handlers["textDocument/definition"] = goto_definition("vsplit")
+			-- 	local function goto_definition(split_cmd)
+			-- 		local util = vim.lsp.util
+			-- 		local log = require("vim.lsp.log")
+			-- 		local api = vim.api
+			--
+			-- 		local handler = function(_, result, ctx)
+			-- 			if result == nil or vim.tbl_isempty(result) then
+			-- 				local _ = log.info() and log.info(ctx.method, "No location found")
+			-- 				return nil
+			-- 			end
+			--
+			-- 			if split_cmd then
+			-- 				vim.cmd(split_cmd)
+			-- 			end
+			--
+			-- 			if vim.tbl_islist(result) then
+			-- 				util.jump_to_location(result[1])
+			--
+			-- 				if #result > 1 then
+			-- 					util.set_qflist(util.locations_to_items(result))
+			-- 					api.nvim_command("copen")
+			-- 					api.nvim_command("wincmd p")
+			-- 				end
+			-- 			else
+			-- 				util.jump_to_location(result)
+			-- 			end
+			-- 		end
+			--
+			-- 		return handler
+			-- 	end
+			--
+			-- 	vim.lsp.handlers["textDocument/definition"] = goto_definition("vsplit")
 		end,
 	},
 }
