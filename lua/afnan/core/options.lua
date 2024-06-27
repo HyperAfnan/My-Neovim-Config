@@ -14,6 +14,7 @@ set.fileencoding = "utf-8"
 set.fileencodings = "utf-8"
 
 set.number = true
+set.relativenumber = true
 set.ruler = true
 
 set.fillchars = {
@@ -55,11 +56,15 @@ set.updatetime = 250
 
 set.scrolloff = 14
 
-set.splitright = true
+set.splitright = false
+set.splitbelow = true
+set.splitkeep = "cursor"
 
 set.formatoptions:remove("cro")
 set.shortmess:append("c")
 set.hlsearch = false
+
+set.inccommand = "split"
 
 vim.g.node_host_prog = true
 vim.g.loaded_perl_provider = false

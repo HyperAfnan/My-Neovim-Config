@@ -10,14 +10,18 @@ end
 --[[
 -- Useful functions
 --]]
-
+---FIX: Fix visual block mode error
 local function mode_color(m)
 	local mode_colors = {
 		n = colors.blue,
 		i = colors.green,
 		v = colors.purple,
-		[""] = colors.purple,
+		vs = colors.purple,
+		["^V"] = colors.purple,
 		V = colors.purple,
+		["\22"] = colors.purple,
+		["\22s"] = colors.purple,
+		Vs = colors.purple,
 		c = colors.magenta,
 		no = colors.blue,
 		s = colors.orange,
