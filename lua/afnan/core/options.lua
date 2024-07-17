@@ -69,5 +69,5 @@ set.inccommand = "split"
 vim.g.node_host_prog = true
 vim.g.loaded_perl_provider = false
 vim.g.loaded_ruby_provider = false
-vim.g.loaded_python2_provider = false
-vim.g.loaded_python3_provider = false
+vim.g.python3_host_prog = "/data/data/com.termux/files/usr/bin/python3"
+vim.g.python2_host_prog = "/data/data/com.termux/files/usr/bin/python2"

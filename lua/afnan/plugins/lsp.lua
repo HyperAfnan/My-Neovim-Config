@@ -1,6 +1,7 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
+		ft = { "lua", "markdown", "json" },
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"b0o/schemastore.nvim",
@@ -8,38 +9,6 @@ return {
 				"folke/trouble.nvim",
 				opts = {},
 				cmd = "Trouble",
-				keys = {
-					{
-						"<leader>xx",
-						"<cmd>Trouble diagnostics toggle<cr>",
-						desc = "Diagnostics (Trouble)",
-					},
-					{
-						"<leader>xX",
-						"<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-						desc = "Buffer Diagnostics (Trouble)",
-					},
-					{
-						"<leader>cs",
-						"<cmd>Trouble symbols toggle focus=false<cr>",
-						desc = "Symbols (Trouble)",
-					},
-					{
-						"<leader>cl",
-						"<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-						desc = "LSP Definitions / references / ... (Trouble)",
-					},
-					{
-						"<leader>xL",
-						"<cmd>Trouble loclist toggle<cr>",
-						desc = "Location List (Trouble)",
-					},
-					{
-						"<leader>xQ",
-						"<cmd>Trouble qflist toggle<cr>",
-						desc = "Quickfix List (Trouble)",
-					},
-				},
 			},
 			{
 				"simrat39/symbols-outline.nvim",
@@ -48,7 +17,29 @@ return {
 					require("symbols-outline").setup()
 				end,
 			},
-			{ "pmizio/typescript-tools.nvim" },
+			{
+				"folke/lazydev.nvim",
+				ft = "lua",
+				opts = {
+					library = {
+						{ path = "luvit-meta/library", words = { "vim%.uv" } },
+					},
+				},
+			},
+			{ "Bilal2453/luvit-meta", lazy = true },
+			{ "bfredl/nvim-luadev", ft = { "lua" }, cmd = { "Luadev" } },
+			-- { mizio/typescript-tools.nvim" },
+			-- {
+			--    "mfussenegger/nvim-jdtls",
+			--    ft = { "java" },
+			--    config = function()
+			--       require("jdtls").start_or_attach({
+			--          cmd = { "/data/data/com.termux/files/home/jdtls/start.sh" },
+			--          root_dir = require("jdtls.setup").find_root({ ".git" }),
+			--          filetypes = { "java" },
+			--       })
+			--    end,
+			-- },
 		},
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -70,31 +61,26 @@ return {
 				set_keymap("n", "ga", ":lua vim.lsp.buf.code_action()<CR>")
 				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 				set_keymap("n", "gs", ":SymbolsOutline<CR>")
-
-				vim.notify("Language Server: " .. client.name .. " is started!", "INFO", {
-					title = "Language Server Protocol",
-					icon = "",
-					hide_from_history = true,
-				})
+				print("Language Server: " .. client.name .. " is started!")
 			end
 
 			-- JAVASCRIPT
-			lspconfig.tsserver.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				settings = {
-					completions = {
-						completeFunctionCalls = true,
-					},
-				},
-				init_options = {
-					preferences = {
-						includeCompletionsWithSnippetText = true,
-						includeCompletionsForImportStatements = true,
-					},
-				},
-				single_file_support = true,
-			})
+			-- lspconfig.tsserver.setup({
+			--    on_attach = on_attach,
+			--    capabilities = capabilities,
+			--    settings = {
+			--       completions = {
+			--          completeFunctionCalls = true,
+			--       },
+			--    },
+			--    init_options = {
+			--       preferences = {
+			--          includeCompletionsWithSnippetText = true,
+			--          includeCompletionsForImportStatements = true,
+			--       },
+			--    },
+			--    single_file_support = true,
+			-- })
 
 			-- JSON
 			lspconfig.jsonls.setup({
@@ -108,14 +94,18 @@ return {
 			})
 
 			-- HTML & CSS
-			lspconfig.cssls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			lspconfig.html.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
+			-- lspconfig.cssls.setup({
+			--    on_attach = on_attach,
+			--    capabilities = capabilities,
+			-- })
+			-- lspconfig.html.setup({
+			--    on_attach = on_attach,
+			--    capabilities = capabilities,
+			-- })
+
+			local runtime_path = vim.split(package.path, ";")
+			table.insert(runtime_path, "lua/?.lua")
+			table.insert(runtime_path, "lua/?/init.lua")
 
 			-- LUA
 			lspconfig.lua_ls.setup({
@@ -127,10 +117,13 @@ return {
 							globals = { "vim", "it", "describe", "before_each", "self" },
 							disable = { "trailing-space", "deprecated", "lowercase-global" },
 						},
-						runtime = { version = "LuaJIT", path = vim.split(package.path, ";") },
+						runtime = { version = "LuaJIT", path = runtime_path },
 						workspace = {
+							checkTHirdParty = false,
+							--[[  vim.api.nvim_get_runtime_file("", true) ]]
 							library = {
 								[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+
 								[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
 								[vim.fn.stdpath("config") .. "/lua"] = true,
 							},
@@ -138,6 +131,7 @@ return {
 					},
 					completion = {
 						showWord = "Disable",
+						callSnippet = "Replace",
 					},
 					IntelliSense = {
 						traceBeSetted = true,
@@ -168,21 +162,25 @@ return {
 						variable = true,
 					},
 					window = { progressBar = true, statusBar = true },
-					format = { enable = true },
+					codeLens = { enable = true },
+					-- telemetry = { enable = true },
 				},
 			})
 
 			-- EMMET
-			lspconfig.emmet_language_server.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
+			-- lspconfig.emmet_language_server.setup({
+			--    on_attach = on_attach,
+			--    capabilities = capabilities,
+			--    filetypes = { "css", "html", "jsx", "tsx", "javascript", "javascriptreact" },
+			-- })
 
 			-- CLANGD
-			lspconfig.clangd.setup({
+			--[[ lspconfig.jdtls.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
-			})
+				cmd = { "/data/data/com.termux/files/home/jdtls/start.sh" },
+				autostart = true,
+			}) ]]
 
 			local function prefix(diagnostic, i, total)
 				local icon, highlight
@@ -213,7 +211,7 @@ return {
 				end
 			end
 
-			local codes = {
+			--[[ local codes = {
 				no_matching_function = {
 					message = " Can't find a matching function",
 					"redundant-parameter",
@@ -269,21 +267,30 @@ return {
 					message = " Should that be a global? (if so make it uppercase)",
 					"lowercase-global",
 				},
-			}
+			} ]]
 			--- FIX: FIX error whle showing diagnostics open_float
-			local function format(diagnostic)
-				if diagnostic.user_data == nil then
-					return diagnostic.message
-				elseif vim.tbl_isempty(diagnostic.user_data) then
-					return diagnostic.message
-				end
-				local code = diagnostic.user_data.lsp.code
-				for _, table in pairs(codes) do
-					if vim.tbl_contains(table, code) then
-						return table.message
-					end
-				end
-			end
+			-- NOTES:-
+			-- Working for error codes in the table
+			--[[ local function format(diagnostic)
+            local ok, default_formattng = function(diagnostic)
+               if diagnostic.user_data == nil then
+                  return diagnostic.message
+               elseif vim.tbl_isempty(diagnostic.user_data) then
+                  return diagnostic.message
+               end
+               local code = diagnostic.user_data.lsp.code
+               for _, table in pairs(codes) do
+                  if vim.tbl_contains(table, code) then
+                     return table.message
+                  end
+               end
+            end
+               if ok then
+                  pcall(default_formattng())
+            else
+               return diagnostic.message
+               end
+			end ]]
 			-- Diagnostics Setup
 			vim.diagnostic.config({
 				signs = false,
@@ -293,7 +300,7 @@ return {
 				float = {
 					focusable = false,
 					border = "rounded",
-					format = format,
+					-- format = format,
 					scope = "cursor",
 					source = "if_many",
 					header = { "Cursor Diagnostics: ", "DiagnosticInfo" },
@@ -321,38 +328,38 @@ return {
 			vim.lsp.handlers["textDocument/documentSymbol"] = require("telescope.builtin").lsp_document_symbols
 
 			-- Defination
-			-- 	local function goto_definition(split_cmd)
-			-- 		local util = vim.lsp.util
-			-- 		local log = require("vim.lsp.log")
-			-- 		local api = vim.api
-			--
-			-- 		local handler = function(_, result, ctx)
-			-- 			if result == nil or vim.tbl_isempty(result) then
-			-- 				local _ = log.info() and log.info(ctx.method, "No location found")
-			-- 				return nil
-			-- 			end
-			--
-			-- 			if split_cmd then
-			-- 				vim.cmd(split_cmd)
-			-- 			end
-			--
-			-- 			if vim.tbl_islist(result) then
-			-- 				util.jump_to_location(result[1])
-			--
-			-- 				if #result > 1 then
-			-- 					util.set_qflist(util.locations_to_items(result))
-			-- 					api.nvim_command("copen")
-			-- 					api.nvim_command("wincmd p")
-			-- 				end
-			-- 			else
-			-- 				util.jump_to_location(result)
-			-- 			end
-			-- 		end
-			--
-			-- 		return handler
-			-- 	end
-			--
-			-- 	vim.lsp.handlers["textDocument/definition"] = goto_definition("vsplit")
+			local function goto_definition(split_cmd)
+				local util = vim.lsp.util
+				local log = require("vim.lsp.log")
+				local api = vim.api
+
+				local handler = function(_, result, ctx)
+					if result == nil or vim.tbl_isempty(result) then
+						local _ = log.info() and log.info(ctx.method, "No location found")
+						return nil
+					end
+
+					if split_cmd then
+						vim.cmd(split_cmd)
+					end
+
+					if vim.tbl_islist(result) then
+						util.jump_to_location(result[1])
+
+						if #result > 1 then
+							util.set_qflist(util.locations_to_items(result))
+							api.nvim_command("copen")
+							api.nvim_command("wincmd p")
+						end
+					else
+						util.jump_to_location(result)
+					end
+				end
+
+				return handler
+			end
+
+			vim.lsp.handlers["textDocument/definition"] = goto_definition("vsplit")
 		end,
 	},
 }

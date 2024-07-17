@@ -1,18 +1,10 @@
----@diagnostic disable: cast-local-type
+---@diagnostic disable: cast-local-type, undefined-field
 return {
 	{
 		"akinsho/bufferline.nvim",
 		version = "*",
 		dependencies = {
 			"nvim-tree/nvim-web-devicons",
-			{
-				"roobert/bufferline-cycle-windowless.nvim",
-				config = function()
-					require("bufferline-cycle-windowless").setup({
-						default_enabled = true,
-					})
-				end,
-			},
 		},
 		config = function()
 			local function sort_by_mtime(a, b)

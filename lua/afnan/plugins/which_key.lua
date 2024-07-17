@@ -9,35 +9,44 @@ return {
 		opts = {},
 		config = function()
 			local wk = require("which-key")
-			local mappings = {
-				g = {
-					name = "Gitsigns",
-					h = {
-						name = "Hunk",
-						n = { ":Gitsigns next_hunk<CR>", "Next Hunk" },
-						p = { ":Gitsigns prev_hunk<CR>", "Previous Hunk" },
-						s = { ":Gitsigns stage_hunk<CR>", "Stage Hunk" },
-						u = { ":Gitsigns undo_stage_hunk<CR>", "Unstage Hunk" },
-						r = { ":Gitsigns reset_hunk<CR>", "Reset Hunk" },
+			wk.add({
+				{
+					group = "Gitsigns",
+					mode = "n",
+					{
+						group = "Hunk",
+						mode = "n",
+						{ ",ghn", ":Gitsigns next_hunk<CR>", desc = "Next Hunk" },
+						{ ",ghp", ":Gitsigns prev_hunk<CR>", desc = "Previous Hunk" },
+						{ ",ghs", ":Gitsigns stage_hunk<CR>", desc = "Stage Hunk" },
+						{ ",ghu", ":Gitsigns undo_stage_hunk<CR>", desc = "Unstage Hunk" },
+						{ ",ghr", ":Gitsigns reset_hunk<CR>", desc = "Reset Hunk" },
 					},
-					b = {
-						name = "Buffer",
-						s = { ":Gitsigns stage_buffer<CR>", "Stage Buffer" },
-						r = { ":Gitsigns reset_buffer<CR>", "Reset Buffer" },
+					{
+						group = "Buffer",
+						mode = "n",
+						{ ",gbs", ":Gitsigns stage_buffer<CR>", desc = "Stage Buffer" },
+						{ ",gbr", ":Gitsigns reset_buffer<CR>", desc = "Reset Buffer" },
 					},
-					p = { name = "Preview", h = { ":Gitsigns preview_hunk<CR>", "Preview Hunk" } },
 				},
-				t = {
-					name = "Telescope",
-					f = { ":Telescope find_files<CR>", "Find Files" },
-					r = { ":Telescope live_grep<CR>", "Grep" },
-					n = { ":lua require('github-notifications.menu').notifications()<CR>", "Github Notifications" },
-					h = { ":Telescope help_tags<CR>", "Help tags" },
+				{
+					group = "Telescope",
+					mode = "n",
+					{ ",tf", ":Telescope find_files<CR>", desc = "Find Files" },
+					{ ",tr", ":Telescope live_grep<CR>", desc = "Find Words" },
+					{ ",th", ":Telescope help_tags<CR>", desc = "Find Help" },
+					{
+						",tn",
+						function()
+							require("github-notifications.menu").notifications()
+						end,
+						desc = "Find Github Notifications",
+					},
 				},
-			}
-
-			local opts = { prefix = "", icons = { group = "➜" } }
-			wk.register(mappings, opts)
+				{
+					group = "DAP",
+				},
+			})
 		end,
 	},
 }

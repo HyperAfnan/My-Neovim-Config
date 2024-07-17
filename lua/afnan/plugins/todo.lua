@@ -2,6 +2,12 @@ return {
 	{
 		"folke/todo-comments.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
+		cmd = {
+			"TodoLocList",
+			"TodoQuickFix",
+			"TodoTelescope",
+			"TodoTrouble",
+		},
 		opts = {
 
 			signs = false,

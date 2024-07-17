@@ -10,7 +10,6 @@ end
 --[[
 -- Useful functions
 --]]
----FIX: Fix visual block mode error
 local function mode_color(m)
 	local mode_colors = {
 		n = colors.blue,

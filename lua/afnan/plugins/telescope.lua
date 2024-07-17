@@ -13,7 +13,6 @@ return {
 			local telescope = require("telescope")
 			local previewers = require("telescope.previewers")
 			local load = telescope.load_extension
-			local wk = require("which-key")
 
 			telescope.setup({
 				defaults = {
@@ -69,22 +68,7 @@ return {
 			})
 			load("fzf")
 			load("ghn")
-			load("noice")
-			load("catppuccin")
-
-			local opts = { prefix = ",", icons = { group = "➜" } }
-			local mappings = {
-
-				t = {
-					name = "Telescope",
-					f = { ":Telescope find_files<CR>", "Find Files" },
-					r = { ":Telescope live_grep<CR>", "Grep" },
-					n = { ":lua require('github-notifications.menu').notifications()<CR>", "Github Notifications" },
-					h = { ":Telescope help_tags<CR>", "Help tags" },
-				},
-			}
-
-			wk.register(mappings, opts)
+			-- load("noice")
 		end,
 	},
 }

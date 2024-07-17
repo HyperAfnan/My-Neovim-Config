@@ -37,3 +37,12 @@ cmd({ "CursorHold" }, {
 	group = "_lsp",
 	callback = vim.diagnostic.open_float,
 })
+
+augroup("_autosave", {})
+
+cmd({ "InsertLeave", "TextChanged" }, {
+	desc = "Autosave",
+	pattern = "*.",
+	group = "_autosave",
+	command = "write",
+})

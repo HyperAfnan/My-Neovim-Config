@@ -18,5 +18,4 @@ return {
 		priority = 1000,
 	},
 	{ "catppuccin/nvim", as = "catppuccin" },
-	"backwardspy/telescope-catppuccin.nvim",
 }
