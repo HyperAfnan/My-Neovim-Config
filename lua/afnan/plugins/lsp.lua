@@ -344,15 +344,15 @@ return {
 					end
 
 					if vim.tbl_islist(result) then
-						util.jump_to_location(result[1])
+						util.jump_to_location(result[1], "utf-8", true)
 
 						if #result > 1 then
-							util.set_qflist(util.locations_to_items(result))
+							vim.fn.setqflist(util.locations_to_items(result, "utf-8"))
 							api.nvim_command("copen")
 							api.nvim_command("wincmd p")
 						end
 					else
-						util.jump_to_location(result)
+						util.jump_to_location(result , "utf-8", true)
 					end
 				end
 
