@@ -62,6 +62,13 @@ return {
 				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 				set_keymap("n", "gs", ":SymbolsOutline<CR>")
 				print("Language Server: " .. client.name .. " is started!")
+
+				if client.supports_method("textDocument/inlayHint") then
+					vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+               vim.api.nvim_set_hl(0, 'LSPInlayHint', { fg = "red"})
+				else
+               print(client.name .. " does not support textDocument/inlayHint")
+				end
 			end
 
 			-- JAVASCRIPT
@@ -140,11 +147,11 @@ return {
 						traceReturn = true,
 					},
 					hint = {
-						arrayIndex = "Auto",
+						arrayIndex = "Enable",
 						enable = true,
 						paramName = "All",
 						paramType = true,
-						setType = false,
+						setType = true,
 					},
 					hover = {
 						enable = true,
