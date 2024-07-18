@@ -218,86 +218,6 @@ return {
 				end
 			end
 
-			--[[ local codes = {
-				no_matching_function = {
-					message = " Can't find a matching function",
-					"redundant-parameter",
-					"ovl_no_viable_function_in_call",
-				},
-				empty_block = { message = " That shouldn't be empty here", "empty-block" },
-				missing_symbol = {
-					message = " Here should be a symbol",
-					"miss-symbol",
-				},
-				expected_semi_colon = {
-					message = " Remember the `;` or `,`",
-					"expected_semi_declaration",
-					"miss-sep-in-table",
-					"invalid_token_after_toplevel_declarator",
-				},
-				redefinition = {
-					message = " That variable was defined before",
-					"redefinition",
-					"redefined-local",
-				},
-				no_matching_variable = {
-					message = " Can't find that variable",
-					"undefined-global",
-					"reportUndefinedVariable",
-				},
-				trailing_whitespace = {
-					message = " Remove trailing whitespace",
-					"trailing-whitespace",
-					"trailing-space",
-				},
-				unused_variable = {
-					message = " Don't define variables you don't use",
-					"unused-local",
-				},
-				unused_function = {
-					message = " Don't define functions you don't use",
-					"unused-function",
-				},
-				useless_symbols = {
-					message = " Remove that useless symbols",
-					"unknown-symbol",
-				},
-				wrong_type = {
-					message = " Try to use the correct types",
-					"init_conversion_failed",
-				},
-				undeclared_variable = {
-					message = " Have you delcared that variable somewhere?",
-					"undeclared_var_use",
-				},
-				lowercase_global = {
-					message = " Should that be a global? (if so make it uppercase)",
-					"lowercase-global",
-				},
-			} ]]
-			--- FIX: FIX error whle showing diagnostics open_float
-			-- NOTES:-
-			-- Working for error codes in the table
-			--[[ local function format(diagnostic)
-            local ok, default_formattng = function(diagnostic)
-               if diagnostic.user_data == nil then
-                  return diagnostic.message
-               elseif vim.tbl_isempty(diagnostic.user_data) then
-                  return diagnostic.message
-               end
-               local code = diagnostic.user_data.lsp.code
-               for _, table in pairs(codes) do
-                  if vim.tbl_contains(table, code) then
-                     return table.message
-                  end
-               end
-            end
-               if ok then
-                  pcall(default_formattng())
-            else
-               return diagnostic.message
-               end
-			end ]]
 			-- Diagnostics Setup
 			vim.diagnostic.config({
 				signs = false,
@@ -307,7 +227,6 @@ return {
 				float = {
 					focusable = false,
 					border = "rounded",
-					-- format = format,
 					scope = "cursor",
 					source = "if_many",
 					header = { "Cursor Diagnostics: ", "DiagnosticInfo" },
