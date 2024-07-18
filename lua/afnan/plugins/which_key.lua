@@ -42,6 +42,9 @@ return {
 						end,
 						desc = "Find Github Notifications",
 					},
+					{ ",tu", ":Telescope resume<CR>", desc = "Resume Search" },
+					{ ",tt", ":TodoTelescope<CR>", desc = "Todo List" },
+					{ ",to", ":Telescope oldfiles<CR>", desc = "Previously Opened Files" },
 				},
 				{
 					group = "DAP",
