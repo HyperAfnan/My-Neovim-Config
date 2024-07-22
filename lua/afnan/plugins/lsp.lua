@@ -28,6 +28,11 @@ return {
          },
          { "Bilal2453/luvit-meta", lazy = true },
          { "bfredl/nvim-luadev",   ft = { "lua" }, cmd = { "Luadev" } },
+         {
+            "ravibrock/spellwarn.nvim",
+            event = "VeryLazy",
+            config = true,
+         }
          -- { mizio/typescript-tools.nvim" },
          -- {
          --    "mfussenegger/nvim-jdtls",
@@ -124,7 +129,7 @@ return {
          table.insert(runtime_path, "lua/?.lua")
          table.insert(runtime_path, "lua/?/init.lua")
 
-         -- LUA
+         -- Lua
          lspconfig.lua_ls.setup({
             on_attach = on_attach,
             capabilities = capabilities,
@@ -184,7 +189,7 @@ return {
             },
          })
 
-         -- EMMET
+         -- Emmet
          -- lspconfig.emmet_language_server.setup({
          --    on_attach = on_attach,
          --    capabilities = capabilities,
@@ -232,7 +237,7 @@ return {
          vim.diagnostic.config({
             signs = false,
             virtual_text = false,
-            update_in_insert = false,
+            update_in_insert = true,
             underline = true,
             float = {
                focusable = false,
@@ -259,11 +264,11 @@ return {
          vim.lsp.handlers["textDocument/references"] =
              wrap_options({ layout_strategy = "vertical" }, "lsp_references")
 
-         -- Document Symboll
+         -- Document Symbol
          -- Reference: https://github.com/rcarriga/dotfiles/blob/master/.config/nvim/lua/config/lsp/handlers.lua#L20
          vim.lsp.handlers["textDocument/documentSymbol"] = require("telescope.builtin").lsp_document_symbols
 
-         -- Defination
+         -- Definition
          local function goto_definition(split_cmd)
             local util = vim.lsp.util
             local log = require("vim.lsp.log")
