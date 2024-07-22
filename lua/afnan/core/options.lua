@@ -18,7 +18,7 @@ set.relativenumber = true
 set.ruler = true
 
 set.fillchars = {
-	eob = " ",
+   eob = " ",
 }
 
 set.showmode = false
@@ -55,6 +55,9 @@ set.showtabline = 2
 set.updatetime = 250
 
 set.scrolloff = 14
+
+set.spell = true
+set.spelllang = "en_us"
 
 set.splitright = false
 set.splitbelow = true
