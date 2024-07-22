@@ -1,15 +1,10 @@
----@diagnostic disable: cast-local-type, duplicate-set-field
 return {
    {
       "MunifTanjim/nui.nvim",
       event = "InsertEnter",
       config = function()
-         local Input = require("nui.input")
          local Menu = require("nui.menu")
          local event = require("nui.utils.autocmd").event
-         local Text = require("nui.text")
-         local borders = { " ", " ", " ", " ", " ", " " }
-
          local function get_prompt_text(prompt, default_prompt)
             local prompt_text = prompt or default_prompt
             if prompt_text:sub(-1) == ":" then
@@ -90,6 +85,7 @@ return {
 
             local select_ui = nil
 
+            ---@diagnostic disable-next-line: duplicate-set-field
             vim.ui.select = function(items, opts, on_choice)
                assert(type(on_choice) == "function", "missing on_choice function")
 
@@ -109,10 +105,9 @@ return {
                select_ui:mount()
             end
          end
-
          override_select()
 
-         function _G.substitute()
+         function _G.sub()
             vim.ui.input({
                   prompt = "Input: ",
                   default_value = vim.fn.expand("<cword>")
@@ -120,14 +115,13 @@ return {
                function(value1)
                   vim.ui.input({
                      prompt = "Substitute: ",
-
                   }, function(value2)
                      vim.cmd("%s/" .. value1 .. "/" .. value2)
                   end)
                end)
          end
 
-         vim.api.nvim_create_user_command("Substitute", _G.substitute, {})
+         vim.keymap.set("n", "su", _G.sub, { noremap = true, silent = true })
       end,
    },
    {
@@ -145,58 +139,163 @@ return {
       config = function()
          require('tiny-devicons-auto-colors').setup()
       end
-   }
-   -- {
-   -- 	"folke/noice.nvim",
-   -- 	event = "VeryLazy",
-   -- 	dependencies = {
-   -- 		"MunifTanjim/nui.nvim",
-   -- 		"rcarriga/nvim-notify",
-   -- 	},
-   -- 	config = function()
-   -- 		require("noice").setup({
-   -- 			lsp = {
-   -- 				override = {
-   -- 					["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-   -- 					["vim.lsp.util.stylize_markdown"] = true,
-   -- 					["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-   -- 				},
-   -- 			},
-   -- 			presets = {
-   -- 				bottom_search = true, -- use a classic bottom cmdline for search
-   -- 				command_palette = true, -- position the cmdline and popupmenu together
-   -- 				long_message_to_split = true, -- long messages will be sent to a split
-   -- 				inc_rename = true, -- enables an input dialog for inc-rename.nvim
-   -- 				lsp_doc_border = false, -- add a border to hover docs and signature help
-   -- 			},
-   -- 			routes = {
-   -- 				{
-   -- 					filter = {
-   -- 						event = "msg_show",
-   -- 						kind = "",
-   -- 						find = "written",
-   -- 					},
-   -- 					opts = { skip = true },
-   -- 				},
-   -- 				views = {
-   -- 					cmdline_popup = {
-   -- 						border = {
-   -- 							style = "none",
-   -- 							padding = { 2, 3 },
-   -- 						},
-   -- 						filter_options = {},
-   -- 						win_options = {
-   -- 							winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-   -- 						},
-   -- 					},
-   -- 				},
-   -- 				lsp = {
-   -- 					hover = { enable = false },
-   -- 					signature = { enable = false },
-   -- 					documentation = { enable = false },
-   -- 				},
-   -- 			},
-   -- 		})
-   -- 	end,
-   -- },
+   },
+   {
+      "folke/noice.nvim",
+      event = "VeryLazy",
+      dependencies = {
+         "MunifTanjim/nui.nvim",
+         "rcarriga/nvim-notify",
+      },
+      config = function()
+         require("noice").setup({
+            lsp = {
+               override = {
+                  ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
+                  ["vim.lsp.util.stylize_markdown"] = true,
+                  ["cmp.entry.get_documentation"] = true,
+               },
+               hover = { enable = false },
+               signature = { enable = false },
+               documentation = { enable = false },
+            },
+            notifiy = {
+               enabled = true,
+            },
+            progress = {
+               enabled = true,
+               format = "lsp_progress",
+               format_done = "lsp_progress_done",
+               throttle = 1000 / 30,
+               view = "mini",
+            },
+            message = {
+               enabled = true,
+               view = "notify",
+               opts = {},
+            },
+            presets = {
+               bottom_search = true,
+               command_palette = true,
+               long_message_to_split = true,
+               inc_rename = true,
+               lsp_doc_border = false,
+            },
+            routes = {
+               {
+                  filter = {
+                     event = "msg_show",
+                     kind = "",
+                     find = "more",
+                  },
+                  opts = { skip = true },
+               },
+               {
+                  filter = {
+                     event = "msg_show",
+                     kind = "",
+                     find = "less",
+                  },
+                  opts = { skip = true },
+               },
+               {
+                  filter = {
+                     event = "msg_show",
+                     kind = "",
+                     find = "written",
+                  },
+                  opts = { skip = true },
+               },
+               views = {
+                  cmdline_popup = {
+                     border = {
+                        style = "none",
+                        padding = { 2, 3 },
+                     },
+                     filter_options = {},
+                     win_options = {
+                        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
+                     },
+                  },
+               },
+            },
+            cmdline = {
+               enabled = true,
+               view = "cmdline_popup",
+               opts = {},
+               format = {
+                  cmdline = { pattern = "^:", icon = "", lang = "vim" },
+                  search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex" },
+                  search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex" },
+                  filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
+                  lua = { pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua" },
+                  help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
+                  input = { view = "cmdline_input", icon = "> " },
+               },
+            },
+            messages = {
+               enabled = true,
+               view = "notify",
+               view_error = "notify",
+               view_warn = "notify",
+               view_history = "messages",
+               view_search = "virtualtext",
+            },
+            popupmenu = {
+               enabled = true,
+               backend = "cmp",
+               kind_icons = {}
+            },
+            redirect = {
+               view = "popup",
+               filter = { event = "msg_show" },
+            },
+            commands = {
+               history = {
+                  view = "split",
+                  opts = { enter = true, format = "details" },
+                  filter = {
+                     any = {
+                        { event = "notify" },
+                        { error = true },
+                        { warning = true },
+                        -- { event = "msg_show", kind = { "" } },
+                        { event = "lsp",   kind = "message" },
+                     },
+                  },
+               },
+               last = {
+                  view = "popup",
+                  opts = { enter = true, format = "details" },
+                  filter = {
+                     any = {
+                        { event = "notify" },
+                        { error = true },
+                        { warning = true },
+                        { event = "msg_show", kind = { "" } },
+                        { event = "lsp",      kind = "message" },
+                     },
+                  },
+                  filter_opts = { count = 1 },
+               },
+               errors = {
+                  view = "popup",
+                  opts = { enter = true, format = "details" },
+                  filter = { error = true },
+                  filter_opts = { reverse = true },
+               },
+               all = {
+                  view = "split",
+                  opts = { enter = true, format = "details" },
+                  filter = {},
+               },
+            },
+            notify = {
+               enabled = true,
+               view = "notify",
+            },
+            health = { checker = true },
+         })
+      end,
+   },
 }
