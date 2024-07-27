@@ -159,9 +159,9 @@ return {
                signature = { enable = false },
                documentation = { enable = false },
             },
-            notifiy = {
-               enabled = true,
-            },
+            --[[ notify = {
+               enabled = false,
+            }, ]]
             progress = {
                enabled = true,
                format = "lsp_progress",
@@ -181,44 +181,6 @@ return {
                inc_rename = true,
                lsp_doc_border = false,
             },
-            routes = {
-               {
-                  filter = {
-                     event = "msg_show",
-                     kind = "",
-                     find = "more",
-                  },
-                  opts = { skip = true },
-               },
-               {
-                  filter = {
-                     event = "msg_show",
-                     kind = "",
-                     find = "less",
-                  },
-                  opts = { skip = true },
-               },
-               {
-                  filter = {
-                     event = "msg_show",
-                     kind = "",
-                     find = "written",
-                  },
-                  opts = { skip = true },
-               },
-               views = {
-                  cmdline_popup = {
-                     border = {
-                        style = "none",
-                        padding = { 2, 3 },
-                     },
-                     filter_options = {},
-                     win_options = {
-                        winhighlight = "NormalFloat:NormalFloat,FloatBorder:FloatBorder",
-                     },
-                  },
-               },
-            },
             cmdline = {
                enabled = true,
                view = "cmdline_popup",
@@ -233,14 +195,7 @@ return {
                   input = { view = "cmdline_input", icon = "> " },
                },
             },
-            messages = {
-               enabled = true,
-               view = "notify",
-               view_error = "notify",
-               view_warn = "notify",
-               view_history = "messages",
-               view_search = "virtualtext",
-            },
+            messages = { enabled = false },
             popupmenu = {
                enabled = true,
                backend = "cmp",
@@ -259,7 +214,6 @@ return {
                         { event = "notify" },
                         { error = true },
                         { warning = true },
-                        -- { event = "msg_show", kind = { "" } },
                         { event = "lsp",   kind = "message" },
                      },
                   },
