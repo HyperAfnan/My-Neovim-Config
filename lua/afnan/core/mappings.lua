@@ -1,5 +1,5 @@
 local function set_keymap(mode, lhs, rhs)
-	vim.keymap.set(mode, lhs, rhs, { silent = true, noremap = true })
+   vim.keymap.set(mode, lhs, rhs, { silent = true, noremap = true })
 end
 
 set_keymap("", "k", "gk")
@@ -7,7 +7,8 @@ set_keymap("", "j", "gj")
 set_keymap("n", "q", ":q<CR>")
 set_keymap("n", "<space>", ":")
 set_keymap("v", "<space>", ":")
-set_keymap("n", ",,x", ":write<CR> :source %<CR>")
+set_keymap("n", "<F5>", "<cmd>write<CR> <cmd>source %<cr>")
+set_keymap("n", "<F6>", "<cmd>set rtp+=.<CR> <cmd>source %<cr>")
 
 -- single line movement
 set_keymap("n", "<A-left>", "0")
@@ -62,8 +63,8 @@ set_keymap("v", "K", ":m '>+1<CR>gv=gv")
 set_keymap("v", "J", ":m '<-2<CR>gv=gv")
 
 set_keymap("n", ",ii", function()
-	require("nvim-market").install_picker()
+   require("nvim-market").install_picker()
 end)
 set_keymap("n", ",iu", function()
-	require("nvim-market").remove_picker()
+   require("nvim-market").remove_picker()
 end)
