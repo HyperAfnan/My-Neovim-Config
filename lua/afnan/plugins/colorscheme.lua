@@ -18,4 +18,5 @@ return {
 		priority = 1000,
 	},
 	{ "catppuccin/nvim", as = "catppuccin" },
+	{ "tiagovla/tokyodark.nvim", lazy = false, priority = 1000 },
 }

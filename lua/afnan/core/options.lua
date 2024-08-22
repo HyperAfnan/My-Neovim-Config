@@ -59,8 +59,8 @@ set.scrolloff = 14
 set.spell = true
 set.spelllang = "en_us"
 
-set.splitright = false
-set.splitbelow = true
+set.splitright = true
+set.splitbelow = false
 set.splitkeep = "cursor"
 
 set.formatoptions:remove("cro")

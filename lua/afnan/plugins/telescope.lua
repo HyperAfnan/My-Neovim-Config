@@ -1,9 +1,7 @@
 return {
-
 	{
 		"nvim-telescope/telescope.nvim",
 		cmd = "Telescope",
-		tag = "0.1.7",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
 			"nvim-tree/nvim-web-devicons",
@@ -31,7 +29,15 @@ return {
 						horizontal = { mirror = false },
 						vertical = { mirror = true },
 					},
-					file_ignore_patterns = { "__pycache__", "node_modules", ".git/*", ".cache", "storage", ".ssh" },
+					file_ignore_patterns = {
+						"__pycache__",
+						"node_modules",
+						".git/*",
+						".cache",
+						"storage",
+						".ssh",
+						"snippets",
+					},
 					border = {},
 					borderchars = {
 						preview = { " ", " ", " ", " ", " ", " ", " ", " " },
@@ -42,16 +48,22 @@ return {
 					use_less = true,
 					path_display = {},
 					set_env = { ["COLORTERM"] = "truecolor" },
-					file_previewer = previewers.vim_buffer_cat.new,
 					grep_previewer = previewers.vim_buffer_vimgrep.new,
 					qflist_previewer = previewers.vim_buffer_qflist.new,
 					buffer_previewer_maker = previewers.buffer_previewer_maker,
+					preview = {
+						file_previewer = require("telescope.previewers").new_termopen_previewer({
+							get_command = function(entry)
+								return { "less", "-R", "--tabs=4", "-N", "--quit-if-one-screen", entry.path }
+							end,
+						}),
+					},
 				},
 				pickers = {
 					find_files = {
 						hidden = true,
 						prompt_title = false,
-						previewer = true,
+						previewer = false,
 						results_title = false,
 						preview_title = false,
 						find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
@@ -68,7 +80,7 @@ return {
 			})
 			load("fzf")
 			load("ghn")
-			-- load("noice")
+			load("noice")
 		end,
 	},
 }

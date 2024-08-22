@@ -4,7 +4,7 @@ end
 
 set_keymap("", "k", "gk")
 set_keymap("", "j", "gj")
-set_keymap("n", "q", ":q<CR>")
+-- set_keymap("n", "q", ":q<CR>")
 set_keymap("n", "<space>", ":")
 set_keymap("v", "<space>", ":")
 set_keymap("n", "<F5>", "<cmd>write<CR> <cmd>source %<cr>")
