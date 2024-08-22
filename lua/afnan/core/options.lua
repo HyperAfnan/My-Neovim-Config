@@ -18,7 +18,7 @@ set.relativenumber = true
 set.ruler = true
 
 set.fillchars = {
-   eob = " ",
+	eob = " ",
 }
 
 set.showmode = false
@@ -40,7 +40,7 @@ set.clipboard = "unnamedplus"
 set.autoindent = true
 set.smartindent = true
 set.shiftround = true
-set.shiftwidth = 0
+set.shiftwidth = 3
 set.tabstop = 3
 set.cursorline = true
 
