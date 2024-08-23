@@ -54,7 +54,14 @@ return {
 					preview = {
 						file_previewer = require("telescope.previewers").new_termopen_previewer({
 							get_command = function(entry)
-								return { "less", "-R", "--tabs=4", "-N", "--quit-if-one-screen", entry.path }
+								return {
+									"less",
+									"-R",
+									"--tabs=4",
+									"-N",
+									"--quit-if-one-screen",
+									entry.path,
+								}
 							end,
 						}),
 					},

@@ -229,8 +229,11 @@ return {
 					kind_icons = kind,
 					format = function(entry, vim_item)
 						vim_item.abbr = vim_item.abbr:sub(1, 30)
-						vim_item.kind =
-							string.format("%s %s", kind_settings1(entry, vim_item), kind_settings2(entry, vim_item))
+						vim_item.kind = string.format(
+							"%s %s",
+							kind_settings1(entry, vim_item),
+							kind_settings2(entry, vim_item)
+						)
 						vim_item.dup = { buffer = 0, path = 0, nvim_lsp = 0, nvim_lua = 0 }
 						return vim_item
 					end,

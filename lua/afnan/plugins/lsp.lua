@@ -96,7 +96,8 @@ return {
 				set_keymap("n", "gs", ":SymbolsOutline<CR>")
 				print("Language Server: " .. client.name .. " is started!")
 
-				local inlay_hints_group = vim.api.nvim_create_augroup("LSP_inlayHints", { clear = false })
+				local inlay_hints_group =
+					vim.api.nvim_create_augroup("LSP_inlayHints", { clear = false })
 				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
 					group = inlay_hints_group,
 					desc = "Update inlay hints on line change",
@@ -272,9 +273,10 @@ return {
 			})
 
 			-- Signature Help
-			vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-				border = "rounded",
-			})
+			vim.lsp.handlers["textDocument/signatureHelp"] =
+				vim.lsp.with(vim.lsp.handlers.signature_help, {
+					border = "rounded",
+				})
 
 			-- Reference
 			-- Reference: https://github.com/rcarriga/dotfiles/blob/master/.config/nvim/lua/config/lsp/handlers.lua#L16
@@ -283,7 +285,8 @@ return {
 
 			-- Document Symbol
 			-- Reference: https://github.com/rcarriga/dotfiles/blob/master/.config/nvim/lua/config/lsp/handlers.lua#L20
-			vim.lsp.handlers["textDocument/documentSymbol"] = require("telescope.builtin").lsp_document_symbols
+			vim.lsp.handlers["textDocument/documentSymbol"] =
+				require("telescope.builtin").lsp_document_symbols
 
 			-- Definition
 			local function goto_definition(split_cmd)
