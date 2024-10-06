@@ -108,7 +108,7 @@ return {
 
 			local sources = {
 				{ name = "luasnip", max_item_count = 2 },
-				{ name = "nvim_lsp", max_item_count = 4 },
+				{ name = "nvim_lsp"  },
 				{ name = "nvim_lsp_signature_help" },
 				{ name = "buffer", max_item_count = 2 },
 				{ name = "path" },
@@ -149,7 +149,7 @@ return {
 
 			vim.api.nvim_create_user_command("CmpDevicons", DeviconsCompletion, {})
 
-			vim.opt.pumheight = 8
+			vim.opt.pumheight = 9
 			vim.o.pumblend = 20
 
 			cmp.setup({

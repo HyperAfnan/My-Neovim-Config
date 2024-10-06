@@ -33,7 +33,7 @@ return {
 							"TextChangedI",
 							"TextChangedP",
 						},
-						enable = true,
+						enable = false,
 						ft_config = {
 							alpha = false,
 							help = false,
@@ -61,17 +61,6 @@ return {
 				end,
 			},
 			-- { mizio/typescript-tools.nvim" },
-			-- {
-			--    "mfussenegger/nvim-jdtls",
-			--    ft = { "java" },
-			--    config = function()
-			--       require("jdtls").start_or_attach({
-			--          cmd = { "/data/data/com.termux/files/home/jdtls/start.sh" },
-			--          root_dir = require("jdtls.setup").find_root({ ".git" }),
-			--          filetypes = { "java" },
-			--       })
-			--    end,
-			-- },
 		},
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -92,8 +81,8 @@ return {
 				set_keymap("n", "gR", ":lua vim.lsp.buf.references()<CR>")
 				set_keymap("n", "gr", ":lua vim.lsp.buf.rename()<CR>")
 				set_keymap("n", "ga", ":lua vim.lsp.buf.code_action()<CR>")
+				set_keymap("n", "<F4>", ":lua vim.lsp.buf.format()<CR>")
 				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-				set_keymap("n", "gs", ":SymbolsOutline<CR>")
 				print("Language Server: " .. client.name .. " is started!")
 
 				local inlay_hints_group =
@@ -215,11 +204,10 @@ return {
 			-- })
 
 			-- CLANGD
-			lspconfig.clangd.setup({
+			lspconfig.jdtls.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
 				-- cmd = { "/data/data/com.termux/files/home/jdtls/start.sh" },
-				autostart = true,
 			})
 
 			local function prefix(diagnostic, i, total)
@@ -295,13 +283,19 @@ return {
 				local api = vim.api
 
 				local handler = function(_, result, ctx)
+					local uri = result[1].targetUri
+					local file = vim.fn.expand("%:t")
+					local newUri = string.sub(uri, string.len(uri) - (string.len(file) - 1))
+
 					if result == nil or vim.tbl_isempty(result) then
 						local _ = log.info() and log.info(ctx.method, "No location found")
 						return nil
 					end
 
 					if split_cmd then
-						vim.cmd(split_cmd)
+						if file ~= newUri then
+							vim.cmd(split_cmd)
+						end
 					end
 
 					if vim.tbl_islist(result) then

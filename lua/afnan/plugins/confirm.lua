@@ -1,5 +1,5 @@
 return {
-	"stevearc/conform.nvim",
+	--[[ "stevearc/conform.nvim",
 	event = { "BufWritePre" },
 	cmd = { "ConformInfo" },
 	config = function()
@@ -14,5 +14,5 @@ return {
 				javascript = { "prettierd", "prettier", stop_after_first = true },
 			},
 		})
-	end,
+	end, ]]
 }
