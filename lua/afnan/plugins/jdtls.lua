@@ -1,7 +1,7 @@
 return {
    "mfussenegger/nvim-jdtls",
    ft = { "java" },
-   dependencies = { "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui", "nvim-neotest/nvim-nio" },
+   -- dependencies = { "mfussenegger/nvim-dap", "rcarriga/nvim-dap-ui", "nvim-neotest/nvim-nio" },
    config = function()
       local java_cmds = vim.api.nvim_create_augroup("java_cmds", { clear = true })
       local cache_vars = {}
@@ -21,9 +21,9 @@ return {
          path.data_dir = vim.fn.stdpath("cache") .. "/nvim-jdtls"
 
          local jdtls_install = "/data/data/com.termux/files/home/.local/share/jdtls/"
-         local java_debug_install = "/data/data/com.termux/files/home/.local/share/java-debug/"
-         local java_test_install =
-         "/data/data/com.termux/files/home/.local/share/vscode-java-test/java-extension/"
+         -- local java_debug_install = "/data/data/com.termux/files/home/.local/share/java-debug/"
+         -- local java_test_install =
+         -- "/data/data/com.termux/files/home/.local/share/vscode-java-test/java-extension/"
 
          path.launcher_jar =
              vim.fn.glob(jdtls_install .. "/plugins/org.eclipse.equinox.launcher_*.jar")
@@ -53,27 +53,27 @@ return {
          ---
          -- Include java-test bundle if present
          ---
-         local java_test_bundle =
-             vim.split(vim.fn.glob(java_test_install .. "/extension/server/*.jar"), "\n")
-
-         if java_test_bundle[1] ~= "" then
-            vim.list_extend(path.bundles, java_test_bundle)
-         end
+         -- local java_test_bundle =
+         --     vim.split(vim.fn.glob(java_test_install .. "/extension/server/*.jar"), "\n")
+         --
+         -- if java_test_bundle[1] ~= "" then
+         --    vim.list_extend(path.bundles, java_test_bundle)
+         -- end
          --
          -- ---
          -- -- Include java-debug-adapter bundle if present
          -- ---
 
-         local java_debug_bundle = vim.split(
-            vim.fn.glob(
-               java_debug_install .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"
-            ),
-            "\n"
-         )
-
-         if java_debug_bundle[1] ~= "" then
-            vim.list_extend(path.bundles, java_debug_bundle)
-         end
+         -- local java_debug_bundle = vim.split(
+         --    vim.fn.glob(
+         --       java_debug_install .. "/extension/server/com.microsoft.java.debug.plugin-*.jar"
+         --    ),
+         --    "\n"
+         -- )
+         --
+         -- if java_debug_bundle[1] ~= "" then
+         --    vim.list_extend(path.bundles, java_debug_bundle)
+         -- end
 
          cache_vars.paths = path
 
@@ -147,16 +147,14 @@ return {
          local path = get_jdtls_paths()
          local data_dir = path.data_dir .. "/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t")
 
-         if cache_vars.capabilities == nil then
-            jdtls.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
+         jdtls.extendedClientCapabilities.resolveAdditionalTextEditsSupport = true
 
-            local ok_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
-            cache_vars.capabilities = vim.tbl_deep_extend(
-               "force",
-               vim.lsp.protocol.make_client_capabilities(),
-               ok_cmp and cmp_lsp.default_capabilities() or {}
-            )
-         end
+         local ok_cmp, cmp_lsp = pcall(require, "cmp_nvim_lsp")
+         cache_vars.capabilities = vim.tbl_deep_extend(
+            "force",
+            vim.lsp.protocol.make_client_capabilities(),
+            ok_cmp and cmp_lsp.default_capabilities() or {}
+         )
 
          local cmd = {
             "java",
@@ -174,10 +172,13 @@ return {
             "java.base/java.util=ALL-UNNAMED",
             "--add-opens",
             "java.base/java.lang=ALL-UNNAMED",
+
             "-jar",
             path.launcher_jar,
+
             "-configuration",
             path.platform_config,
+
             "-data",
             data_dir,
          }

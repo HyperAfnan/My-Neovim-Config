@@ -145,12 +145,6 @@ return {
 			   filetypes = { "css", "html", "jsx", "tsx", "javascript", "javascriptreact" },
 			})
 
-			-- CLANGD
-			lspconfig.jdtls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-
 			local function prefix(diagnostic, i, total)
 				local icon, highlight
 				if diagnostic.severity == 1 then
