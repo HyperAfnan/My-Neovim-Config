@@ -31,7 +31,7 @@ set.backup = false
 set.writebackup = false
 
 set.completeopt = { "noinsert", "noselect", "menuone" }
-set.wrap = false
+set.wrap = true
 
 set.title = true
 
@@ -56,7 +56,7 @@ set.updatetime = 250
 
 set.scrolloff = 14
 
-set.spell = true
+set.spell = false
 set.spelllang = "en_us"
 
 set.splitright = true

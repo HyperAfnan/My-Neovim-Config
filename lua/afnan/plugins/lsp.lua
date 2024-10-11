@@ -1,66 +1,9 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
-		ft = { "lua", "markdown", "json", "c", "cpp" },
 		dependencies = {
 			"hrsh7th/cmp-nvim-lsp",
 			"b0o/schemastore.nvim",
-			{
-				"folke/trouble.nvim",
-				opts = {},
-				cmd = "Trouble",
-			},
-			{
-				"folke/lazydev.nvim",
-				ft = "lua",
-				opts = {
-					library = {
-						{ path = "luvit-meta/library", words = { "vim%.uv" } },
-					},
-				},
-			},
-			{ "Bilal2453/luvit-meta", lazy = true },
-			{ "bfredl/nvim-luadev", ft = { "lua" }, cmd = { "Luadev" } },
-			{
-				"ravibrock/spellwarn.nvim",
-				event = "VeryLazy",
-				config = function()
-					require("spellwarn").setup({
-						event = {
-							"CursorHold",
-							"InsertLeave",
-							"TextChanged",
-							"TextChangedI",
-							"TextChangedP",
-						},
-						enable = false,
-						ft_config = {
-							alpha = false,
-							help = false,
-							lazy = false,
-							lspinfo = false,
-							mason = false,
-						},
-						ft_default = true,
-						max_file_size = nil,
-						severity = {
-							spellbad = "WARN",
-							spellcap = "HINT",
-							spelllocal = "HINT",
-							spellrare = "INFO",
-						},
-						prefix = "Possible Misspelling(s): ",
-						diagnostic_opts = {
-							severity_sort = true,
-							signs = false,
-							virtual_text = false,
-							update_in_insert = true,
-							underline = true,
-						},
-					})
-				end,
-			},
-			-- { mizio/typescript-tools.nvim" },
 		},
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
@@ -98,22 +41,22 @@ return {
 			end
 
 			-- JAVASCRIPT
-			-- lspconfig.tsserver.setup({
-			--    on_attach = on_attach,
-			--    capabilities = capabilities,
-			--    settings = {
-			--       completions = {
-			--          completeFunctionCalls = true,
-			--       },
-			--    },
-			--    init_options = {
-			--       preferences = {
-			--          includeCompletionsWithSnippetText = true,
-			--          includeCompletionsForImportStatements = true,
-			--       },
-			--    },
-			--    single_file_support = true,
-			-- })
+			lspconfig.ts_ls.setup({
+			   on_attach = on_attach,
+			   capabilities = capabilities,
+			   settings = {
+			      completions = {
+			         completeFunctionCalls = true,
+			      },
+			   },
+			   init_options = {
+			      preferences = {
+			         includeCompletionsWithSnippetText = true,
+			         includeCompletionsForImportStatements = true,
+			      },
+			   },
+			   single_file_support = true,
+			})
 
 			-- JSON
 			lspconfig.jsonls.setup({
@@ -127,14 +70,14 @@ return {
 			})
 
 			-- HTML & CSS
-			-- lspconfig.cssls.setup({
-			--    on_attach = on_attach,
-			--    capabilities = capabilities,
-			-- })
-			-- lspconfig.html.setup({
-			--    on_attach = on_attach,
-			--    capabilities = capabilities,
-			-- })
+			lspconfig.cssls.setup({
+			   on_attach = on_attach,
+			   capabilities = capabilities,
+			})
+			lspconfig.html.setup({
+			   on_attach = on_attach,
+			   capabilities = capabilities,
+			})
 
 			local runtime_path = vim.split(package.path, ";")
 			table.insert(runtime_path, "lua/?.lua")
@@ -153,7 +96,6 @@ return {
 						runtime = { version = "LuaJIT", path = runtime_path },
 						workspace = {
 							checkTHirdParty = false,
-							--[[  vim.api.nvim_get_runtime_file("", true) ]]
 							library = {
 								[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 
@@ -192,22 +134,21 @@ return {
 					},
 					window = { progressBar = true, statusBar = true },
 					codeLens = { enable = true },
-					-- telemetry = { enable = true },
+					telemetry = { enable = false },
 				},
 			})
 
 			-- Emmet
-			-- lspconfig.emmet_language_server.setup({
-			--    on_attach = on_attach,
-			--    capabilities = capabilities,
-			--    filetypes = { "css", "html", "jsx", "tsx", "javascript", "javascriptreact" },
-			-- })
+			lspconfig.emmet_language_server.setup({
+			   on_attach = on_attach,
+			   capabilities = capabilities,
+			   filetypes = { "css", "html", "jsx", "tsx", "javascript", "javascriptreact" },
+			})
 
 			-- CLANGD
 			lspconfig.jdtls.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
-				-- cmd = { "/data/data/com.termux/files/home/jdtls/start.sh" },
 			})
 
 			local function prefix(diagnostic, i, total)

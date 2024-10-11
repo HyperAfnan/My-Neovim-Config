@@ -1,4 +1,6 @@
 return {
+   ---TODO: do sumething about this plugin
+
 	--[[ "stevearc/conform.nvim",
 	event = { "BufWritePre" },
 	cmd = { "ConformInfo" },

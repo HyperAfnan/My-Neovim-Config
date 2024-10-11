@@ -22,7 +22,4 @@ return {
 			})
 		end,
 	},
-	{
-		"lewis6991/impatient.nvim",
-	},
 }

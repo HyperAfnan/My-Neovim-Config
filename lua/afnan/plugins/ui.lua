@@ -155,9 +155,9 @@ return {
                   ["vim.lsp.util.stylize_markdown"] = false,
                   ["cmp.entry.get_documentation"] = false,
                },
-               hover = { enable = false },
+               hover = { enabled = false },
                signature = {
-                  enable = false,
+                  enabled = false,
                   auto_open = {
                      enabled = false,
                      trigger = false,

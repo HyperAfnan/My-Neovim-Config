@@ -19,15 +19,6 @@ return {
 			{ "nvim-tree/nvim-web-devicons" },
 			{ "hrsh7th/cmp-cmdline" },
 			{
-				"KadoBOT/cmp-plugins",
-				ft = "lua",
-				config = function()
-					require("cmp-plugins").setup({
-						files = { ".*\\.lua" },
-					})
-				end,
-			},
-			{
 				"L3MON4D3/LuaSnip",
 				build = "make install_jsregexp",
 				dependencies = { "rafamadriz/friendly-snippets", "saadparwaiz1/cmp_luasnip" },
