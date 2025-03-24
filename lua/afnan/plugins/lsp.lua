@@ -1,271 +1,295 @@
+local transparency = vim.g.neovide and 45 or 0
 return {
-	{
-		"neovim/nvim-lspconfig",
-		dependencies = {
-			"hrsh7th/cmp-nvim-lsp",
-			"b0o/schemastore.nvim",
-		},
-		config = function()
-			local cmp_nvim_lsp = require("cmp_nvim_lsp")
-			local lspconfig = require("lspconfig")
-			local capabilities = cmp_nvim_lsp.default_capabilities()
+   {
+      "neovim/nvim-lspconfig",
+      dependencies = {
+         "hrsh7th/cmp-nvim-lsp",
+         "b0o/schemastore.nvim",
+         {
+            "jinzhongjia/LspUI.nvim",
+            dev = true,
+            -- event = "VeryLazy",
+            opts = {
+               signature = { enable = true, },
+               inlay_hint = { enable = true, },
+               lightbulb = { enable = false, },
+            },
+            keys = {
+               -- { ",rn", "<cmd>LspUI rename<cr>",          desc = "LspUI rename" },
+               -- { ",ca", "<cmd>LspUI code_action<cr>",     desc = "LspUI code action" },
+               -- { "K",   "<cmd>LspUI hover<cr>",           desc = "LspUI hover" },
+               -- { "gd", "<cmd>LspUI definition<cr>", desc = "LspUI definition" },
+               -- { "gD", "<cmd>LspUI declaration<cr>", desc = "LspUI declaration" },
+               -- { "gi", "<cmd>LspUI implementation<cr>", desc = "LspUI implementation" },
+               -- { "gr", "<cmd>LspUI reference<cr>", desc = "LspUI reference" },
+               -- { "gy", "<cmd>LspUI type_definition<cr>", desc = "LspUI type definition" },
+               -- { "gk",  "<cmd>LspUI diagnostic prev<cr>", desc = "LspUI diagnostic prev" },
+               -- { "gj",  "<cmd>LspUI diagnostic next<cr>", desc = "LspUI diagnostic next" },
+            },
+         },
+      },
+      config = function()
+         local cmp_nvim_lsp = require("cmp_nvim_lsp")
+         local lspconfig = require("lspconfig")
+         local capabilities = cmp_nvim_lsp.default_capabilities()
+         -- vim.lsp.protocol.make_client_capabilities()
 
-			local function on_attach(client, bufnr)
-				local function set_keymap(mode, lhs, rhs)
-					vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, { silent = true, noremap = true })
-				end
+         local function on_attach(client, bufnr)
+            local function set_keymap(mode, lhs, rhs)
+               vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, { silent = true, noremap = true })
+            end
 
-				set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>")
-				set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>")
-				set_keymap("n", "gD", ":lua vim.lsp.buf.declaration()<CR>")
-				set_keymap("n", "gI", ":lua vim.lsp.buf.implementation()<CR>")
-				set_keymap("n", "gk", ":lua vim.diagnostic.goto_next()<CR>")
-				set_keymap("n", "gj", ":lua vim.diagnostic.goto_prev()<CR>")
-				set_keymap("n", "gR", ":lua vim.lsp.buf.references()<CR>")
-				set_keymap("n", "gr", ":lua vim.lsp.buf.rename()<CR>")
-				set_keymap("n", "ga", ":lua vim.lsp.buf.code_action()<CR>")
-				set_keymap("n", "<F4>", ":lua vim.lsp.buf.format()<CR>")
-				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-				print("Language Server: " .. client.name .. " is started!")
+            set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>")
+            set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>")
+            set_keymap("n", "gD", ":lua vim.lsp.buf.declaration()<CR>")
+            set_keymap("n", "gI", ":lua vim.lsp.buf.implementation()<CR>")
+            set_keymap("n", "gk", ":lua vim.diagnostic.goto_next()<CR>")
+            set_keymap("n", "gj", ":lua vim.diagnostic.goto_prev()<CR>")
+            set_keymap("n", "gR", ":lua vim.lsp.buf.references()<CR>")
+            set_keymap("n", "gr", ":lua vim.lsp.buf.rename()<CR>")
+            set_keymap("n", "ga", ":lua vim.lsp.buf.code_action()<CR>")
+            set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
+            print("Language Server: " .. client.name .. " is started!")
 
-				local inlay_hints_group =
-					vim.api.nvim_create_augroup("LSP_inlayHints", { clear = false })
-				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-					group = inlay_hints_group,
-					desc = "Update inlay hints on line change",
-					buffer = bufnr,
-					callback = function()
-						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-					end,
-				})
-			end
+            local inlay_hints_group =
+                vim.api.nvim_create_augroup("LSP_inlayHints", { clear = false })
+            vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+               group = inlay_hints_group,
+               desc = "Update inlay hints on line change",
+               buffer = bufnr,
+               callback = function()
+                  vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
+               end,
+            })
+         end
 
-			-- JAVASCRIPT
-			lspconfig.ts_ls.setup({
-			   on_attach = on_attach,
-			   capabilities = capabilities,
-			   settings = {
-			      completions = {
-			         completeFunctionCalls = true,
-			      },
-			   },
-			   init_options = {
-			      preferences = {
-			         includeCompletionsWithSnippetText = true,
-			         includeCompletionsForImportStatements = true,
-			      },
-			   },
-			   single_file_support = true,
-			})
+         -- JAVASCRIPT
+         lspconfig.ts_ls.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = { completions = { completeFunctionCalls = true } },
+            init_options = {
+               preferences = {
+                  includeCompletionsWithSnippetText = true,
+                  includeCompletionsForImportStatements = true,
+               },
+            },
+            single_file_support = true,
+         })
 
-			-- JSON
-			lspconfig.jsonls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				init_options = { provideFormatter = false },
-				single_file_support = true,
-				settings = {
-					json = { schemas = require("schemastore").json.schemas() },
-				},
-			})
+         lspconfig.pyright.setup {
+            on_attach = on_attach,
+            capabilities = capabilities
+         }
 
-			-- HTML & CSS
-			lspconfig.cssls.setup({
-			   on_attach = on_attach,
-			   capabilities = capabilities,
-			})
-			lspconfig.html.setup({
-			   on_attach = on_attach,
-			   capabilities = capabilities,
-			})
+         -- JSON
+         lspconfig.jsonls.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            init_options = { provideFormatter = false },
+            single_file_support = true,
+            settings = {
+               json = { schemas = require("schemastore").json.schemas() },
+            },
+         })
 
-			local runtime_path = vim.split(package.path, ";")
-			table.insert(runtime_path, "lua/?.lua")
-			table.insert(runtime_path, "lua/?/init.lua")
+         -- HTML & CSS
+         lspconfig.cssls.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+         })
+         lspconfig.html.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+         })
+         lspconfig.tailwindcss.setup {
+            on_attach = on_attach,
+            capabilities = capabilities,
+         }
 
-			-- Lua
-			lspconfig.lua_ls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { "vim", "io", "it", "describe", "before_each", "self" },
-							disable = { "trailing-space", "deprecated", "lowercase-global" },
-						},
-						runtime = { version = "LuaJIT", path = runtime_path },
-						workspace = {
-							checkTHirdParty = false,
-							library = {
-								[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+         local runtime_path = vim.split(package.path, ";")
+         table.insert(runtime_path, "lua/?.lua")
+         table.insert(runtime_path, "lua/?/init.lua")
 
-								[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-								[vim.fn.stdpath("config") .. "/lua"] = true,
-							},
-						},
-					},
-					completion = {
-						showWord = "Disable",
-						callSnippet = "Replace",
-					},
-					IntelliSense = {
-						traceBeSetted = true,
-						traceFieldInject = true,
-						traceLocalSet = true,
-						traceReturn = true,
-					},
-					hint = {
-						enable = true,
-					},
-					hover = {
-						enable = true,
-						enumsLimit = 5,
-						previewFields = 20,
-						viewNumber = true,
-						viewString = true,
-						viewStringMax = 1000,
-					},
-					misc = { parameters = { "self" } },
-					semantic = {
-						annotation = true,
-						enable = true,
-						keyword = true,
-						variable = true,
-					},
-					window = { progressBar = true, statusBar = true },
-					codeLens = { enable = true },
-					telemetry = { enable = false },
-				},
-			})
+         local library =
+         { vim.fn.expand("$VIMRUNTIME/lua"), vim.fn.expand("$VIMRUNTIME/lua/vim/lsp") }
+         if vim.fn.getcwd() == vim.fn.stdpath("config") then
+            table.insert(library, vim.fn.stdpath("config") .. "/lua")
+            table.insert(library, vim.fn.expand("$HOME") .. "/dev/care.nvim")
+         end
 
-			-- Emmet
-			lspconfig.emmet_language_server.setup({
-			   on_attach = on_attach,
-			   capabilities = capabilities,
-			   filetypes = { "css", "html", "jsx", "tsx", "javascript", "javascriptreact" },
-			})
+         -- Lua
+         lspconfig.lua_ls.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            settings = {
+               Lua = {
+                  diagnostics = {
+                     globals = { "vim", "io", "it", "describe", "before_each", "self", "spy" },
+                     disable = { "trailing-space", "deprecated", "lowercase-global" },
+                  },
+                  runtime = { version = "LuaJIT", path = runtime_path },
+                  workspace = { checkTHirdParty = false, library = library },
+               },
+               completion = { showWord = "Disable", callSnippet = "Replace" },
+               IntelliSense = { traceBeSetted = true, traceFieldInject = true, traceLocalSet = true, traceReturn = true, },
+               hint = { enable = true },
+               hover = { enable = true, enumsLimit = 5, previewFields = 20, viewNumber = true, viewString = true, viewStringMax = 1000, },
+               misc = { parameters = { "self" } },
+               semantic = { annotation = true, enable = true, keyword = true, variable = true, },
+               window = { progressBar = true, statusBar = true },
+               codeLens = { enable = true },
+               telemetry = { enable = false },
+            },
+         })
 
-			local function prefix(diagnostic, i, total)
-				local icon, highlight
-				if diagnostic.severity == 1 then
-					icon = ""
-					highlight = "DiagnosticError"
-				elseif diagnostic.severity == 2 then
-					icon = ""
-					highlight = "DiagnosticWarn"
-				elseif diagnostic.severity == 3 then
-					icon = ""
-					highlight = "DiagnosticInfo"
-				elseif diagnostic.severity == 4 then
-					icon = ""
-					highlight = "DiagnosticHint"
-				end
-				return i .. "/" .. total .. " " .. icon .. "  ", highlight
-			end
+         -- Super html
+         lspconfig.superhtml.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            filetypes = { "html" },
+         })
+         -- Emmet
+         lspconfig.emmet_language_server.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            filetypes = { "css", "html", "jsx", "tsx", "javascript", "javascriptreact" },
+         })
 
-			local function wrap_options(custom, handler)
-				return function(opts)
-					opts = opts and vim.tbl_extend(opts, custom) or custom
-					if type(handler) == "string" then
-						require("telescope.builtin")[handler](opts)
-					else
-						handler(opts)
-					end
-				end
-			end
+         -- bash/zsh
+         lspconfig.bashls.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+            filetypes = { "zsh", "sh", "bash" },
+            settings = { bashIde = { globPattern = "*@(.sh|.zsh|.inc|.bash|.command)" } },
+         })
 
-			-- Diagnostics Setup
-			vim.diagnostic.config({
-				signs = false,
-				virtual_text = false,
-				update_in_insert = true,
-				underline = true,
-				float = {
-					focusable = false,
-					border = "rounded",
-					scope = "cursor",
-					source = "if_many",
-					header = { "Cursor Diagnostics: ", "DiagnosticInfo" },
-					prefix = prefix,
-				},
-			})
+         lspconfig.clangd.setup({
+            on_attach = on_attach,
+            capabilities = capabilities,
+         })
 
-			-- Hover
-			vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-				border = "rounded",
-			})
+         local function prefix(diagnostic, i, total)
+            local icon, highlight
+            if diagnostic.severity == 1 then
+               icon = ""
+               highlight = "DiagnosticError"
+            elseif diagnostic.severity == 2 then
+               icon = ""
+               highlight = "DiagnosticWarn"
+            elseif diagnostic.severity == 3 then
+               icon = ""
+               highlight = "DiagnosticInfo"
+            elseif diagnostic.severity == 4 then
+               icon = ""
+               highlight = "DiagnosticHint"
+            end
+            return i .. "/" .. total .. " " .. icon .. "  ", highlight
+         end
 
-			-- Signature Help
-			vim.lsp.handlers["textDocument/signatureHelp"] =
-				vim.lsp.with(vim.lsp.handlers.signature_help, {
-					border = "rounded",
-				})
+         local function wrap_options(custom, handler)
+            return function(opts)
+               opts = opts and vim.tbl_extend(opts, custom) or custom
+               if type(handler) == "string" then
+                  require("telescope.builtin")[handler](opts)
+               else
+                  handler(opts)
+               end
+            end
+         end
 
-			-- Reference
-			-- Reference: https://github.com/rcarriga/dotfiles/blob/master/.config/nvim/lua/config/lsp/handlers.lua#L16
-			vim.lsp.handlers["textDocument/references"] =
-				wrap_options({ layout_strategy = "vertical" }, "lsp_references")
+         -- Diagnostics Setup
+         vim.diagnostic.config({
+            signs = false,
+            virtual_text = false,
+            update_in_insert = true,
+            underline = true,
+            float = {
+               focusable = false,
+               border = "rounded",
+               scope = "cursor",
+               source = "if_many",
+               header = { "Cursor Diagnostics: ", "DiagnosticInfo" },
+               prefix = prefix,
+            },
+         })
 
-			-- Document Symbol
-			-- Reference: https://github.com/rcarriga/dotfiles/blob/master/.config/nvim/lua/config/lsp/handlers.lua#L20
-			vim.lsp.handlers["textDocument/documentSymbol"] =
-				require("telescope.builtin").lsp_document_symbols
+         -- Hover
+         vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+            border = "rounded",
+         })
 
-			-- Definition
-			local function goto_definition(split_cmd)
-				local util = vim.lsp.util
-				local log = require("vim.lsp.log")
-				local api = vim.api
+         -- Signature Help
+         vim.lsp.handlers["textDocument/signatureHelp"] =
+             vim.lsp.with(vim.lsp.handlers.signature_help, {
+                border = "rounded",
+             })
 
-				local handler = function(_, result, ctx)
-					local uri = result[1].targetUri
-					local file = vim.fn.expand("%:t")
-					local newUri = string.sub(uri, string.len(uri) - (string.len(file) - 1))
+         -- Reference
+         -- Reference: https://github.com/rcarriga/dotfiles/blob/master/.config/nvim/lua/config/lsp/handlers.lua#L16
+         vim.lsp.handlers["textDocument/references"] =
+             wrap_options({ layout_strategy = "vertical" }, "lsp_references")
 
-					if result == nil or vim.tbl_isempty(result) then
-						local _ = log.info() and log.info(ctx.method, "No location found")
-						return nil
-					end
+         -- Document Symbol
+         -- Reference: https://github.com/rcarriga/dotfiles/blob/master/.config/nvim/lua/config/lsp/handlers.lua#L20
+         vim.lsp.handlers["textDocument/documentSymbol"] =
+             require("telescope.builtin").lsp_document_symbols
 
-					if split_cmd then
-						if file ~= newUri then
-							vim.cmd(split_cmd)
-						end
-					end
+         -- Definition
+         local function goto_definition(split_cmd)
+            local util = vim.lsp.util
+            local log = require("vim.lsp.log")
+            local api = vim.api
 
-					if vim.tbl_islist(result) then
-						util.jump_to_location(result[1], "utf-8", true)
+            local handler = function(_, result, ctx)
+               local uri = result[1].targetUri
+               local file = vim.fn.expand("%:t")
+               local newUri = string.sub(uri, string.len(uri) - (string.len(file) - 1))
 
-						if #result > 1 then
-							vim.fn.setqflist(util.locations_to_items(result, "utf-8"))
-							api.nvim_command("copen")
-							api.nvim_command("wincmd p")
-						end
-					else
-						util.jump_to_location(result, "utf-8", true)
-					end
-				end
+               if result == nil or vim.tbl_isempty(result) then
+                  local _ = log.info() and log.info(ctx.method, "No location found")
+                  return nil
+               end
 
-				return handler
-			end
+               if split_cmd then
+                  if file ~= newUri then
+                     vim.cmd(split_cmd)
+                  end
+               end
 
-			vim.lsp.handlers["textDocument/definition"] = goto_definition("vsplit")
+               if vim.tbl_islist(result) then
+                  util.jump_to_location(result[1], "utf-8", true)
 
-			--Inlay Hints
-			-- local methods = vim.lsp.protocol.Methods
-			-- local inlay_hint_handler = vim.lsp.handlers[methods["textDocument_inlayHint"]]
-			-- vim.lsp.handlers[methods["textDocument_inlayHint"]] = function(err, result, ctx, config)
-			--    local client = vim.lsp.get_client_by_id(ctx.client_id)
-			--    if client then
-			--       local row, col = unpack(vim.api.nvim_win_get_cursor(0))
-			--       result = vim.iter(result)
-			--           :filter(function(hint)
-			--              return hint.position.line + 1 == row
-			--           end)
-			--           :totable()
-			--    end
-			--    inlay_hint_handler(err, result, ctx, config)
-			-- end
-		end,
-	},
+                  if #result > 1 then
+                     vim.fn.setqflist(util.locations_to_items(result, "utf-8"))
+                     api.nvim_command("copen")
+                     api.nvim_command("wincmd p")
+                  end
+               else
+                  util.jump_to_location(result, "utf-8", true)
+               end
+            end
+
+            return handler
+         end
+
+         vim.lsp.handlers["textDocument/definition"] = goto_definition("vsplit")
+
+         --Inlay Hints
+         -- local methods = vim.lsp.protocol.Methods
+         -- local inlay_hint_handler = vim.lsp.handlers[methods["textDocument_inlayHint"]]
+         -- vim.lsp.handlers[methods["textDocument_inlayHint"]] = function(err, result, ctx, config)
+         --    local client = vim.lsp.get_client_by_id(ctx.client_id)
+         --    if client then
+         --       local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+         --       result = vim.iter(result)
+         --           :filter(function(hint)
+         --              return hint.position.line + 1 == row
+         --           end)
+         --           :totable()
+         --    end
+         --    inlay_hint_handler(err, result, ctx, config)
+         -- end
+      end,
+   },
 }

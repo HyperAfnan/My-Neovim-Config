@@ -29,9 +29,13 @@ set.hidden = true
 set.cmdheight = 1
 set.backup = false
 set.writebackup = false
+-- set.conceallevel = 2
 
-set.completeopt = { "noinsert", "noselect", "menuone" }
-set.wrap = true
+set.wrap = false
+
+if vim.o.ft == "log" then
+	set.wrap = true
+end
 
 set.title = true
 

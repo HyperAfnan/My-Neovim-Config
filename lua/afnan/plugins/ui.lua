@@ -174,11 +174,7 @@ return {
                throttle = 1000 / 30,
                view = "mini",
             },
-            message = {
-               enabled = true,
-               view = "notify",
-               opts = {},
-            },
+            message = { enabled = true, view = "notify", opts = {}, },
             presets = {
                bottom_search = true,
                command_palette = true,
@@ -192,32 +188,18 @@ return {
                opts = {},
                format = {
                   cmdline = { pattern = "^:", icon = "", lang = "vim" },
-                  search_down = {
-                     kind = "search",
-                     pattern = "^/",
-                     icon = " ",
-                     lang = "regex",
-                  },
-                  search_up = {
-                     kind = "search",
-                     pattern = "^%?",
-                     icon = " ",
-                     lang = "regex",
-                  },
+                  search_down = { kind = "search", pattern = "^/", icon = " ", lang = "regex", },
+                  search_up = { kind = "search", pattern = "^%?", icon = " ", lang = "regex", },
                   filter = { pattern = "^:%s*!", icon = "$", lang = "bash" },
                   lua = {
-                     pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" },
-                     icon = "",
-                     lang = "lua",
+                     pattern = { "^:%s*lua%s+", "^:%s*lua%s*=%s*", "^:%s*=%s*" }, icon = "", lang = "lua",
                   },
                   help = { pattern = "^:%s*he?l?p?%s+", icon = "" },
                   input = { view = "cmdline_input", icon = "> " },
                },
             },
             messages = { enabled = false },
-            popupmenu = {
-               enabled = false,
-            },
+            popupmenu = { enabled = false, },
             redirect = {
                view = "popup",
                filter = { event = "msg_show" },
@@ -255,17 +237,9 @@ return {
                   filter = { error = true },
                   filter_opts = { reverse = true },
                },
-               all = {
-                  view = "split",
-                  opts = { enter = true, format = "details" },
-                  filter = {},
-               },
+               all = { view = "split", opts = { enter = true, format = "details" }, filter = {}, },
             },
-            notify = {
-               enabled = true,
-               view = "notify",
-            },
-            health = { checker = true },
+            notify = { enabled = true, view = "notify", }, health = { checker = true },
          })
       end,
    },

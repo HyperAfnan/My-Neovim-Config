@@ -20,7 +20,7 @@ require("lazy").setup({ { import = "afnan.plugins" } }, {
 	change_detection = {
 		notify = false,
 	},
+   dev = { path = "~/dev/" }
 })
-vim.cmd("colorscheme catppuccin-mocha")
 
 -- print(vim.inspect(package.loaded))

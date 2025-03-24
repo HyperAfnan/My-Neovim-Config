@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-set-field
 return {
 	{ "nvim-lua/plenary.nvim" },
 	{
@@ -22,4 +23,15 @@ return {
 			})
 		end,
 	},
+   {"ThePrimeagen/vim-be-good"},
+{
+  "rest-nvim/rest.nvim",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter",
+    opts = function (_, opts)
+      opts.ensure_installed = opts.ensure_installed or {}
+      table.insert(opts.ensure_installed, "http")
+    end,
+  }
+}
 }

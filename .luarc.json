@@ -1,0 +1,8 @@
+{
+    "diagnostics.disable": [
+        "trailing-space",
+        "deprecated",
+        "lowercase-global",
+        "need-check-nil"
+    ]
+}
