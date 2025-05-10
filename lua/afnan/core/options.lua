@@ -58,7 +58,7 @@ set.showtabline = 2
 
 set.updatetime = 250
 
-set.scrolloff = 14
+set.scrolloff = 20
 
 set.spell = false
 set.spelllang = "en_us"
@@ -69,11 +69,11 @@ set.splitkeep = "cursor"
 
 set.formatoptions:remove("cro")
 set.shortmess:append("c")
-set.hlsearch = false
+set.hlsearch = true
+set.ignorecase = true
 
 set.inccommand = "split"
 
-vim.g.node_host_prog = true
 vim.g.loaded_perl_provider = false
 vim.g.loaded_ruby_provider = false
 vim.g.python3_host_prog = "/data/data/com.termux/files/usr/bin/python3"

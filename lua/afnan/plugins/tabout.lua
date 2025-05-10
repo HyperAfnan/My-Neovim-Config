@@ -1,11 +1,9 @@
 return {
-
 	"abecodes/tabout.nvim",
 	lazy = false,
 	config = function()
 		require("tabout").setup({
-			tabkey = "",
-			backwards_tabkey = "",
+         completion = true,
 			tabouts = {
 				{ open = "'", close = "'" },
 				{ open = "\"", close = "\"" },
@@ -15,7 +13,7 @@ return {
 				{ open = "[", close = "]" },
 				{ open = "{", close = "}" },
 			},
-			ignore_beginning = false,
+			ignore_beginning = true,
 		})
 	end,
 	dependencies = {
@@ -25,4 +23,5 @@ return {
 	opt = true,
 	event = "InsertCharPre",
 	priority = 1000,
+
 }

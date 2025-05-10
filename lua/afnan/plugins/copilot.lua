@@ -5,82 +5,63 @@ return {
       dependencies = { { "github/copilot.vim" }, { "nvim-lua/plenary.nvim", branch = "master" }, },
       build = "make tiktoken",
       opts = {
-         system_prompt = 'you are an inteligent ai agent', 
-         model = 'claude-3.7-sonnet',                
-         agent = 'copilot',               
-         context = nil,                  
-         sticky = nil,                  
-         temperature = 0.1,            
-         headless = false,                -- Do not write to chat buffer and use history (useful for using custom processing)
-         stream = nil,                    -- Function called when receiving stream updates (returned string is appended to the chat buffer)
-         callback = nil,                  -- Function called when full response is received (retuned string is stored to history)
-         remember_as_sticky = true,       -- Remember model/agent/context as sticky prompts when asking questions
-
-         -- default window options
+         system_prompt = 'you are an inteligent and experienced ai agent, helping a programmer how to do work',
+         model = 'claude-3.7-sonnet',
+         agent = 'copilot',
+         context = nil,
+         sticky = nil,
+         temperature = 0.1,
+         headless = false,
+         stream = nil,
+         callback = nil,
+         remember_as_sticky = true,
          window = {
-            layout = 'vertical', -- 'vertical', 'horizontal', 'float', 'replace'
-            width = 0.5,    -- fractional width of parent, or absolute width in columns when > 1
-            height = 0.5,   -- fractional height of parent, or absolute height in rows when > 1
-            -- Options below only apply to floating windows
-            relative = 'editor', -- 'editor', 'win', 'cursor', 'mouse'
-            border = 'single', -- 'none', single', 'double', 'rounded', 'solid', 'shadow'
-            row = nil,      -- row position of the window, default is centered
-            col = nil,      -- column position of the window, default is centered
-            title = 'Copilot Chat', -- title of chat window
-            footer = nil,   -- footer of chat window
-            zindex = 1,     -- determines if window is on top or below other floating windows
+            layout = 'vertical',
+            width = 0.5,
+            height = 0.5,
+            relative = 'editor',
+            border = 'single',
+            row = nil,
+            col = nil,
+            title = 'Copilot Chat',
+            footer = nil,
+            zindex = 1,
          },
-
-         show_help = true,          -- Shows help message as virtual lines when waiting for user input
-         highlight_selection = true, -- Highlight selection
-         highlight_headers = true,  -- Highlight headers in chat, disable if using markdown renderers (like render-markdown.nvim)
-         references_display = 'virtual', -- 'virtual', 'write', Display references in chat as virtual text or write to buffer
-         auto_follow_cursor = true, -- Auto-follow cursor in chat
-         auto_insert_mode = false,  -- Automatically enter insert mode when opening window and on new prompt
-         insert_at_end = false,     -- Move cursor to end of buffer when inserting text
-         clear_chat_on_new_prompt = false, -- Clears chat on every new prompt
-
-         -- Static config starts here (can be configured only via setup function)
-
-         debug = false, -- Enable debug logging (same as 'log_level = 'debug')
-         log_level = 'info', -- Log level to use, 'trace', 'debug', 'info', 'warn', 'error', 'fatal'
-         proxy = nil, -- [protocol://]host[:port] Use this proxy
-         allow_insecure = false, -- Allow insecure server connections
-
-         chat_autocomplete = true, -- Enable chat autocompletion (when disabled, requires manual `mappings.complete` trigger)
-
-         log_path = vim.fn.stdpath('state') .. '/CopilotChat.log', -- Default path to log file
-         history_path = vim.fn.stdpath('data') .. '/copilotchat_history', -- Default path to stored history
-
-         question_header = '# User ', -- Header to use for user questions
-         answer_header = '# Copilot ', -- Header to use for AI answers
-         error_header = '# Error ', -- Header to use for errors
-         separator = '───', -- Separator to use in chat
-
-         -- default providers
-         -- see config/providers.lua for implementation
+         show_help = true,
+         highlight_selection = true,
+         highlight_headers = true,
+         references_display = 'virtual',
+         auto_follow_cursor = true,
+         auto_insert_mode = false,
+         insert_at_end = false,
+         clear_chat_on_new_prompt = false,
+         debug = false,
+         log_level = 'info',
+         proxy = nil,
+         allow_insecure = true,
+         chat_autocomplete = true,
+         log_path = vim.fn.stdpath('state') .. '/CopilotChat.log',
+         history_path = vim.fn.stdpath('data') .. '/copilotchat_history',
+         question_header = '# User ',
+         answer_header = '# Copilot ',
+         error_header = '# Error ',
+         separator = '───',
          providers = {
-            copilot = { },
-            github_models = { },
-            copilot_embeddings = { },
+            copilot = {},
+            github_models = {},
+            copilot_embeddings = {},
          },
-
-         -- default contexts
-         -- see config/contexts.lua for implementation
          contexts = {
-            buffer = { },
-            buffers = { },
-            file = { },
-            files = { },
-            git = { },
-            url = { },
-            register = { },
-            quickfix = { },
-            system = { }
+            buffer = {},
+            buffers = {},
+            file = {},
+            files = {},
+            git = {},
+            url = {},
+            register = {},
+            quickfix = {},
+            system = {}
          },
-
-         -- default prompts
-         -- see config/prompts.lua for implementation
          prompts = {
             Explain = {
                prompt = 'Write an explanation for the selected code as paragraphs of text.',
@@ -110,14 +91,11 @@ return {
                context = 'git:staged',
             },
          },
-
-         -- default mappings
-         -- see config/mappings.lua for implementation
          mappings = {
-            complete = { insert = '<Tab>', },
+            complete = { insert = '<C-Tab>', },
             close = { normal = 'q', insert = '<C-c>', },
             reset = { normal = '<C-l>', insert = '<C-l>', },
-            submit_prompt = { normal = '<CR>', insert = '<C-s>', },
+            submit_prompt = { normal = '<CR>', insert = '<CR>', },
             toggle_sticky = { normal = 'grr', },
             clear_stickies = { normal = 'grx', },
             accept_diff = { normal = '<C-y>', insert = '<C-y>', },

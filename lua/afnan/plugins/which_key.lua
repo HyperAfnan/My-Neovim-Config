@@ -21,6 +21,8 @@ return {
 						{ ",ghs", ":Gitsigns stage_hunk<CR>", desc = "Stage Hunk" },
 						{ ",ghu", ":Gitsigns undo_stage_hunk<CR>", desc = "Unstage Hunk" },
 						{ ",ghr", ":Gitsigns reset_hunk<CR>", desc = "Reset Hunk" },
+						{ ",ghk", ":Gitsigns preview_hunk<CR>", desc = "Preview Hunk" },
+						{ ",ghK", ":Gitsigns preview_hunk_inline<CR>", desc = "Preview inline Hunk" },
 					},
 					{
 						group = "Buffer",
@@ -28,6 +30,11 @@ return {
 						{ ",gbs", ":Gitsigns stage_buffer<CR>", desc = "Stage Buffer" },
 						{ ",gbr", ":Gitsigns reset_buffer<CR>", desc = "Reset Buffer" },
 					},
+               {
+                  group = "Localist",
+                  mode = "n",
+                  { ",gl", ":Gitsigns  setloclist<CR>", desc = "Set Local list" },
+               }
 				},
 				{
 					group = "Telescope",
@@ -46,9 +53,6 @@ return {
 					{ ",tt", ":TodoTelescope<CR>", desc = "Todo List" },
 					{ ",to", ":Telescope oldfiles<CR>", desc = "Previously Opened Files" },
 					{ ",T", ":Telescope<CR>", desc = "Open Telescope" },
-				},
-				{
-					group = "DAP",
 				},
 			})
 		end,

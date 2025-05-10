@@ -1,247 +1,247 @@
 return {
-	{
-		"mfussenegger/nvim-dap",
-		dependencies = {
-			"rcarriga/nvim-dap-ui",
-			"nvim-tree/nvim-web-devicons",
-			"nvim-neotest/nvim-nio",
-			"jbyuki/one-small-step-for-vimkind",
-		},
-		keys = {
-			{
-				",db",
-				function()
-					require("dap").toggle_breakpoint()
-				end,
-				desc = "Toggle breakpoint",
-			},
-			{
-				",dB",
-				"<cmd>FzfLua dap_breakpoints<cr>",
-				desc = "List breakpoints",
-			},
-			{
-				",dc",
-				function()
-					require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
-				end,
-				desc = "Breakpoint condition",
-			},
-			{
-				"<F5>",
-				function()
-					require("dap").continue()
-				end,
-				desc = "Continue",
-			},
-			{
-				"<F10>",
-				function()
-					require("dap").step_over()
-				end,
-				desc = "Step over",
-			},
-			{
-				"<F11>",
-				function()
-					require("dap").step_into()
-				end,
-				desc = "Step into",
-			},
-			{
-				"<F12>",
-				function()
-					require("dap").step_out()
-				end,
-				desc = "Step Out",
-			},
-		},
-		config = function()
-			local dap, dapui = require("dap"), require("dapui")
-			dap.listeners.before.attach.dapui_config = function()
-				dapui.open()
-			end
-			dap.listeners.before.launch.dapui_config = function()
-				dapui.open()
-			end
-			dap.listeners.before.event_terminated.dapui_config = function()
-				dapui.close()
-			end
-			dap.listeners.before.event_exited.dapui_config = function()
-				dapui.close()
-			end
-			dapui.setup({
-				icons = { expanded = ">>", collapsed = ">", current_frame = "" },
-				mappings = {
-					expand = { "<CR>", "<2-LeftMouse>" },
-					open = "o",
-					remove = "d",
-					edit = "e",
-					repl = "r",
-					toggle = "t",
-				},
-				element_mappings = {},
-				expand_lines = vim.fn.has("nvim-0.7") == 1,
-				force_buffers = true,
-				layouts = {
-					{
-						elements = {
-							{
-								id = "scopes",
-								size = 0.25,
-							},
-							{ id = "breakpoints", size = 0.25 },
-							{ id = "stacks", size = 0.25 },
-							{ id = "watches", size = 0.25 },
-						},
-						size = 40,
-						position = "left",
-					},
-					{
-						elements = { "repl", "console" },
-						size = 10,
-						position = "bottom",
-					},
-				},
-				floating = {
-					max_height = nil,
-					max_width = nil,
-					border = "single",
-					mappings = { ["close"] = { "q", "<Esc>" } },
-				},
-				controls = {
-					enabled = vim.fn.exists("+winbar") == 1,
-					element = "repl",
-					icons = {
-						pause = "",
-						play = "",
-						step_into = "",
-						step_over = "",
-						step_out = "",
-						step_back = "",
-						run_last = "+",
-						terminate = "X",
-						disconnect = "",
-					},
-				},
-				render = {
-					max_type_length = nil,
-					max_value_lines = 100,
-					indent = 1,
-				},
-			})
-
-			dap.adapters["local-lua"] = {
-				type = "executable",
-				command = "node",
-				args = {
-					"/data/data/com.termux/files/home/.local/share/local-lua-debugger-vscode/extension/debugAdapter.js",
-				},
-				enrich_config = function(config, on_config)
-					if not config["extensionPath"] then
-						local c = vim.deepcopy(config)
-						c.extensionPath =
-							"/data/data/com.termux/files/home/.local/share/local-lua-debugger-vscode/"
-						on_config(c)
-					else
-						on_config(config)
-					end
-				end,
-			}
-			dap.configurations.lua = {
-				{
-					name = "Current file (local-lua-dbg, lua)",
-					type = "local-lua",
-					request = "launch",
-					cwd = "${workspaceFolder}",
-					program = {
-						lua = "lua5.1",
-						file = "${file}",
-					},
-					args = {},
-				},
-				{
-					name = "Hello world",
-					type = "local-lua",
-					request = "lauch",
-					cwd = "${workspaceFolder}",
-				},
-			}
-			-- dap.configurations.lua = {
-			--    {
-			--       type = 'nlua',
-			--       request = 'attach',
-			--       name = "Attach to running Neovim instance",
-			--    }
-			-- }
-			--
-			-- dap.adapters.nlua = function(callback, config)
-			--    callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
-			-- end
-			vim.api.nvim_set_keymap(
-				"n",
-				"<F12>",
-				":lua require'dap.ui.widgets'.hover()<CR>",
-				{ noremap = true }
-			)
-			-- vim.api.nvim_set_keymap('n', '<F8>', [[:lua require"osv".launch({port = 8000})<CR>]], { noremap = true })
-			-- dap.adapters.cppdbg = {
-			--    id = "cppdbg",
-			--    type = "executable",
-			--    command =
-			--    " /data/data/com.termux/files/home/.local/share/debuggers/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
-			-- }
-			-- dap.configurations.cpp = {
-			--    {
-			--       name = "Launch file",
-			--       type = "cppdbg",
-			--       request = "launch",
-			--       program = function()
-			--          return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-			--       end,
-			--       cwd = "${workspaceFolder}",
-			--       stopAtEntry = true,
-			--    },
-			--    {
-			--       name = "Attach to gdbserver :1234",
-			--       type = "cppdbg",
-			--       request = "launch",
-			--       MIMode = "gdb",
-			--       miDebuggerServerAddress = "localhost:1234",
-			--       miDebuggerPath = " /data/data/com.termux/files/usr/bin/gdb",
-			--       cwd = "${workspaceFolder}",
-			--       program = function()
-			--          return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-			--       end,
-			--       setupCommands = {
-			--          {
-			--             text = "-enable-pretty-printing",
-			--             description = "enable pretty printing",
-			--             ignoreFailures = false,
-			--          },
-			--       },
-			--    },
-			-- }
-			dap.adapters.lldb = {
-				type = "executable",
-				command = "lldb-dap",
-				name = "lldb",
-			}
-
-			dap.configurations.c = {
-				{
-					name = "Launch",
-					type = "lldb",
-					request = "launch",
-					program = function()
-						return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-					end,
-					cwd = "${workspaceFolder}",
-					stopOnEntry = true,
-					args = {},
-					runInTerminal = true,
-				},
-			}
-		end,
-	},
+	-- {
+	-- 	"mfussenegger/nvim-dap",
+	-- 	dependencies = {
+	-- 		"rcarriga/nvim-dap-ui",
+	-- 		"nvim-tree/nvim-web-devicons",
+	-- 		"nvim-neotest/nvim-nio",
+	-- 		"jbyuki/one-small-step-for-vimkind",
+	-- 	},
+	-- 	keys = {
+	-- 		{
+	-- 			",db",
+	-- 			function()
+	-- 				require("dap").toggle_breakpoint()
+	-- 			end,
+	-- 			desc = "Toggle breakpoint",
+	-- 		},
+	-- 		{
+	-- 			",dB",
+	-- 			"<cmd>FzfLua dap_breakpoints<cr>",
+	-- 			desc = "List breakpoints",
+	-- 		},
+	-- 		{
+	-- 			",dc",
+	-- 			function()
+	-- 				require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: "))
+	-- 			end,
+	-- 			desc = "Breakpoint condition",
+	-- 		},
+	-- 		{
+	-- 			"<F5>",
+	-- 			function()
+	-- 				require("dap").continue()
+	-- 			end,
+	-- 			desc = "Continue",
+	-- 		},
+	-- 		{
+	-- 			"<F10>",
+	-- 			function()
+	-- 				require("dap").step_over()
+	-- 			end,
+	-- 			desc = "Step over",
+	-- 		},
+	-- 		{
+	-- 			"<F11>",
+	-- 			function()
+	-- 				require("dap").step_into()
+	-- 			end,
+	-- 			desc = "Step into",
+	-- 		},
+	-- 		{
+	-- 			"<F12>",
+	-- 			function()
+	-- 				require("dap").step_out()
+	-- 			end,
+	-- 			desc = "Step Out",
+	-- 		},
+	-- 	},
+	-- 	config = function()
+	-- 		local dap, dapui = require("dap"), require("dapui")
+	-- 		dap.listeners.before.attach.dapui_config = function()
+	-- 			dapui.open()
+	-- 		end
+	-- 		dap.listeners.before.launch.dapui_config = function()
+	-- 			dapui.open()
+	-- 		end
+	-- 		dap.listeners.before.event_terminated.dapui_config = function()
+	-- 			dapui.close()
+	-- 		end
+	-- 		dap.listeners.before.event_exited.dapui_config = function()
+	-- 			dapui.close()
+	-- 		end
+	-- 		dapui.setup({
+	-- 			icons = { expanded = ">>", collapsed = ">", current_frame = "" },
+	-- 			mappings = {
+	-- 				expand = { "<CR>", "<2-LeftMouse>" },
+	-- 				open = "o",
+	-- 				remove = "d",
+	-- 				edit = "e",
+	-- 				repl = "r",
+	-- 				toggle = "t",
+	-- 			},
+	-- 			element_mappings = {},
+	-- 			expand_lines = vim.fn.has("nvim-0.7") == 1,
+	-- 			force_buffers = true,
+	-- 			layouts = {
+	-- 				{
+	-- 					elements = {
+	-- 						{
+	-- 							id = "scopes",
+	-- 							size = 0.25,
+	-- 						},
+	-- 						{ id = "breakpoints", size = 0.25 },
+	-- 						{ id = "stacks", size = 0.25 },
+	-- 						{ id = "watches", size = 0.25 },
+	-- 					},
+	-- 					size = 40,
+	-- 					position = "left",
+	-- 				},
+	-- 				{
+	-- 					elements = { "repl", "console" },
+	-- 					size = 10,
+	-- 					position = "bottom",
+	-- 				},
+	-- 			},
+	-- 			floating = {
+	-- 				max_height = nil,
+	-- 				max_width = nil,
+	-- 				border = "single",
+	-- 				mappings = { ["close"] = { "q", "<Esc>" } },
+	-- 			},
+	-- 			controls = {
+	-- 				enabled = vim.fn.exists("+winbar") == 1,
+	-- 				element = "repl",
+	-- 				icons = {
+	-- 					pause = "",
+	-- 					play = "",
+	-- 					step_into = "",
+	-- 					step_over = "",
+	-- 					step_out = "",
+	-- 					step_back = "",
+	-- 					run_last = "+",
+	-- 					terminate = "X",
+	-- 					disconnect = "",
+	-- 				},
+	-- 			},
+	-- 			render = {
+	-- 				max_type_length = nil,
+	-- 				max_value_lines = 100,
+	-- 				indent = 1,
+	-- 			},
+	-- 		})
+	--
+	-- 		dap.adapters["local-lua"] = {
+	-- 			type = "executable",
+	-- 			command = "node",
+	-- 			args = {
+	-- 				"/data/data/com.termux/files/home/.local/share/local-lua-debugger-vscode/extension/debugAdapter.js",
+	-- 			},
+	-- 			enrich_config = function(config, on_config)
+	-- 				if not config["extensionPath"] then
+	-- 					local c = vim.deepcopy(config)
+	-- 					c.extensionPath =
+	-- 						"/data/data/com.termux/files/home/.local/share/local-lua-debugger-vscode/"
+	-- 					on_config(c)
+	-- 				else
+	-- 					on_config(config)
+	-- 				end
+	-- 			end,
+	-- 		}
+	-- 		dap.configurations.lua = {
+	-- 			{
+	-- 				name = "Current file (local-lua-dbg, lua)",
+	-- 				type = "local-lua",
+	-- 				request = "launch",
+	-- 				cwd = "${workspaceFolder}",
+	-- 				program = {
+	-- 					lua = "lua5.1",
+	-- 					file = "${file}",
+	-- 				},
+	-- 				args = {},
+	-- 			},
+	-- 			{
+	-- 				name = "Hello world",
+	-- 				type = "local-lua",
+	-- 				request = "lauch",
+	-- 				cwd = "${workspaceFolder}",
+	-- 			},
+	-- 		}
+	-- 		-- dap.configurations.lua = {
+	-- 		--    {
+	-- 		--       type = 'nlua',
+	-- 		--       request = 'attach',
+	-- 		--       name = "Attach to running Neovim instance",
+	-- 		--    }
+	-- 		-- }
+	-- 		--
+	-- 		-- dap.adapters.nlua = function(callback, config)
+	-- 		--    callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+	-- 		-- end
+	-- 		vim.api.nvim_set_keymap(
+	-- 			"n",
+	-- 			"<F12>",
+	-- 			":lua require'dap.ui.widgets'.hover()<CR>",
+	-- 			{ noremap = true }
+	-- 		)
+	-- 		-- vim.api.nvim_set_keymap('n', '<F8>', [[:lua require"osv".launch({port = 8000})<CR>]], { noremap = true })
+	-- 		-- dap.adapters.cppdbg = {
+	-- 		--    id = "cppdbg",
+	-- 		--    type = "executable",
+	-- 		--    command =
+	-- 		--    " /data/data/com.termux/files/home/.local/share/debuggers/cpptools/extension/debugAdapters/bin/OpenDebugAD7",
+	-- 		-- }
+	-- 		-- dap.configurations.cpp = {
+	-- 		--    {
+	-- 		--       name = "Launch file",
+	-- 		--       type = "cppdbg",
+	-- 		--       request = "launch",
+	-- 		--       program = function()
+	-- 		--          return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+	-- 		--       end,
+	-- 		--       cwd = "${workspaceFolder}",
+	-- 		--       stopAtEntry = true,
+	-- 		--    },
+	-- 		--    {
+	-- 		--       name = "Attach to gdbserver :1234",
+	-- 		--       type = "cppdbg",
+	-- 		--       request = "launch",
+	-- 		--       MIMode = "gdb",
+	-- 		--       miDebuggerServerAddress = "localhost:1234",
+	-- 		--       miDebuggerPath = " /data/data/com.termux/files/usr/bin/gdb",
+	-- 		--       cwd = "${workspaceFolder}",
+	-- 		--       program = function()
+	-- 		--          return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+	-- 		--       end,
+	-- 		--       setupCommands = {
+	-- 		--          {
+	-- 		--             text = "-enable-pretty-printing",
+	-- 		--             description = "enable pretty printing",
+	-- 		--             ignoreFailures = false,
+	-- 		--          },
+	-- 		--       },
+	-- 		--    },
+	-- 		-- }
+	-- 		dap.adapters.lldb = {
+	-- 			type = "executable",
+	-- 			command = "lldb-dap",
+	-- 			name = "lldb",
+	-- 		}
+	--
+	-- 		dap.configurations.c = {
+	-- 			{
+	-- 				name = "Launch",
+	-- 				type = "lldb",
+	-- 				request = "launch",
+	-- 				program = function()
+	-- 					return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
+	-- 				end,
+	-- 				cwd = "${workspaceFolder}",
+	-- 				stopOnEntry = true,
+	-- 				args = {},
+	-- 				runInTerminal = true,
+	-- 			},
+	-- 		}
+	-- 	end,
+	-- },
 }

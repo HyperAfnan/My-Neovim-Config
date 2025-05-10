@@ -2,10 +2,7 @@
 return {
 	{
 		"akinsho/bufferline.nvim",
-		dependencies = {
-			"nvim-tree/nvim-web-devicons",
-			"catppuccin/nvim",
-		},
+		dependencies = { "nvim-tree/nvim-web-devicons", },
 		config = function()
 			local function sort_by_mtime(a, b)
 				local astat = vim.loop.fs_stat(a.path)
@@ -46,11 +43,7 @@ return {
 					right_trunc_marker = "",
 					always_show_bufferline = true,
 					separator_style = "slope",
-					hover = {
-						enabled = true,
-						delay = 200,
-						reveal = { "close" },
-					},
+					hover = { enabled = true, delay = 200, reveal = { "close" }, },
 				},
 			})
 		end,

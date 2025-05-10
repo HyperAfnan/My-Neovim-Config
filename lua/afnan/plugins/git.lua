@@ -2,6 +2,7 @@ return {
 	{ "tpope/vim-fugitive", cmd = "Git" },
 	{
 		"sindrets/diffview.nvim",
+      cmd = { "DiffviewOpen", "DiffviewFileHistory"},
 		config = function()
 			local actions = require("diffview.actions")
 			require("diffview").setup({
