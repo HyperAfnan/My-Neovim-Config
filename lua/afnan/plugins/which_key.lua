@@ -34,6 +34,15 @@ return {
                   group = "Localist",
                   mode = "n",
                   { ",gl", ":Gitsigns  setloclist<CR>", desc = "Set Local list" },
+               },
+               {
+                  group = "Git commands",
+                  mode = "n",
+                  { ",ggC", ":CopilotChatCommit<CR>", desc = "Generate Commit Message" },
+                  { ",gg.", ":Git add .<CR>", desc = "Stages all files" },
+                  { ",ggc", ":Git commit<CR>", desc = "Commit staged files" },
+                  { ",ggp", ":Git push<CR>", desc = "Push to origin" },
+                  { ",ggP", ":Git push<CR>", desc = "Pull from origin" },
                }
 				},
 				{
@@ -52,6 +61,7 @@ return {
 					{ ",tu", ":Telescope resume<CR>", desc = "Resume Search" },
 					{ ",tt", ":TodoTelescope<CR>", desc = "Todo List" },
 					{ ",to", ":Telescope oldfiles<CR>", desc = "Previously Opened Files" },
+					{ ",tg", ":Telescope git_status<CR>", desc = "All changed files" },
 					{ ",T", ":Telescope<CR>", desc = "Open Telescope" },
 				},
 			})

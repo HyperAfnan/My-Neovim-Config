@@ -184,11 +184,11 @@ return {
 			})
 
 			-- Super html
-			lspconfig.superhtml.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				filetypes = { "html" },
-			})
+			-- lspconfig.superhtml.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	filetypes = { "html" },
+			-- })
 			-- Emmet
 			lspconfig.emmet_language_server.setup({
 				on_attach = on_attach,

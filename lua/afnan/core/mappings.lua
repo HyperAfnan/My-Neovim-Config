@@ -1,5 +1,5 @@
 local function set_keymap(mode, lhs, rhs)
-	vim.keymap.set(mode, lhs, rhs, { silent = true, noremap = true })
+   vim.keymap.set(mode, lhs, rhs, { silent = true, noremap = true })
 end
 
 set_keymap("", "k", "gk")
@@ -9,10 +9,10 @@ set_keymap("n", "<A-w>", ":write<CR>")
 set_keymap("n", "<space>", ":")
 set_keymap("v", "<space>", ":")
 if vim.o.ft == "lua" then
-	set_keymap("n", "<F5>", "<cmd>write<CR> <cmd>source %<cr>")
-	set_keymap("n", "<F6>", "<cmd>set rtp+=.<CR> <cmd>source %<cr>")
+   set_keymap("n", "<F5>", "<cmd>write<CR> <cmd>source %<cr>")
+   set_keymap("n", "<F6>", "<cmd>set rtp+=.<CR> <cmd>source %<cr>")
 else
-	set_keymap("n", "<F5>", "<cmd>RunFile<cr>")
+   set_keymap("n", "<F5>", "<cmd>RunFile<cr>")
 end
 
 set_keymap("i", "<C-BS>", "<esc>cb")
@@ -22,6 +22,12 @@ set_keymap("n", "<A-left>", "0")
 set_keymap("n", "<A-right>", "$")
 set_keymap("i", "<A-right>", "<ESC>$ i")
 set_keymap("i", "<A-left>", "<ESC>0 i")
+
+-- Resizing
+set_keymap("n", "<A-Up>", "<cmd>resize +2<cr>")
+set_keymap("n", "<A-Down>", "<cmd>resize -2<cr>")
+set_keymap("n", "<A-Left>", "<cmd>vertical resize +2<cr>")
+set_keymap("n", "<A-Right>", "<cmd>vertical resize -2<cr>")
 
 -- Indentation
 set_keymap("v", "<", "<gv")
@@ -70,8 +76,8 @@ set_keymap("v", "K", ":m '>+1<CR>gv=gv")
 set_keymap("v", "J", ":m '<-2<CR>gv=gv")
 
 set_keymap("n", ",ii", function()
-	require("nvim-market").install_picker()
+   require("nvim-market").install_picker()
 end)
 set_keymap("n", ",iu", function()
-	require("nvim-market").remove_picker()
+   require("nvim-market").remove_picker()
 end)

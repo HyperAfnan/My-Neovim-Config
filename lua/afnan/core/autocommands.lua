@@ -39,11 +39,3 @@ cmd({ "CursorHold" }, {
 		vim.diagnostic.open_float(nil, { focusable = false })
 	end,
 })
-
-cmd({ "BufWritePre" }, {
-	desc = "auto format",
-	group = "_lsp",
-	callback = function()
-         require("conform").format({ async = false, lsp_format = "fallback" })
-	end,
-})
