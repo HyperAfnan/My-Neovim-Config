@@ -43,6 +43,7 @@ return {
                   { ",ggc", ":Git commit<CR>", desc = "Commit staged files" },
                   { ",ggp", ":Git push<CR>", desc = "Push to origin" },
                   { ",ggP", ":Git push<CR>", desc = "Pull from origin" },
+                  { ",ggo", ":!gh repo view -w<CR>", desc = "Open repo in browser" },
                }
 				},
 				{
