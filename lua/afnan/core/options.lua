@@ -13,13 +13,15 @@ set.encoding = "utf-8"
 set.fileencoding = "utf-8"
 set.fileencodings = "utf-8"
 
+set.wildmode = 'longest,full'
+
 set.number = true
 set.relativenumber = true
 set.ruler = true
 
-set.fillchars = {
-	eob = " ",
-}
+-- set.fillchars = {
+-- 	eob = "*",
+-- }
 
 set.showmode = false
 
@@ -56,14 +58,14 @@ vim.api.nvim_set_hl(0, "WinSeparator", { bg = "none" })
 
 set.showtabline = 2
 
-set.updatetime = 250
+set.updatetime = 100
 
 set.scrolloff = 20
 
 set.spell = false
 set.spelllang = "en_us"
 
-set.splitright = true
+set.splitright = false
 set.splitbelow = false
 set.splitkeep = "cursor"
 
@@ -72,7 +74,7 @@ set.shortmess:append("c")
 set.hlsearch = true
 set.ignorecase = true
 
-set.inccommand = "split"
+set.inccommand = "nosplit"
 
 vim.cmd("set foldmethod=manual")
 

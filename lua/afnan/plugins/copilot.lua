@@ -99,6 +99,9 @@ return {
 				TypeHints = {
 					prompt = "Add comprehensive type annotations/hints to this code. Include proper typing for parameters, return values, variables, and generics where applicable. Explain type decisions that enhance code safety and clarity.",
 				},
+				Neovim = {
+					prompt = "Hey i am a beginner to neovim and want to contribute to neovim and i am stuck at this point can you elaborate this for me. Provide a detailed explanation of the selected code, including its purpose, key functions, data flow, and any important programming concepts it demonstrates. Break down complex logic in simple terms.",
+				},
 			},
 			mappings = {
 				complete = { insert = "<C-Tab>" },

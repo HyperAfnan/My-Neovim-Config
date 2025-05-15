@@ -30,12 +30,26 @@ cmd("TextYankPost", {
 	end,
 })
 
-augroup("_lsp", {})
+-- augroup("_lsp", {})
+--
+-- cmd({ "CursorHold" }, {
+-- 	desc = "Open float when there is diagnostics",
+-- 	group = "_lsp",
+-- 	callback = function()
+-- 		vim.diagnostic.open_float(nil, { focusable = false })
+-- 	end,
+-- })
 
-cmd({ "CursorHold" }, {
-	desc = "Open float when there is diagnostics",
-	group = "_lsp",
-	callback = function()
-		vim.diagnostic.open_float(nil, { focusable = false })
-	end,
-})
+
+-- vim.api.nvim_create_autocmd("FileType", {
+--   pattern = {"javascript", "typescript", "javascriptreact", "typescriptreact"},
+--   callback = function()
+--     vim.bo.makeprg = "npx eslint  "
+--     vim.bo.errorformat = "%f:%l:%c: %m,%E%f: line %l\\, col %c\\, %m,%-G%.%#"
+--   end
+-- })
+--
+-- vim.api.nvim_create_autocmd("QuickFixCmdPost", {
+--   pattern = {"make", "grep", "grepadd", "vimgrep"},
+--   command = "cwindow"
+-- })

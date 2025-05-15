@@ -30,21 +30,27 @@ return {
 						{ ",gbs", ":Gitsigns stage_buffer<CR>", desc = "Stage Buffer" },
 						{ ",gbr", ":Gitsigns reset_buffer<CR>", desc = "Reset Buffer" },
 					},
-               {
-                  group = "Localist",
-                  mode = "n",
-                  { ",gl", ":Gitsigns  setloclist<CR>", desc = "Set Local list" },
-               },
-               {
-                  group = "Git commands",
-                  mode = "n",
-                  { ",ggC", ":CopilotChatCommit<CR>", desc = "Generate Commit Message" },
-                  { ",gg.", ":Git add .<CR>", desc = "Stages all files" },
-                  { ",ggc", ":Git commit<CR>", desc = "Commit staged files" },
-                  { ",ggp", ":Git push<CR>", desc = "Push to origin" },
-                  { ",ggP", ":Git push<CR>", desc = "Pull from origin" },
-                  { ",ggo", ":!gh repo view -w<CR>", desc = "Open repo in browser" },
-               }
+					{
+						group = "Localist",
+						mode = "n",
+						{ ",gl", ":Gitsigns  setloclist<CR>", desc = "Set Local list" },
+					},
+					{
+						group = "Copilot Commands",
+						mode = "n",
+						{ ",cd", ":Copilot disable", desc = "Disable Copilot Completion" },
+						{ ",cp", ":Copilot panel", desc = "Open copilot panel" },
+					},
+					{
+						group = "Git commands",
+						mode = "n",
+						{ ",ggC", ":CopilotChatCommit<CR>", desc = "Generate Commit Message" },
+						{ ",gg.", ":Git add .<CR>", desc = "Stages all files" },
+						{ ",ggc", ":Git commit<CR>", desc = "Commit staged files" },
+						{ ",ggp", ":Git push<CR>", desc = "Push to origin" },
+						{ ",ggP", ":Git push<CR>", desc = "Pull from origin" },
+						{ ",ggo", ":!gh repo view -w<CR>", desc = "Open repo in browser" },
+					},
 				},
 				{
 					group = "Telescope",
