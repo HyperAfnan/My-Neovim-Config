@@ -30,15 +30,15 @@ cmd("TextYankPost", {
 	end,
 })
 
--- augroup("_lsp", {})
---
--- cmd({ "CursorHold" }, {
--- 	desc = "Open float when there is diagnostics",
--- 	group = "_lsp",
--- 	callback = function()
--- 		vim.diagnostic.open_float(nil, { focusable = false })
--- 	end,
--- })
+augroup("_lsp", {})
+
+cmd({ "CursorHold" }, {
+	desc = "Open float when there is diagnostics",
+	group = "_lsp",
+	callback = function()
+		vim.diagnostic.open_float(nil, { focusable = false })
+	end,
+})
 
 
 -- vim.api.nvim_create_autocmd("FileType", {
@@ -53,3 +53,12 @@ cmd("TextYankPost", {
 --   pattern = {"make", "grep", "grepadd", "vimgrep"},
 --   command = "cwindow"
 -- })
+
+
+augroup("_db", {})
+cmd("FileType", {
+   desc = "disable folding in dbui buffer",
+   group = "_db",
+   pattern = "dbui",
+   command = "setlocal foldmethod=manual",
+})

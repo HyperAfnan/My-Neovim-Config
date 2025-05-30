@@ -4,7 +4,6 @@ return {
 	-- 	dependencies = {
 	-- 		"rcarriga/nvim-dap-ui",
 	-- 		"nvim-tree/nvim-web-devicons",
-	-- 		"nvim-neotest/nvim-nio",
 	-- 		"jbyuki/one-small-step-for-vimkind",
 	-- 	},
 	-- 	keys = {

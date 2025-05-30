@@ -38,8 +38,8 @@ return {
 					{
 						group = "Copilot Commands",
 						mode = "n",
-						{ ",cd", ":Copilot disable", desc = "Disable Copilot Completion" },
-						{ ",cp", ":Copilot panel", desc = "Open copilot panel" },
+						{ ",cd", ":Copilot disable<CR>", desc = "Disable Copilot Completion" },
+						{ ",cp", ":Copilot panel<CR>", desc = "Open copilot panel" },
 					},
 					{
 						group = "Git commands",
@@ -70,6 +70,15 @@ return {
 					{ ",to", ":Telescope oldfiles<CR>", desc = "Previously Opened Files" },
 					{ ",tg", ":Telescope git_status<CR>", desc = "All changed files" },
 					{ ",T", ":Telescope<CR>", desc = "Open Telescope" },
+				},
+				{
+					group = "Vim Test",
+					mode = "n",
+					{ ",vn", ":TestNearest<CR>", desc = "Test nearest" },
+					{ ",vf", ":TestFile<CR>", desc = "Test file" },
+					{ ",vs", ":TestSuite<CR>", desc = "Test suite" },
+					{ ",vl", ":TestLast<CR>", desc = "Test last" },
+					{ ",vv", ":TestVisit<CR>", desc = "Visit Test" },
 				},
 			})
 		end,

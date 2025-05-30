@@ -1,6 +1,6 @@
 return {
-	bg_dark = "#1f2335",
-	bg = "#1e1e2e",
+	bg_dark = "#1a1b26",
+	bg = "#1a1b26",
 	bg_highlight = "#292e42",
 	terminal_black = "#414868",
 	fg = "#c0caf5",

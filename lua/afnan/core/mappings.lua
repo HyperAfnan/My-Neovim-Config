@@ -56,7 +56,7 @@ set_keymap("n", ",bd", ":bdelete<CR>")
 
 -- For quickfix list
 set_keymap("n", "<C-j>", ":cnext<CR>")
-set_keymap("n", "<C-h>", ":cprev<CR>")
+set_keymap("n", "<C-k>", ":cprev<CR>")
 
 set_keymap("n", "Y", "y$")
 
@@ -67,9 +67,11 @@ set_keymap("i", "<C-f>", "<C-x><C-f>")
 -- split keymap
 set_keymap("n", "sv", ":vsplit %<CR>")
 
+set_keymap("i", "<C-v>", "<esc>pi")
+
 -- Move lines without ruining registers
-set_keymap("i", "<C-j>", "<esc>:m .+1<CR>==")
-set_keymap("i", "<C-k>", "<esc>:m .-2<CR>==")
+-- set_keymap("i", "<C-j>", "<esc>:m .+1<CR>==")
+-- set_keymap("i", "<C-k>", "<esc>:m .-2<CR>==")
 set_keymap("n", ",K", ":m .-2<CR>==")
 set_keymap("n", ",J", ":m .+1<CR>==")
 set_keymap("v", "K", ":m '>+1<CR>gv=gv")

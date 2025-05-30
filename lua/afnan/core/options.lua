@@ -76,8 +76,6 @@ set.ignorecase = true
 
 set.inccommand = "nosplit"
 
-vim.cmd("set foldmethod=manual")
-
 vim.g.loaded_perl_provider = false
 vim.g.loaded_ruby_provider = false
 vim.g.python3_host_prog = "/data/data/com.termux/files/usr/bin/python3"
