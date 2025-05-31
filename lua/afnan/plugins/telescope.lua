@@ -114,6 +114,8 @@ return {
          load("fzf")
          load("ghn")
          load("ui-select")
+         load("refactoring")
+
       end,
    },
 }
