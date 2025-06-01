@@ -1,4 +1,4 @@
-return  {
+return {
 	"NTBBloodbath/galaxyline.nvim",
 	dependencies = {
 		{

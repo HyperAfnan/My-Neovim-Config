@@ -4,13 +4,19 @@ return {
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		dependencies = {
-			{ "windwp/nvim-ts-autotag", 
-            config = function()
-               require("nvim-ts-autotag").setup({
-                  opts = { enable_close = true, enable_rename = true, enable_close_on_slash = true, },
-               })
-            end ,
-         ft = { "html", "javascript" } },
+			{
+				"windwp/nvim-ts-autotag",
+				config = function()
+					require("nvim-ts-autotag").setup({
+						opts = {
+							enable_close = true,
+							enable_rename = true,
+							enable_close_on_slash = true,
+						},
+					})
+				end,
+				ft = { "html", "javascript" },
+			},
 			{ "JoosepAlviste/nvim-ts-context-commentstring", event = "VeryLazy" },
 		},
 		config = function()
@@ -47,7 +53,6 @@ return {
 			vim.g.skip_ts_context_commentstring_module = true
 
 			tsinstall.prefer_git = true
-
 		end,
 	},
 }

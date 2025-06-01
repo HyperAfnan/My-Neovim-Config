@@ -13,7 +13,7 @@ set.encoding = "utf-8"
 set.fileencoding = "utf-8"
 set.fileencodings = "utf-8"
 
-set.wildmode = 'longest,full'
+set.wildmode = "longest,full"
 
 set.number = true
 set.relativenumber = true

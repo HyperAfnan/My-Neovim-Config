@@ -3,7 +3,7 @@ return {
 	lazy = false,
 	config = function()
 		require("tabout").setup({
-         completion = true,
+			completion = true,
 			tabouts = {
 				{ open = "'", close = "'" },
 				{ open = "\"", close = "\"" },
@@ -23,5 +23,4 @@ return {
 	opt = true,
 	event = "InsertCharPre",
 	priority = 1000,
-
 }

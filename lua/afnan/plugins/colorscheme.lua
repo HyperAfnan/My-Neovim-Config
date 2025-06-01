@@ -16,7 +16,7 @@ return {
 	{
 		"navarasu/onedark.nvim",
 		lazy = false,
-      priority = 1000,
+		priority = 1000,
 	},
 	{
 		"catppuccin/nvim",
@@ -24,11 +24,11 @@ return {
 		config = function()
 			require("catppuccin").setup({
 				flavour = "mocha", -- latte, frappe, macchiato, mocha
-				background = { dark = "mocha", },
+				background = { dark = "mocha" },
 				transparent_background = false,
 				show_end_of_buffer = false,
 				term_colors = false,
-				dim_inactive = { enabled = false, shade = "dark", percentage = 0.15, },
+				dim_inactive = { enabled = false, shade = "dark", percentage = 0.15 },
 				no_italic = false,
 				no_bold = false,
 				no_underline = false,
@@ -76,10 +76,9 @@ return {
 						},
 						inlay_hints = { background = true },
 					},
-					mini = { enabled = true, indentscope_color = "", },
+					mini = { enabled = true, indentscope_color = "" },
 				},
 			})
-
 		end,
 	},
 	{ "tiagovla/tokyodark.nvim", lazy = false, priority = 1000 },

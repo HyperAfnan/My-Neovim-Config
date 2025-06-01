@@ -40,7 +40,6 @@ cmd({ "CursorHold" }, {
 	end,
 })
 
-
 -- vim.api.nvim_create_autocmd("FileType", {
 --   pattern = {"javascript", "typescript", "javascriptreact", "typescriptreact"},
 --   callback = function()
@@ -54,11 +53,10 @@ cmd({ "CursorHold" }, {
 --   command = "cwindow"
 -- })
 
-
 augroup("_db", {})
 cmd("FileType", {
-   desc = "disable folding in dbui buffer",
-   group = "_db",
-   pattern = "dbui",
-   command = "setlocal foldmethod=manual",
+	desc = "disable folding in dbui buffer",
+	group = "_db",
+	pattern = "dbui",
+	command = "setlocal foldmethod=manual",
 })

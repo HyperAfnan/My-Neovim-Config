@@ -70,6 +70,8 @@ return {
 					{ ",to", ":Telescope oldfiles<CR>", desc = "Previously Opened Files" },
 					{ ",tg", ":Telescope git_status<CR>", desc = "All changed files" },
 					{ ",T", ":Telescope<CR>", desc = "Open Telescope" },
+					{ ",ti", ":Telescope import<CR>", desc = "Import modules through telescope" },
+					{ ",te", ":Telescope rest select_env<CR>", desc = "Select env for rest.nvim" },
 				},
 				{
 					group = "Vim Test",

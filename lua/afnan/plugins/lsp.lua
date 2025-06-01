@@ -67,9 +67,9 @@ return {
 			local capabilities = cmp_nvim_lsp.default_capabilities()
 
 			local function on_attach(client, bufnr)
-
-            vim.o.foldmethod = 'expr'
-            vim.o.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+				vim.o.foldmethod = "expr"
+				vim.o.foldlevel = 99
+				vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
 
 				local function set_keymap(mode, lhs, rhs)
 					vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, { silent = true, noremap = true })
@@ -86,7 +86,7 @@ return {
 				set_keymap("n", "ga", ":lua vim.lsp.buf.code_action()<CR>")
 				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
 				print("Language Server: " .. client.name .. " is started!")
-            
+
 				local inlay_hints_group =
 					vim.api.nvim_create_augroup("LSP_inlayHints", { clear = false })
 				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
@@ -168,13 +168,13 @@ return {
 			lspconfig.html.setup({
 				on_attach = on_attach,
 				capabilities = capabilities,
-            init_options = {
-               configurationSection = { 'html', 'css', 'javascript' },
-               embeddedLanguages = {
-                  css = true,
-                  javascript = true,
-               },
-            },
+				init_options = {
+					configurationSection = { "html", "css", "javascript" },
+					embeddedLanguages = {
+						css = true,
+						javascript = true,
+					},
+				},
 			})
 
 			-- local runtime_path = vim.split(package.path, ";")

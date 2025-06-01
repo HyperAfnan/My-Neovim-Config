@@ -20,7 +20,7 @@ require("lazy").setup({ { import = "afnan.plugins" } }, {
 	change_detection = {
 		notify = false,
 	},
-   dev = { path = "~/dev/" }
+	dev = { path = "~/dev/" },
 })
 
 -- print(vim.inspect(package.loaded))

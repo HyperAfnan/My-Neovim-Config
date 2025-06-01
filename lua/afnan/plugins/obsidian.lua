@@ -8,7 +8,7 @@ return {
 	--   "BufReadPre path/to/my-vault/*.md",
 	--   "BufNewFile path/to/my-vault/*.md",
 	-- },
-	dependencies = { "nvim-lua/plenary.nvim", },
+	dependencies = { "nvim-lua/plenary.nvim" },
 	opts = {
 		workspaces = {
 			{
@@ -25,7 +25,7 @@ return {
 			default_tags = { "daily-notes" },
 			template = nil,
 		},
-		completion = { nvim_cmp = false, min_chars = 2, },
+		completion = { nvim_cmp = false, min_chars = 2 },
 		mappings = {
 			["gf"] = {
 				action = function()
@@ -59,7 +59,7 @@ return {
 			-- 	end
 			-- end
 			-- return tostring(os.time()) .. "-" .. suffix
-         return title
+			return title
 		end,
 
 		note_path_func = function(spec)
@@ -99,12 +99,12 @@ return {
 			substitutions = {},
 		},
 		follow_url_func = function(url)
-			-- vim.fn.jobstart({"xdg-open", url})  
-			vim.ui.open(url) 
+			-- vim.fn.jobstart({"xdg-open", url})
+			vim.ui.open(url)
 		end,
 
 		follow_img_func = function(img)
-			vim.fn.jobstart({"xdg-open", img})  -- linux
+			vim.fn.jobstart({ "xdg-open", img }) -- linux
 		end,
 
 		use_advanced_uri = false,
@@ -171,7 +171,7 @@ return {
 		attachments = {
 			img_folder = "assets/imgs", -- This is the default
 			img_name_func = function()
-            return "%s"
+				return "%s"
 			end,
 			img_text_func = function(client, path)
 				path = client:vault_relative_path(path) or path

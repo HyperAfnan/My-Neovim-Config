@@ -210,25 +210,25 @@ gls.left[a] = {
 a = a + 1
 
 function getclients()
-  msg = "No Lsp"
-  ignored_servers = {}
+	msg = "No Lsp"
+	ignored_servers = {}
 
-  local clients = vim.lsp.get_clients()
-  if next(clients) == nil then
-    return msg
-  end
+	local clients = vim.lsp.get_clients()
+	if next(clients) == nil then
+		return msg
+	end
 
-  local client_names = ""
-  for _, client in pairs(clients) do
-    if not vim.tbl_contains(ignored_servers, client.name) then
-      if string.len(client_names) < 1 then
-        client_names = client_names .. client.name
-      else
-        client_names = client_names .. ", " .. client.name
-      end
-    end
-  end
-  return string.len(client_names) > 0 and client_names or msg
+	local client_names = ""
+	for _, client in pairs(clients) do
+		if not vim.tbl_contains(ignored_servers, client.name) then
+			if string.len(client_names) < 1 then
+				client_names = client_names .. client.name
+			else
+				client_names = client_names .. ", " .. client.name
+			end
+		end
+	end
+	return string.len(client_names) > 0 and client_names or msg
 end
 
 gls.left[a] = {
