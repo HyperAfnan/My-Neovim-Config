@@ -96,7 +96,7 @@ return {
 				{ name = "devicons" },
 				{ name = "path" },
 				{ name = "luasnip", max_item_count = 2 },
-				{ name = "nvim_lsp", max_item_count = 6 },
+				{ name = "nvim_lsp" },
 				{ name = "buffer", max_item_count = 2 },
 				{ name = "nvim_lsp_signature_help" },
 			}

@@ -60,3 +60,11 @@ cmd("FileType", {
 	pattern = "dbui",
 	command = "setlocal foldmethod=manual",
 })
+
+cmd("BufEnter", {
+	pattern = "copilot-*",
+	callback = function()
+		vim.opt_local.relativenumber = false
+		vim.opt_local.number = false
+	end,
+})

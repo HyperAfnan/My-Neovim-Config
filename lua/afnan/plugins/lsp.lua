@@ -97,6 +97,7 @@ return {
 						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
 					end,
 				})
+
 				-- set keymaps do enable and disable inlay_hints if provided by the lsp client
 				-- local function add_test_diagnostics()
 				-- 	local diagnostics = {
@@ -134,11 +135,15 @@ return {
 						includeCompletionsWithSnippetText = true,
 						includeCompletionsForImportStatements = true,
 						includeCompletionsForModuleExports = true,
-						includeCompletionsForObjectLiteralMethods = true,
+						includeCompletionsForObjectLiteralMethodSnippets = true,
+						importModuleSpecifierEnding = "js",
+						organizeImportsIgnoreCase = true,
 						includeCompletionsForParameterSnippets = true,
 						includeCompletionsForPropertySnippets = true,
+						includeCompletionsWithInsertText = true,
 						includeCompletionsForRenames = true,
 						includeCompletionsForUnresolvedImports = true,
+						quotePreference = "double",
 					},
 				},
 				single_file_support = true,

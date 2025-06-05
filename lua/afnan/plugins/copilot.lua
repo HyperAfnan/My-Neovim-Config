@@ -2,7 +2,18 @@
 return {
 	{
 		"CopilotC-Nvim/CopilotChat.nvim",
-		dependencies = { { "github/copilot.vim" }, { "nvim-lua/plenary.nvim", branch = "master" } },
+		dependencies = {
+			{
+				"github/copilot.vim",
+				config = function()
+					vim.g.copilot_no_tab_map = true
+					vim.g.copilot_hide_during_completion = true
+					vim.g.copilot_proxy_strict_ssl = true
+					vim.g.copilot_settings = { selectedCompletionModel = "gpt-4o-copilot" }
+				end,
+			},
+			{ "nvim-lua/plenary.nvim", branch = "master" },
+		},
 		build = "make tiktoken",
 		opts = {
 			system_prompt = "you are an inteligent and experienced ai agent, helping a programmer how to do work",
