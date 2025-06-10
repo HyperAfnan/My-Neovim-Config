@@ -17,7 +17,7 @@ return {
 		build = "make tiktoken",
 		opts = {
 			system_prompt = "you are an inteligent and experienced ai agent, helping a programmer how to do work",
-			model = "claude-3.7-sonnet",
+			model = "gpt-4.1",
 			agent = "copilot",
 			context = nil,
 			sticky = nil,
