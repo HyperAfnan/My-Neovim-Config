@@ -165,4 +165,8 @@ return {
 			show_success_message = true,
 		},
 	},
+	{
+		"wakatime/vim-wakatime",
+		lazy = false,
+	},
 }
