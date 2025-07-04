@@ -30,6 +30,11 @@ return {
 						{ ",gbs", ":Gitsigns stage_buffer<CR>", desc = "Stage Buffer" },
 						{ ",gbr", ":Gitsigns reset_buffer<CR>", desc = "Reset Buffer" },
 					},
+               {
+						group = "Neotree",
+						mode = "n",
+						{ ",n", ":Neotree<CR>", desc = "Set Local list" },
+					},
 					{
 						group = "Localist",
 						mode = "n",

@@ -41,7 +41,22 @@ end
 
 set.title = true
 
-set.clipboard = "unnamedplus"
+-- set.clipboard = "unnamedplus"
+
+if vim.fn.has("wsl") == 1 then
+	vim.g.clipboard = {
+		name = "win32yank-wsl",
+		copy = {
+			["+"] = "win32yank.exe -i --crlf",
+			["*"] = "win32yank.exe -i --crlf",
+		},
+		paste = {
+			["+"] = "win32yank.exe -o --lf",
+			["*"] = "win32yank.exe -o --lf",
+		},
+		cache_enabled = 0,
+	}
+end
 
 set.autoindent = true
 set.smartindent = true
@@ -78,5 +93,4 @@ set.inccommand = "nosplit"
 
 vim.g.loaded_perl_provider = false
 vim.g.loaded_ruby_provider = false
-vim.g.python3_host_prog = "/data/data/com.termux/files/usr/bin/python3"
-vim.g.python2_host_prog = "/data/data/com.termux/files/usr/bin/python2"
+vim.g.python3_host_prog = "~/.local/pipx/venvs/pynvim/bin/python"

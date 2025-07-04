@@ -18,6 +18,25 @@ return {
 				ft = { "html", "javascript" },
 			},
 			{ "JoosepAlviste/nvim-ts-context-commentstring", event = "VeryLazy" },
+			{
+				"nvim-treesitter/nvim-treesitter-context",
+				event = "VeryLazy",
+				config = function()
+					require("treesitter-context").setup({
+						enable = true,
+						multiwindow = false,
+						max_lines = 2,
+						min_window_height = 0,
+						line_numbers = true,
+						multiline_threshold = 20,
+						trim_scope = "outer",
+						mode = "cursor",
+						separator = nil,
+						zindex = 20,
+						on_attach = nil,
+					})
+				end,
+			},
 		},
 		config = function()
 			local treesitter = require("nvim-treesitter.configs")

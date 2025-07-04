@@ -6,6 +6,50 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"b0o/schemastore.nvim",
 			{
+				"gennaro-tedesco/nvim-jqx",
+				event = { "BufReadPost" },
+				ft = { "json", "yaml" },
+			},
+			{
+				"esmuellert/nvim-eslint",
+				config = function()
+					require("nvim-eslint").setup({
+						debug = false,
+						filetypes = {
+							"javascript",
+							"javascriptreact",
+							"javascript.jsx",
+							"typescript",
+							"typescriptreact",
+							"typescript.tsx",
+							"vue",
+							"svelte",
+							"astro",
+						},
+						handlers = {},
+						settings = {
+							validate = "on",
+							packageManager = "npm",
+							useESLintClass = true,
+							experimental = { useFlatConfig = false },
+							codeAction = {
+								disableRuleComment = { enable = true, location = "separateLine" },
+								showDocumentation = { enable = true },
+							},
+							codeActionOnSave = { mode = "all" },
+							format = true,
+							quiet = true,
+							onIgnoredFiles = "off",
+							options = {},
+							rulesCustomizations = {},
+							run = "onType",
+							problems = { shortenToSingleLine = false },
+							workingDirectory = { mode = "location" },
+						},
+					})
+				end,
+			},
+			{
 				"luckasRanarison/tailwind-tools.nvim",
 				name = "tailwind-tools",
 				build = ":UpdateRemotePlugins",
@@ -18,9 +62,6 @@ return {
 					server = {
 						override = true,
 						settings = {},
-						on_attach = function(client, _)
-							print(client + " is active")
-						end,
 					},
 					document_color = {
 						enabled = true,
@@ -85,8 +126,6 @@ return {
 				set_keymap("n", "gr", ":lua vim.lsp.buf.rename()<CR>")
 				set_keymap("n", "ga", ":lua vim.lsp.buf.code_action()<CR>")
 				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-				print("Language Server: " .. client.name .. " is started!")
-
 				local inlay_hints_group =
 					vim.api.nvim_create_augroup("LSP_inlayHints", { clear = false })
 				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {

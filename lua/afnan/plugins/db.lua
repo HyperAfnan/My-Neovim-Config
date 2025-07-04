@@ -11,7 +11,7 @@ return {
 		"kndndrj/nvim-dbee",
 		requires = { "MunifTanjim/nui.nvim" },
 		run = function()
-			require("dbee").install()
+			require("dbee").install("go")
 		end,
 		config = function()
 			require("dbee").setup()
