@@ -30,12 +30,12 @@ return {
 						{ ",gbs", ":Gitsigns stage_buffer<CR>", desc = "Stage Buffer" },
 						{ ",gbr", ":Gitsigns reset_buffer<CR>", desc = "Reset Buffer" },
 					},
-               {
+					{
 						group = "Lazy",
 						mode = "n",
 						{ ",l", ":Lazy<CR>", desc = "Open lazy's window" },
 					},
-               {
+					{
 						group = "Neotree",
 						mode = "n",
 						{ ",n", ":Neotree<CR>", desc = "Open neotree" },
