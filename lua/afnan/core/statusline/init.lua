@@ -2,10 +2,10 @@ local gl = require("galaxyline")
 local condition = require("galaxyline.condition")
 local colors = require("afnan.core.statusline.colors")
 local gls = gl.section
-local status_ok, notifications = pcall(require, "github-notifications")
-if not status_ok then
-	return ""
-end
+-- local status_ok, notifications = pcall(require, "github-notifications")
+-- if not status_ok then
+-- 	return ""
+-- end
 
 --[[
 -- Useful functions
@@ -51,9 +51,9 @@ local function GetGitBranch()
 	return require("galaxyline.providers.vcs").get_git_branch()
 end
 
-local function GetGitNotifications()
-	return notifications.statusline_notification_count() .. ""
-end
+-- local function GetGitNotifications()
+-- 	return notifications.statusline_notification_count() .. ""
+-- end
 
 local function GetCursorPostion()
 	local line = vim.fn.line(".")
@@ -82,7 +82,7 @@ end
 local a = 1
 gls.left[a] = {
 	ModeColor = {
-		icon = "  ",
+		icon = "  󰣇 ",
 		separator = "",
 		separator_highlight = "GalaxyModeColorReverse",
 		highlight = { colors.bg, mode_color() },
@@ -103,7 +103,7 @@ a = a + 1
 gls.left[a] = {
 	GitIcon = {
 		provider = function()
-			return ""
+			return "  "
 		end,
 		highlight = { colors.bg, colors.green },
 		condition = condition.check_git_workspace,
@@ -119,14 +119,14 @@ gls.left[a] = {
 }
 
 a = a + 1
-gls.left[a] = {
-	GithubNotifications = {
-		provider = GetGitNotifications,
-		highlight = { colors.orange, colors.gitBg },
-		condition = condition.check_git_workspace,
-	},
-}
-a = a + 1
+-- gls.left[a] = {
+-- 	GithubNotifications = {
+-- 		provider = GetGitNotifications,
+-- 		highlight = { colors.orange, colors.gitBg },
+-- 		condition = condition.check_git_workspace,
+-- 	},
+-- }
+-- a = a + 1
 gls.left[a] = {
 	GitBranch = {
 		provider = GetGitBranch,
@@ -157,7 +157,7 @@ a = a + 1
 gls.left[a] = {
 	DiffModified = {
 		provider = "DiffModified",
-		icon = " 柳 ",
+		icon = "  ",
 		highlight = { colors.yellow, colors.gitBg },
 		condition = condition.check_git_workspace,
 	},

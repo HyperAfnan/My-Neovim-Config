@@ -13,7 +13,7 @@ return {
 			end
 
 			local function diagnostics_indicator(_, _, diagnostics)
-				local symbols = { error = " ", warning = " ", info = " " }
+				local symbols = { error = " ", warning = " ", info = " " }
 				local result = {}
 				for name, count in pairs(diagnostics) do
 					if symbols[name] and count > 0 then
@@ -32,7 +32,7 @@ return {
 					diagnostics_indicator = diagnostics_indicator,
 					sort_by = sort_by_mtime,
 					indicator_icon = "  ",
-					buffer_close_icon = "",
+					buffer_close_icon = "",
 					modified_icon = "●",
 					show_buffer_icons = true,
 					highlights = require("catppuccin.groups.integrations.bufferline").get(),
