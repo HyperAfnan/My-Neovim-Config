@@ -68,3 +68,10 @@ cmd("BufEnter", {
 		vim.opt_local.number = false
 	end,
 })
+
+-- cmd("BufWritePre", {
+--   pattern = "*",
+--   callback = function(args)
+--       vim.lsp.buf.format()
+--   end,
+-- })

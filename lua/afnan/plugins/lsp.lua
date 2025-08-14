@@ -21,7 +21,7 @@ return {
 				event = { "BufReadPost" },
 				ft = { "json", "yaml" },
 			},
-			{
+			--[[ {
 				"esmuellert/nvim-eslint",
 				config = function()
 					require("nvim-eslint").setup({
@@ -59,7 +59,7 @@ return {
 						},
 					})
 				end,
-			},
+			}, ]]
 		},
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")

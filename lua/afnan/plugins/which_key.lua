@@ -38,7 +38,7 @@ return {
 					{
 						group = "Neotree",
 						mode = "n",
-						{ ",n", ":Neotree<CR>", desc = "Open neotree" },
+						{ "<C-n>", ":Neotree<CR>", desc = "Open neotree" },
 					},
 					{
 						group = "Localist",
