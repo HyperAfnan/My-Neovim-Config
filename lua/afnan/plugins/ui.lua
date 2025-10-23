@@ -147,14 +147,27 @@ return {
 		opts = {},
 	},
 	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		version = "*",
+		"Bekaboo/dropbar.nvim",
 		dependencies = {
-			"SmiteshP/nvim-navic",
-			"nvim-tree/nvim-web-devicons",
+			"nvim-telescope/telescope-fzf-native.nvim",
+			build = "make",
 		},
-		opts = {},
+		config = function()
+			local dropbar_api = require("dropbar.api")
+			vim.keymap.set("n", ",;", dropbar_api.pick, { desc = "Pick symbols in winbar" })
+			vim.keymap.set(
+				"n",
+				"[;",
+				dropbar_api.goto_context_start,
+				{ desc = "Go to start of current context" }
+			)
+			vim.keymap.set(
+				"n",
+				"];",
+				dropbar_api.select_next_context,
+				{ desc = "Select next context" }
+			)
+		end,
 	},
 	{
 		"sphamba/smear-cursor.nvim",
@@ -166,31 +179,29 @@ return {
 		},
 	},
 	{
-		"TobinPalmer/Tip.nvim",
-		event = "VimEnter",
-		init = function()
-			require("tip").setup({
-				seconds = 2,
-				title = "Tip!",
-				url = "https://vtip.43z.one", -- Or https://vimiscool.tech/neotip
-			})
-		end,
-	},
-	{
 		"nvimdev/dashboard-nvim",
+		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 		event = "VimEnter",
 		opts = {
 			theme = "doom",
 			config = {
 				header = {
-					"    ___    ______   _   _    _   _    _   _   ",
-					"   / _ \\  |  ___| | \\ | |  | \\ | |  | \\ | |  ",
-					"  / /_\\ \\ | |_    |  \\| |  |  \\| |  |  \\| |  ",
-					"  |  _  | |  _|   | . ` |  | . ` |  | . ` |  ",
-					"  | | | | | |___  | |\\  |  | |\\  |  | |\\  |  ",
-					"  \\_| |_/ \\____/  \\_| \\_/  \\_| \\_/  \\_| \\_/  ",
-					"                                             ",
-					"                AFNAN                        ",
+					"                                                                                                                          ",
+					"                                                                                                                          ",
+					"                                                                                                                          ",
+					"                                                                                                                          ",
+					"                                                                                                                          ",
+					"    '########::'########:'########:'########:'########:'########::'##::: ##: '########::'#######::'##::::'##:'####:'##::::'##:",
+					"    ##.... ##: ##.....::... ##..::... ##..:: ##.....:: ##.... ##: ###:: ##:  ##.....::'##.... ##: ##:::: ##:. ##:: ###::'###:",
+					"    ##:::: ##: ##:::::::::: ##::::::: ##:::: ##::::::: ##:::: ##: ####: ##:  ##::::::: ##:::: ##: ##:::: ##:: ##:: ####'####:",
+					"    ########:: ######:::::: ##::::::: ##:::: ######::: ########:: ## ## ##:  ######::: ##:::: ##: ##:::: ##:: ##:: ## ### ##:",
+					"    ##.... ##: ##...::::::: ##::::::: ##:::: ##...:::: ##.. ##::: ##. ####:  ##...:::: ##:::: ##:. ##:: ##::: ##:: ##. #: ##:",
+					"    ##:::: ##: ##:::::::::: ##::::::: ##:::: ##::::::: ##::. ##:: ##:. ###:  ##::::::: ##:::: ##::. ## ##:::: ##:: ##:.:: ##:",
+					"    ########:: ########:::: ##::::::: ##:::: ########: ##:::. ##: ##::. ##:  ########:. #######::::. ###::::'####: ##:::: ##:",
+					"    ........:::........:::::..::::::::..:::::........::..:::::..::..::::..:: ........:::.......::::::...:::::....::..:::::..::",
+					"                                                                                                                          ",
+					"                                                           BetterNeoVim                                                       ",
+					"                                                                                                                          ",
 				},
 				center = {
 					{
@@ -213,15 +224,13 @@ return {
 						action = "lua print(3)",
 					},
 				},
-				footer = {}, --your footer
+				footer = {
+					"Neovim loaded "
+						.. vim.fn.len(vim.fn.globpath("~/.config/nvim/lua/", "**", 0, 1))
+						.. " lua files",
+				},
 			},
 		},
-		-- config = function()
-		-- 	require("dashboard").setup({
-		-- 		-- config
-		-- 	})
-		-- end,
-		dependencies = { { "nvim-tree/nvim-web-devicons" } },
 	},
 	{
 		"xiyaowong/transparent.nvim",

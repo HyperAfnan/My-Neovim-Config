@@ -25,7 +25,7 @@ return {
 			require("catppuccin").setup({
 				flavour = "mocha", -- latte, frappe, macchiato, mocha
 				background = { dark = "mocha" },
-				transparent_background = false,
+				transparent_background = true,
 				show_end_of_buffer = false,
 				term_colors = false,
 				dim_inactive = { enabled = false, shade = "dark", percentage = 0.15 },
@@ -50,7 +50,7 @@ return {
 				custom_highlights = {},
 				default_integrations = true,
 				integrations = {
-					cmp = false,
+					cmp = true,
 					gitsigns = true,
 					noice = true,
 					nvimtree = true,
@@ -81,5 +81,13 @@ return {
 			})
 		end,
 	},
-	{ "tiagovla/tokyodark.nvim", lazy = false, priority = 1000 },
+	{
+		"ellisonleao/gruvbox.nvim",
+		lazy = false,
+		priority = 1000,
+		config = function()
+			-- vim.cmd("colorscheme gruvbox")
+		end,
+		opts = { contrast = "hard" },
+	},
 }

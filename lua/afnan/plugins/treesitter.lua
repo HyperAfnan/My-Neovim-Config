@@ -22,9 +22,10 @@ return {
 				"nvim-treesitter/nvim-treesitter-context",
 				event = "VeryLazy",
 				config = function()
+					vim.api.nvim_set_hl(0, "TreesitterContext", { bg = "none" })
 					require("treesitter-context").setup({
 						enable = true,
-						multiwindow = false,
+						multiwindow = true,
 						max_lines = 2,
 						min_window_height = 0,
 						line_numbers = true,

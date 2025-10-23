@@ -21,6 +21,7 @@ return {
 				event = { "BufReadPost" },
 				ft = { "json", "yaml" },
 			},
+			-- TODO: Revisit eslint lsp when using with ts_ls
 			--[[ {
 				"esmuellert/nvim-eslint",
 				config = function()
@@ -63,7 +64,11 @@ return {
 		},
 		config = function()
 			local cmp_nvim_lsp = require("cmp_nvim_lsp")
-			local lspconfig = require("lspconfig")
+			local ts_ls_config = require("afnan.lsp-config.ts_ls")
+			local lua_ls_config = require("afnan.lsp-config.lua_ls")
+			local clangd_config = require("afnan.lsp-config.clangd")
+			local pyright_config = require("afnan.lsp-config.pyright")
+			-- local lspconfig = require("lspconfig")
 			local capabilities = cmp_nvim_lsp.default_capabilities()
 
 			local function on_attach(_, bufnr)
@@ -98,160 +103,160 @@ return {
 			end
 
 			-- JAVASCRIPT
-			lspconfig.ts_ls.setup({
-				on_attach = on_attach,
+			-- lspconfig.ts_ls.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	settings = { completions = { completeFunctionCalls = true } },
+			-- 	init_options = {
+			-- 		preferences = {
+			-- 			includeCompletionsWithSnippetText = true,
+			-- 			includeCompletionsForImportStatements = true,
+			-- 			includeCompletionsForModuleExports = true,
+			-- 			includeCompletionsForObjectLiteralMethodSnippets = true,
+			-- 			importModuleSpecifierEnding = "js",
+			-- 			organizeImportsIgnoreCase = true,
+			-- 			includeCompletionsForParameterSnippets = true,
+			-- 			includeCompletionsForPropertySnippets = true,
+			-- 			includeCompletionsWithInsertText = true,
+			-- 			includeCompletionsForRenames = true,
+			-- 			includeCompletionsForUnresolvedImports = true,
+			-- 			quotePreference = "double",
+			-- 		},
+			-- 	},
+			-- 	single_file_support = true,
+			-- })
+
+			lua_ls_config.setup()
+			ts_ls_config.setup()
+			clangd_config.setup()
+			pyright_config.setup()
+			-- vim.lsp.config("ts_ls", {
+			-- 	-- on_attach = on_attach,
+			-- 	-- capabilities = capabilities,
+			-- 	settings = { completions = { completeFunctionCalls = true } },
+			-- 	init_options = {
+			-- 		preferences = {
+			-- 			includeCompletionsWithSnippetText = true,
+			-- 			includeCompletionsForImportStatements = true,
+			-- 			includeCompletionsForModuleExports = true,
+			-- 			includeCompletionsForObjectLiteralMethodSnippets = true,
+			-- 			importModuleSpecifierEnding = "js",
+			-- 			organizeImportsIgnoreCase = true,
+			-- 			includeCompletionsForParameterSnippets = true,
+			-- 			includeCompletionsForPropertySnippets = true,
+			-- 			includeCompletionsWithInsertText = true,
+			-- 			includeCompletionsForRenames = true,
+			-- 			includeCompletionsForUnresolvedImports = true,
+			-- 			quotePreference = "double",
+			-- 		},
+			-- 	},
+			-- 	single_file_support = true,
+			-- })
+
+			-- lspconfig.pyright.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	settings = {
+			-- 		python = {
+			-- 			pythonPath = "./bin/python",
+			-- 		},
+			-- 	},
+			-- })
+			--
+			-- -- JSON
+			-- lspconfig.jsonls.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	init_options = { provideFormatter = false },
+			-- 	single_file_support = true,
+			-- 	settings = {
+			-- 		json = { schemas = require("schemastore").json.schemas() },
+			-- 	},
+			-- })
+			-- lspconfig.jdtls.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- })
+			--
+			-- -- HTML & CSS
+			-- lspconfig.cssls.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- })
+			-- lspconfig.html.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	init_options = {
+			-- 		configurationSection = { "html", "css", "javascript" },
+			-- 		embeddedLanguages = {
+			-- 			css = true,
+			-- 			javascript = true,
+			-- 		},
+			-- 	},
+			-- })
+			--
+			vim.lsp.config("*", {
 				capabilities = capabilities,
-				settings = { completions = { completeFunctionCalls = true } },
-				init_options = {
-					preferences = {
-						includeCompletionsWithSnippetText = true,
-						includeCompletionsForImportStatements = true,
-						includeCompletionsForModuleExports = true,
-						includeCompletionsForObjectLiteralMethodSnippets = true,
-						importModuleSpecifierEnding = "js",
-						organizeImportsIgnoreCase = true,
-						includeCompletionsForParameterSnippets = true,
-						includeCompletionsForPropertySnippets = true,
-						includeCompletionsWithInsertText = true,
-						includeCompletionsForRenames = true,
-						includeCompletionsForUnresolvedImports = true,
-						quotePreference = "double",
-					},
-				},
-				single_file_support = true,
 			})
 
-			lspconfig.pyright.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-
-			-- JSON
-			lspconfig.jsonls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				init_options = { provideFormatter = false },
-				single_file_support = true,
-				settings = {
-					json = { schemas = require("schemastore").json.schemas() },
-				},
-			})
-			lspconfig.jdtls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-
-			-- HTML & CSS
-			lspconfig.cssls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
-			lspconfig.html.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				init_options = {
-					configurationSection = { "html", "css", "javascript" },
-					embeddedLanguages = {
-						css = true,
-						javascript = true,
-					},
-				},
-			})
-
-			local runtime_path = vim.split(package.path, ";")
-			table.insert(runtime_path, "lua/?.lua")
-			table.insert(runtime_path, "lua/?/init.lua")
-
-			local library = {
-				vim.fn.expand("$VIMRUNTIME/lua"),
-				vim.fn.expand("$VIMRUNTIME/lua/vim/lsp"),
-				vim.fn.stdpath("data") .. "/lazy/lazy.nvim",
-				vim.fn.stdpath("data") .. "/lazy/nvim-cmp",
-			}
-			if vim.fn.getcwd() == vim.fn.stdpath("config") then
-				table.insert(library, vim.fn.stdpath("config") .. "/lua")
-			end
-
-			-- Lua
-			lspconfig.lua_ls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				settings = {
-					Lua = {
-						diagnostics = {
-							globals = { "vim", "io", "it", "describe", "before_each", "self", "spy" },
-							disable = { "trailing-space", "deprecated", "lowercase-global" },
-						},
-						runtime = {
-							version = "LuaJIT",
-							path = runtime_path,
-						},
-						workspace = {
-							checkTHirdParty = false,
-							library = library,
-						},
-					},
-					completion = { showWord = "Disable", callSnippet = "Replace" },
-					IntelliSense = {
-						traceBeSetted = true,
-						traceFieldInject = true,
-						traceLocalSet = true,
-						traceReturn = true,
-					},
-					hint = { enable = true },
-					hover = {
-						enable = true,
-						enumsLimit = 5,
-						previewFields = 20,
-						viewNumber = true,
-						viewString = true,
-						viewStringMax = 1000,
-					},
-					misc = { parameters = { "self" } },
-					semantic = { annotation = true, enable = true, keyword = true, variable = true },
-					window = { progressBar = true, statusBar = true },
-					codeLens = { enable = true },
-					telemetry = { enable = false },
-				},
-			})
-
-			-- Emmet
-			lspconfig.emmet_language_server.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				filetypes = { "css", "html", "jsx", "tsx", "javascriptreact" },
-			})
-
-			-- bash/zsh
-			lspconfig.bashls.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				filetypes = { "zsh", "sh", "bash" },
-				settings = { bashIde = { globPattern = "*@(.sh|.zsh|.inc|.bash|.command)" } },
-			})
-
-			lspconfig.clangd.setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-				extensions = {
-					autoSetHints = true,
-					hover_with_actions = true,
-					inlay_hints = {
-						only_current_line = false,
-						only_current_line_autocmd = "CursorHold",
-						show_parameter_hints = true,
-						show_variable_name = false,
-						parameter_hints_prefix = "<- ",
-						other_hints_prefix = "=> ",
-						max_len_align = false,
-						max_len_align_padding = 1,
-						right_align = false,
-						right_align_padding = 7,
-						highlight = "Comment",
-					},
-				},
-			})
-
+			-- -- Lua
+			-- lspconfig.lua_ls.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	settings = {
+			-- 		Lua = {
+			-- 			diagnostics = {
+			-- 				globals = { "vim", "io", "it", "describe", "before_each", "self", "spy" },
+			-- 				disable = { "trailing-space", "deprecated", "lowercase-global" },
+			-- 			},
+			-- 			runtime = {
+			-- 				version = "LuaJIT",
+			-- 				path = runtime_path,
+			-- 			},
+			-- 			workspace = {
+			-- 				checkTHirdParty = false,
+			-- 				library = library,
+			-- 			},
+			-- 		},
+			-- 		completion = { showWord = "Disable", callSnippet = "Replace" },
+			-- 		IntelliSense = {
+			-- 			traceBeSetted = true,
+			-- 			traceFieldInject = true,
+			-- 			traceLocalSet = true,
+			-- 			traceReturn = true,
+			-- 		},
+			-- 		hint = { enable = true },
+			-- 		hover = {
+			-- 			enable = true,
+			-- 			enumsLimit = 5,
+			-- 			previewFields = 20,
+			-- 			viewNumber = true,
+			-- 			viewString = true,
+			-- 			viewStringMax = 1000,
+			-- 		},
+			-- 		misc = { parameters = { "self" } },
+			-- 		semantic = { annotation = true, enable = true, keyword = true, variable = true },
+			-- 		window = { progressBar = true, statusBar = true },
+			-- 		codeLens = { enable = true },
+			-- 		telemetry = { enable = false },
+			-- 	},
+			-- })
+			--
+			-- -- Emmet
+			-- lspconfig.emmet_language_server.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	filetypes = { "css", "html", "jsx", "tsx", "javascriptreact" },
+			-- })
+			--
+			-- -- bash/zsh
+			-- lspconfig.bashls.setup({
+			-- 	on_attach = on_attach,
+			-- 	capabilities = capabilities,
+			-- 	filetypes = { "zsh", "sh", "bash" },
+			-- 	settings = { bashIde = { globPattern = "*@(.sh|.zsh|.inc|.bash|.command)" } },
+			-- })
+			--
 			local function prefix(diagnostic, i, total)
 				local icon, highlight
 				if diagnostic.severity == 1 then
@@ -360,27 +365,27 @@ return {
 		end,
 	},
 
-	{
-		"luckasRanarison/tailwind-tools.nvim",
-		name = "tailwind-tools",
-		build = ":UpdateRemotePlugins",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			"nvim-telescope/telescope.nvim",
-			"neovim/nvim-lspconfig",
-		},
-		opts = {
-			server = { override = true, settings = {} },
-			document_color = { enabled = true, kind = "inline", inline_symbol = "●", debounce = 200 },
-			conceal = {
-				enabled = false,
-				min_length = nil,
-				symbol = "",
-				highlight = { fg = "#38BDF8" },
-			},
-			cmp = { highlight = "background" },
-			telescope = { utilities = { callback = function(_, _) end } },
-			extension = { queries = {}, patterns = {} },
-		},
-	},
+	-- {
+	-- 	"luckasRanarison/tailwind-tools.nvim",
+	-- 	name = "tailwind-tools",
+	-- 	build = ":UpdateRemotePlugins",
+	-- 	dependencies = {
+	-- 		"nvim-treesitter/nvim-treesitter",
+	-- 		"nvim-telescope/telescope.nvim",
+	-- 		"neovim/nvim-lspconfig",
+	-- 	},
+	-- 	opts = {
+	-- 		server = { override = true, settings = {} },
+	-- 		document_color = { enabled = true, kind = "inline", inline_symbol = "●", debounce = 200 },
+	-- 		conceal = {
+	-- 			enabled = false,
+	-- 			min_length = nil,
+	-- 			symbol = "",
+	-- 			highlight = { fg = "#38BDF8" },
+	-- 		},
+	-- 		cmp = { highlight = "background" },
+	-- 		telescope = { utilities = { callback = function(_, _) end } },
+	-- 		extension = { queries = {}, patterns = {} },
+	-- 	},
+	-- },
 }

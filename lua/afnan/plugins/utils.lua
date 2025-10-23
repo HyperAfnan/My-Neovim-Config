@@ -10,6 +10,7 @@ return {
 				notify(msg, level, opts)
 				vim.opt.termguicolors = true
 			end
+			notify.setup({ background_colour = "#000000" })
 		end,
 	},
 	{
@@ -23,15 +24,16 @@ return {
 			})
 		end,
 	},
-	{ "ThePrimeagen/vim-be-good", cmd = "VimBeGood" },
-	{
-		"rest-nvim/rest.nvim",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-			opts = function(_, opts)
-				opts.ensure_installed = opts.ensure_installed or {}
-				table.insert(opts.ensure_installed, "http")
-			end,
-		},
-	},
+	-- { "ThePrimeagen/vim-be-good", cmd = "VimBeGood" },
+	-- {
+	--    "rest-nvim/rest.nvim",
+	--    dependencies = {
+	--       "nvim-neotest/nvim-nio",
+	--       "nvim-treesitter/nvim-treesitter",
+	--       opts = function(_, opts)
+	--          opts.ensure_installed = opts.ensure_installed or {}
+	--          table.insert(opts.ensure_installed, "http")
+	--       end,
+	--    },
+	-- },
 }

@@ -619,4 +619,20 @@ return {
 			})
 		end,
 	},
+	{
+		"axkirillov/unified.nvim",
+		opts = {
+			signs = {
+				add = "",
+				delete = "",
+				change = "",
+			},
+			line_symbols = {
+				add = "+",
+				delete = "-",
+				change = "~",
+			},
+			auto_refresh = true,
+		},
+	},
 }

@@ -93,6 +93,7 @@ return {
 			end
 
 			local sources = {
+				{ name = "vim-dadbod-completion" },
 				{ name = "devicons" },
 				{ name = "path" },
 				{ name = "luasnip", max_item_count = 2 },

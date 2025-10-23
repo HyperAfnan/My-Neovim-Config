@@ -85,7 +85,7 @@ gls.left[a] = {
 		icon = "  󰣇 ",
 		separator = "",
 		separator_highlight = "GalaxyModeColorReverse",
-		highlight = { colors.bg, mode_color() },
+		highlight = { colors.bg_dark, mode_color() },
 		provider = GetModeColor,
 		condition = CommonCondition,
 	},
@@ -105,7 +105,7 @@ gls.left[a] = {
 		provider = function()
 			return "  "
 		end,
-		highlight = { colors.bg, colors.green },
+		highlight = { colors.bg_dark, colors.green },
 		condition = condition.check_git_workspace,
 	},
 }
@@ -194,7 +194,7 @@ gls.left[a] = {
 		provider = function()
 			return ""
 		end,
-		highlight = { colors.bg, colors.blue },
+		highlight = { colors.bg_dark, colors.blue },
 		condition = LspCondition,
 	},
 }
@@ -298,7 +298,7 @@ b = b + 1
 gls.right[b] = {
 	FileIcon = {
 		provider = "FileIcon",
-		highlight = { colors.bg, colors.orange },
+		highlight = { colors.bg_dark, colors.orange },
 		condition = CommonCondition,
 	},
 }

@@ -78,8 +78,6 @@ set.inccommand = "nosplit"
 
 set.swapfile = false
 
-
-
 vim.g.loaded_perl_provider = false
 vim.g.loaded_ruby_provider = false
 vim.g.python3_host_prog = "~/.local/pipx/venvs/pynvim/bin/python"

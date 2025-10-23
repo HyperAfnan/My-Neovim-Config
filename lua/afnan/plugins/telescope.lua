@@ -7,7 +7,6 @@ return {
 			"nvim-tree/nvim-web-devicons",
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 			"nvim-telescope/telescope-ui-select.nvim",
-			"piersolenski/telescope-import.nvim",
 		},
 		config = function()
 			local telescope = require("telescope")
@@ -116,8 +115,13 @@ return {
 			load("ghn")
 			load("ui-select")
 			load("refactoring")
-			load("import")
-			load("rest")
+			-- load("rest")
+		end,
+	},
+	{
+		"MagicDuck/grug-far.nvim",
+		config = function()
+			require("grug-far").setup()
 		end,
 	},
 }

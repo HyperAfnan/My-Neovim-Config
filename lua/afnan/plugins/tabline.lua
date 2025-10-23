@@ -35,7 +35,7 @@ return {
 					buffer_close_icon = "",
 					modified_icon = "●",
 					show_buffer_icons = true,
-					highlights = require("catppuccin.groups.integrations.bufferline").get(),
+					-- highlights = require("catppuccin.groups.integrations.bufferline"),
 					show_buffer_close_icons = true,
 					show_close_icon = true,
 					show_tab_indicators = true,
