@@ -68,68 +68,17 @@ return {
 			local lua_ls_config = require("afnan.lsp-config.lua_ls")
 			local clangd_config = require("afnan.lsp-config.clangd")
 			local pyright_config = require("afnan.lsp-config.pyright")
+         local json_ls_config = require("afnan.lsp-config.json_ls")
+         -- local emmet_ls_config = require("afnan.lsp-config.emmet")
 			-- local lspconfig = require("lspconfig")
 			local capabilities = cmp_nvim_lsp.default_capabilities()
-
-			local function on_attach(_, bufnr)
-				vim.o.foldmethod = "expr"
-				vim.o.foldlevel = 99
-				vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
-
-				local function set_keymap(mode, lhs, rhs)
-					vim.api.nvim_buf_set_keymap(bufnr, mode, lhs, rhs, { silent = true, noremap = true })
-				end
-
-				set_keymap("n", "K", ":lua vim.lsp.buf.hover()<CR>")
-				set_keymap("n", "gd", ":lua vim.lsp.buf.definition()<CR>")
-				set_keymap("n", "gD", ":lua vim.lsp.buf.declaration()<CR>")
-				set_keymap("n", "gI", ":lua vim.lsp.buf.implementation()<CR>")
-				set_keymap("n", "gk", ":lua vim.diagnostic.goto_next()<CR>")
-				set_keymap("n", "gj", ":lua vim.diagnostic.goto_prev()<CR>")
-				set_keymap("n", "gR", ":lua vim.lsp.buf.references()<CR>")
-				set_keymap("n", "gr", ":lua vim.lsp.buf.rename()<CR>")
-				set_keymap("n", "ga", ":lua vim.lsp.buf.code_action()<CR>")
-				set_keymap("i", "<C-s>", "<cmd>lua vim.lsp.buf.signature_help()<CR>")
-				local inlay_hints_group =
-					vim.api.nvim_create_augroup("LSP_inlayHints", { clear = false })
-				vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
-					group = inlay_hints_group,
-					desc = "Update inlay hints on line change",
-					buffer = bufnr,
-					callback = function()
-						vim.lsp.inlay_hint.enable(true, { bufnr = bufnr })
-					end,
-				})
-			end
-
-			-- JAVASCRIPT
-			-- lspconfig.ts_ls.setup({
-			-- 	on_attach = on_attach,
-			-- 	capabilities = capabilities,
-			-- 	settings = { completions = { completeFunctionCalls = true } },
-			-- 	init_options = {
-			-- 		preferences = {
-			-- 			includeCompletionsWithSnippetText = true,
-			-- 			includeCompletionsForImportStatements = true,
-			-- 			includeCompletionsForModuleExports = true,
-			-- 			includeCompletionsForObjectLiteralMethodSnippets = true,
-			-- 			importModuleSpecifierEnding = "js",
-			-- 			organizeImportsIgnoreCase = true,
-			-- 			includeCompletionsForParameterSnippets = true,
-			-- 			includeCompletionsForPropertySnippets = true,
-			-- 			includeCompletionsWithInsertText = true,
-			-- 			includeCompletionsForRenames = true,
-			-- 			includeCompletionsForUnresolvedImports = true,
-			-- 			quotePreference = "double",
-			-- 		},
-			-- 	},
-			-- 	single_file_support = true,
-			-- })
 
 			lua_ls_config.setup()
 			ts_ls_config.setup()
 			clangd_config.setup()
 			pyright_config.setup()
+         json_ls_config.setup()
+         -- emmet_ls_config.setup()
 			-- vim.lsp.config("ts_ls", {
 			-- 	-- on_attach = on_attach,
 			-- 	-- capabilities = capabilities,
@@ -365,27 +314,27 @@ return {
 		end,
 	},
 
-	-- {
-	-- 	"luckasRanarison/tailwind-tools.nvim",
-	-- 	name = "tailwind-tools",
-	-- 	build = ":UpdateRemotePlugins",
-	-- 	dependencies = {
-	-- 		"nvim-treesitter/nvim-treesitter",
-	-- 		"nvim-telescope/telescope.nvim",
-	-- 		"neovim/nvim-lspconfig",
-	-- 	},
-	-- 	opts = {
-	-- 		server = { override = true, settings = {} },
-	-- 		document_color = { enabled = true, kind = "inline", inline_symbol = "●", debounce = 200 },
-	-- 		conceal = {
-	-- 			enabled = false,
-	-- 			min_length = nil,
-	-- 			symbol = "",
-	-- 			highlight = { fg = "#38BDF8" },
-	-- 		},
-	-- 		cmp = { highlight = "background" },
-	-- 		telescope = { utilities = { callback = function(_, _) end } },
-	-- 		extension = { queries = {}, patterns = {} },
-	-- 	},
-	-- },
+	{
+		"luckasRanarison/tailwind-tools.nvim",
+		name = "tailwind-tools",
+		build = ":UpdateRemotePlugins",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+			"nvim-telescope/telescope.nvim",
+			"neovim/nvim-lspconfig",
+		},
+		opts = {
+			server = { override = true, settings = {} },
+			document_color = { enabled = true, kind = "inline", inline_symbol = "●", debounce = 200 },
+			conceal = {
+				enabled = false,
+				min_length = nil,
+				symbol = "",
+				highlight = { fg = "#38BDF8" },
+			},
+			cmp = { highlight = "background" },
+			telescope = { utilities = { callback = function(_, _) end } },
+			extension = { queries = {}, patterns = {} },
+		},
+	},
 }
