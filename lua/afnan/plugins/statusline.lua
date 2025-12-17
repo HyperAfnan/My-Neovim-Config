@@ -1,6 +1,5 @@
 return {
-	"NTBBloodbath/galaxyline.nvim",
-	--  NOTE: think about the usage of this notification plugin
+	"jamesyoon11/galaxyline.nvim",
 	dependencies = {
 		{
 			"rlch/github-notifications.nvim",

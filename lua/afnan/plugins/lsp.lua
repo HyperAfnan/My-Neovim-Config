@@ -315,7 +315,7 @@ return {
 	},
 
 	{
-		"luckasRanarison/tailwind-tools.nvim",
+		"patrickreid-li/tailwind-tools.nvim",
 		name = "tailwind-tools",
 		build = ":UpdateRemotePlugins",
 		dependencies = {
