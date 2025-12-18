@@ -40,10 +40,9 @@ return {
 			},
 		},
 		config = function()
-			local treesitter = require("nvim-treesitter.configs")
-			local tsinstall = require("nvim-treesitter.install")
-			treesitter.setup({
+			require("nvim-treesitter.configs").setup({
 				auto_install = true,
+            ensure_installed = { "lua", "html", "css", "tsx", "latex", "javascript", "json" },
 				highlight = {
 					enable = true,
 					disable = function(_, buf)
@@ -72,7 +71,7 @@ return {
 			require("ts_context_commentstring").setup({})
 			vim.g.skip_ts_context_commentstring_module = true
 
-			tsinstall.prefer_git = true
+			require("nvim-treesitter.install").prefer_git = true
 		end,
 	},
 }
