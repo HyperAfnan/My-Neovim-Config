@@ -1,6 +1,9 @@
 return {
 	"ravitemer/mcphub.nvim",
 	dependencies = { "nvim-lua/plenary.nvim" },
+	cond = function()
+		return vim.fn.executable("npm") == 1
+	end,
 	build = "npm install -g mcp-hub@latest",
 	config = function()
 		require("mcphub").setup({
