@@ -19,10 +19,6 @@ set.number = true
 set.relativenumber = true
 set.ruler = true
 
--- set.fillchars = {
--- 	eob = "*",
--- }
-
 set.showmode = false
 
 set.signcolumn = "auto:1-2"
@@ -31,7 +27,6 @@ set.hidden = true
 set.cmdheight = 1
 set.backup = false
 set.writebackup = false
--- set.conceallevel = 2
 
 set.wrap = false
 
@@ -54,11 +49,14 @@ set.smarttab = true
 set.expandtab = true
 
 set.laststatus = 3
-vim.api.nvim_set_hl(0, "WinSeparator", { bg = "none" })
 
 set.showtabline = 2
 
 set.updatetime = 100
+
+set.timeoutlen = 300
+
+vim.o.confirm = true
 
 set.scrolloff = 20
 
@@ -78,6 +76,40 @@ set.inccommand = "nosplit"
 
 set.swapfile = false
 
-vim.g.loaded_perl_provider = false
-vim.g.loaded_ruby_provider = false
-vim.g.python3_host_prog = "~/.local/pipx/venvs/pynvim/bin/python"
+vim.g.maplaeder = ","
+vim.g.maplocalleader = ","
+vim.g.have_nerd_font = true
+
+vim.opt.fillchars = { eob = " " }
+
+local disabled_built_ins = {
+	"netrw",
+	"netrwPlugin",
+	"netrwSettings",
+	"netrwFileHandlers",
+	"tar",
+	"tarPlugin",
+	"rrhelper",
+	"spellfile_plugin",
+	"vimball",
+	"vimballPlugin",
+	"zip",
+	"zipPlugin",
+	"tutor",
+	"rplugin",
+	"syntax",
+	"synmenu",
+	"optwin",
+	"compiler",
+	"bugreport",
+	"ftplugin",
+}
+
+for _, plugin in ipairs(disabled_built_ins) do
+	vim.g["loaded_" .. plugin] = 1
+end
+
+vim.g.loaded_2html_plugin = 1
+
+vim.o.foldmethod = "expr"
+vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
