@@ -11,3 +11,6 @@ keymap("n", "<Tab>", ":bnext<CR>")
 keymap("n", "<S-Tab>", ":bprev<CR>")
 
 keymap("n", "sv", ":split %<CR>")
+
+keymap("n", "<S-q>", ":bd<CR>")
+

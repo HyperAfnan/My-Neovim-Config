@@ -7,5 +7,6 @@ require("afnan.autocommands")
 require("afnan.keymaps")
 require("afnan.lsp")
 require("afnan.discord")
+require("afnan.winbar")
 
 vim.cmd("colorscheme catppuccin")
