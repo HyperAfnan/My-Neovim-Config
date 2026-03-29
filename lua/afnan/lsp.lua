@@ -69,14 +69,13 @@ vim.lsp.config.lua_ls = {
 		telemetry = { enable = false },
 	},
 	filetypes = { "lua" },
-   root_dir = function(fname)
-      return vim.fs.root(fname, {
-         ".luarc.json",
-         ".luarc.jsonc",
-         ".git",
-      }) or vim.fn.getcwd()
-   end,
+	root_dir = function(fname)
+		return vim.fs.root(fname, {
+			".luarc.json",
+			".luarc.jsonc",
+			".git",
+		}) or vim.fn.getcwd()
+	end,
 	cmd = { "lua-language-server" },
 }
 vim.lsp.enable("lua_ls")
-

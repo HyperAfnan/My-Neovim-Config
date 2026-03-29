@@ -111,5 +111,5 @@ end
 
 vim.g.loaded_2html_plugin = 1
 
-vim.o.foldmethod = "expr"
-vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"
+-- vim.o.foldmethod = "expr"
+-- vim.o.foldexpr = "v:lua.vim.lsp.foldexpr()"

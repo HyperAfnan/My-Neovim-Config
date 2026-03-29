@@ -4,9 +4,17 @@
       "rev": "62c3d54f7d739ee46f850ea6832383e3b7ca2ee1",
       "src": "https://github.com/saghen/blink.cmp"
     },
+    "cord.nvim": {
+      "rev": "283e4a5bdafd0d6187f28e5b739cccab6b4c9c64",
+      "src": "https://github.com/vyfor/cord.nvim"
+    },
     "friendly-snippets": {
       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
       "src": "https://github.com/rafamadriz/friendly-snippets"
+    },
+    "galaxyline.nvim": {
+      "rev": "fd1b0f62b14e285e7ebd9f0a45558624f93ed97a",
+      "src": "https://github.com/jamesyoon11/galaxyline.nvim"
     },
     "lspkind.nvim": {
       "rev": "c7274c48137396526b59d86232eabcdc7fed8a32",
