@@ -14,6 +14,10 @@ end
 
 function M.getCurrentFileIcon()
    local icon = devicons.get_icon_by_filetype(vim.o.ft, {})
-   return " " .. icon .. " "
+   if icon then
+      return " " .. icon .. " "
+   else 
+      return " "
+   end
 end
 return M

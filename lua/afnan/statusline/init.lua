@@ -131,7 +131,7 @@ a = a + 1
 gls.left[a] = {
 	LspIcon = {
 		provider = function()
-			return ""
+			return "  "
 		end,
 		highlight = { mode.colors.bg_dark, mode.colors.blue },
 	},
