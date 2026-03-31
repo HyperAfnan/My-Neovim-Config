@@ -27,18 +27,11 @@ vim.api.nvim_create_autocmd("VimLeave", {
 	end,
 })
 
--- -- Opens help buffer in full window instead of split window
--- local help_group = vim.api.nvim_create_augroup("Help-as-a-buffer", { clear = true })
--- vim.api.nvim_create_autocmd("BufWinEnter", {
--- 	group = help_group,
--- 	pattern = "*",
--- 	callback = function(event)
--- 		if vim.bo[event.buf].filetype == "help" then
--- 			vim.cmd.only()
--- 			vim.bo[event.buf].buflisted = true
--- 			vim.bo[event.buf].buftype = ""
--- 			vim.bo[event.buf].syntax = "help"
--- 			vim.keymap.set("n", "q", ":bd<CR>", { buffer = event.buf, silent = true })
--- 		end
--- 	end,
--- })
+-- Auto saves current file
+vim.api.nvim_create_autocmd({ "TextChanged", "InsertLeave" }, {
+	callback = function()
+		if vim.bo.modified and vim.api.nvim_buf_get_name(0) ~= "" then
+			vim.cmd("silent! write")
+		end
+	end,
+})

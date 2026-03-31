@@ -1,11 +1,14 @@
 local gh = require("afnan.pack").gh
 
-vim.pack.add({ gh("rafamadriz/friendly-snippets") })
-vim.pack.add({ gh("saghen/blink.cmp") })
-vim.pack.add({ gh("onsails/lspkind.nvim") })
+vim.pack.add({
+	{ src = gh("saghen/blink.cmp"), version = vim.version.range("1.*") },
+	{ src = gh("rafamadriz/friendly-snippets") },
+	{ src = gh("onsails/lspkind.nvim") },
+})
 
 vim.cmd.packadd("friendly-snippets")
 vim.cmd.packadd("blink.cmp")
+vim.cmd.packadd("lspkind.nvim")
 
 local has_words_before = function()
 	local col = vim.api.nvim_win_get_cursor(0)[2]

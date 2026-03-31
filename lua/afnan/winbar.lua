@@ -34,19 +34,6 @@ function M.render()
 
 	path = path:gsub("^/", "")
 
-	-- return table.concat {
-	--     ' ',
-	--     prefix,
-	--     table.concat(
-	--         vim.iter(vim.split(path, '/'))
-	--             :map(function(segment)
-	--                 return string.format('%%#Winbar#%s', segment)
-	--             end)
-	--             :totable(),
-	--         separator
-	--     ),
-	-- }
-
 	return table.concat({
 		prefix,
 		table.concat(

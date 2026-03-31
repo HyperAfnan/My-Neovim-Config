@@ -1,7 +1,9 @@
 local gh = require("afnan.pack").gh
 
-vim.pack.add({ gh("nvim-tree/nvim-web-devicons") })
-vim.pack.add({ gh("jamesyoon11/galaxyline.nvim") })
+vim.pack.add({
+	{ src = gh("jamesyoon11/galaxyline.nvim") },
+	{ src = gh("nvim-tree/nvim-web-devicons") },
+})
 
 vim.cmd.packadd("nvim-web-devicons")
 vim.cmd.packadd("galaxyline.nvim")
@@ -40,6 +42,8 @@ local function mode_color(m)
 	return mode_colors[m]
 end
 
+vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE" })
+
 local function CommonCondition()
 	return true
 end
@@ -74,12 +78,16 @@ local function GetRightBracket()
 	return "" .. " "
 end
 
+local function GetCursorPercentage()
+	return " :" .. math.floor(vim.fn.line(".") / vim.fn.line("$") * 100) .. "%"
+end
+
 -- Left Section
 
 local a = 1
 gls.left[a] = {
 	ModeColor = {
-		icon = "  󰣇 ",
+		icon = "  󰣇",
 		separator = "",
 		separator_highlight = "GalaxyModeColorReverse",
 		highlight = { colors.bg_dark, mode_color() },
@@ -303,6 +311,14 @@ b = b + 1
 gls.right[b] = {
 	CursorPosition = {
 		provider = GetCursorPostion,
+		highlight = { colors.fg, colors.fileinfoBg },
+		condition = CommonCondition,
+	},
+}
+b = b + 1
+gls.right[b] = {
+	FileProgress = {
+		provider = GetCursorPercentage,
 		highlight = { colors.fg, colors.fileinfoBg },
 		condition = CommonCondition,
 	},

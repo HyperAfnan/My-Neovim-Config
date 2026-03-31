@@ -1,6 +1,9 @@
 local gh = require("afnan.pack").gh
 
-vim.pack.add({ gh("neovim/nvim-lspconfig") })
+vim.pack.add({
+	{ src = gh("neovim/nvim-lspconfig") },
+	{ src = gh("b0o/schemastore.nvim") },
+})
 vim.cmd.packadd("nvim-lspconfig")
 
 vim.lsp.config("*", { capabilities = require("blink.cmp").get_lsp_capabilities() })
@@ -29,10 +32,21 @@ vim.lsp.config.lua_ls = {
 				return
 			end
 		end
-
-		client.config.settings.Lua = vim.tbl_deep_extend("force", client.config.settings.Lua, {
+	end,
+	settings = {
+		Lua = {
 			diagnostics = {
-				globals = { "vim", "io", "it", "describe", "before_each", "self", "spy" },
+				globals = {
+					"vim",
+					"io",
+					"it",
+					"describe",
+					"before_each",
+					"self",
+					"spy",
+					"Snacks",
+					"info",
+				},
 				disable = { "trailing-space", "deprecated", "lowercase-global" },
 			},
 			runtime = {
@@ -43,9 +57,7 @@ vim.lsp.config.lua_ls = {
 				checkThirdParty = false,
 				library = library,
 			},
-		})
-	end,
-	settings = {
+		},
 		completion = { showWord = "Disable", callSnippet = "Replace" },
 		IntelliSense = {
 			traceBeSetted = true,
@@ -69,13 +81,34 @@ vim.lsp.config.lua_ls = {
 		telemetry = { enable = false },
 	},
 	filetypes = { "lua" },
-	root_dir = function(fname)
-		return vim.fs.root(fname, {
-			".luarc.json",
-			".luarc.jsonc",
-			".git",
-		}) or vim.fn.getcwd()
-	end,
-	cmd = { "lua-language-server" },
 }
 vim.lsp.enable("lua_ls")
+vim.lsp.enable("ts_ls")
+
+local schemastore = require("schemastore")
+
+vim.lsp.config("jsonls", {
+	filetypes = { "json", "jsonc" },
+	init_options = { provideFormatter = false },
+	single_file_support = true,
+	settings = {
+		json = {
+			schemas = schemastore.json.schemas(),
+		},
+	},
+})
+
+vim.lsp.enable("jsonls")
+vim.lsp.enable("emmet_language_server")
+
+vim.lsp.config("clangd", {
+	cmd = {
+		"clangd",
+		"--background-index",
+		"--clang-tidy",
+		"--completion-style=detailed",
+		"--header-insertion=never",
+	},
+	single_file_support = true,
+})
+vim.lsp.enable("clangd")
