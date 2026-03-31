@@ -1,0 +1,34 @@
+local M = {}
+
+local function get_gitsigns_status()
+  local ok, dict = pcall(function()
+    return vim.api.nvim_buf_get_var(0, 'gitsigns_status_dict')
+  end)
+
+  if not ok or type(dict) ~= "table" then
+    return nil
+  end
+
+  return dict
+end
+
+function M.GetGitBranch()
+  return vim.b[0].gitsigns_head or ""
+end
+
+function M.GetAddGitStatus()
+  local status = get_gitsigns_status()
+  return status and status.added or 0
+end
+
+function M.GetModifiedGitStatus()
+  local status = get_gitsigns_status()
+  return status and status.changed or 0
+end
+
+function M.GetRemovedGitStatus()
+  local status = get_gitsigns_status()
+  return status and status.removed or 0
+end
+
+return M

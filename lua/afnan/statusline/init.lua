@@ -10,65 +10,11 @@ vim.cmd.packadd("galaxyline.nvim")
 
 local gl = require("galaxyline")
 local condition = require("galaxyline.condition")
-local colors = require("afnan.statusline.colors")
+local git = require("afnan.statusline.provider_git")
+local lsp = require("afnan.statusline.provider_lsp")
+local file = require("afnan.statusline.provider_file")
+local mode = require("afnan.statusline.provider_mode")
 local gls = gl.section
-
-local function mode_color(m)
-	local mode_colors = {
-		n = colors.blue,
-		i = colors.green,
-		v = colors.purple,
-		vs = colors.purple,
-		["^V"] = colors.purple,
-		V = colors.purple,
-		["\22"] = colors.purple,
-		["\22s"] = colors.purple,
-		Vs = colors.purple,
-		c = colors.magenta,
-		no = colors.blue,
-		s = colors.orange,
-		S = colors.orange,
-		ic = colors.yellow,
-		R = colors.red,
-		Rv = colors.red,
-		cv = colors.blue,
-		ce = colors.blue,
-		r = colors.replacecolor,
-		rm = colors.replacecolor,
-		["r?"] = colors.cyan,
-		["!"] = colors.blue,
-		t = colors.blue,
-	}
-	return mode_colors[m]
-end
-
-vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE" })
-
-local function CommonCondition()
-	return true
-end
-
-local function LspCondition()
-	return true
-end
-
-local function GetGitBranch()
-	return require("galaxyline.provider_vcs").get_git_branch()
-end
-
-local function GetCursorPostion()
-	local line = vim.fn.line(".")
-	local column = vim.fn.col(".")
-	return string.format("%3d:%2d", line, column)
-end
-
-local function GetModeColor()
-	local m = vim.fn.mode() or vim.fn.visualmode()
-	local color = mode_color(m)
-	vim.api.nvim_command("hi GalaxyModeColor guibg=" .. color)
-	vim.api.nvim_command("hi GalaxyModeColorReverse guifg=" .. color)
-	return " "
-end
 
 local function GetLeftBracket()
 	return " " .. ""
@@ -78,9 +24,7 @@ local function GetRightBracket()
 	return "" .. " "
 end
 
-local function GetCursorPercentage()
-	return " :" .. math.floor(vim.fn.line(".") / vim.fn.line("$") * 100) .. "%"
-end
+vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE" })
 
 -- Left Section
 
@@ -90,9 +34,8 @@ gls.left[a] = {
 		icon = "  󰣇",
 		separator = "",
 		separator_highlight = "GalaxyModeColorReverse",
-		highlight = { colors.bg_dark, mode_color() },
-		provider = GetModeColor,
-		condition = CommonCondition,
+		highlight = { mode.colors.bg_dark, mode.ModeColor() },
+		provider = mode.GetModeColor,
 	},
 }
 
@@ -100,7 +43,7 @@ a = a + 1
 gls.left[a] = {
 	GitSectionBracket1 = {
 		provider = GetLeftBracket,
-		highlight = { colors.green, colors.bg },
+		highlight = { mode.colors.green, mode.colors.bg },
 		condition = condition.check_git_workspace,
 	},
 }
@@ -110,7 +53,7 @@ gls.left[a] = {
 		provider = function()
 			return "  "
 		end,
-		highlight = { colors.bg_dark, colors.green },
+		highlight = { mode.colors.bg_dark, mode.colors.green },
 		condition = condition.check_git_workspace,
 	},
 }
@@ -118,7 +61,7 @@ a = a + 1
 gls.left[a] = {
 	GitSectionBracket2 = {
 		provider = GetRightBracket,
-		highlight = { colors.green, colors.gitBg },
+		highlight = { mode.colors.green, mode.colors.gitBg },
 		condition = condition.check_git_workspace,
 	},
 }
@@ -126,8 +69,8 @@ gls.left[a] = {
 a = a + 1
 gls.left[a] = {
 	GitBranch = {
-		provider = GetGitBranch,
-		highlight = { colors.fg, colors.gitBg },
+		provider = git.GetGitBranch,
+		highlight = { mode.colors.fg, mode.colors.gitBg },
 		condition = condition.check_git_workspace,
 	},
 }
@@ -137,34 +80,34 @@ gls.left[a] = {
 		provider = function()
 			return " "
 		end,
-		highlight = { colors.green, colors.gitBg },
+		highlight = { mode.colors.green, mode.colors.gitBg },
 		condition = condition.check_git_workspace,
 	},
 }
 a = a + 1
 gls.left[a] = {
 	DiffAdd = {
-		provider = "DiffAdd",
+		provider = git.GetAddGitStatus,
 		icon = "  ",
-		highlight = { colors.green, colors.gitBg },
+		highlight = { mode.colors.green, mode.colors.gitBg },
 		condition = condition.check_git_workspace,
 	},
 }
 a = a + 1
 gls.left[a] = {
 	DiffModified = {
-		provider = "DiffModified",
-		icon = "  ",
-		highlight = { colors.yellow, colors.gitBg },
+		provider = git.GetModifiedGitStatus,
+		icon = "   ",
+		highlight = { mode.colors.yellow, mode.colors.gitBg },
 		condition = condition.check_git_workspace,
 	},
 }
 a = a + 1
 gls.left[a] = {
 	DiffRemove = {
-		provider = "DiffRemove",
-		icon = "  ",
-		highlight = { colors.red, colors.gitBg },
+		provider = git.GetRemovedGitStatus,
+		icon = "   ",
+		highlight = { mode.colors.red, mode.colors.gitBg },
 		condition = condition.check_git_workspace,
 	},
 }
@@ -172,7 +115,7 @@ a = a + 1
 gls.left[a] = {
 	GitSectionBracket3 = {
 		provider = GetRightBracket,
-		highlight = { colors.gitBg, colors.bg },
+		highlight = { mode.colors.gitBg, mode.colors.bg },
 		condition = condition.check_git_workspace,
 	},
 }
@@ -181,8 +124,7 @@ a = a + 1
 gls.left[a] = {
 	LspSectionBracket1 = {
 		provider = GetLeftBracket,
-		highlight = { colors.blue, colors.bg },
-		condition = LspCondition,
+		highlight = { mode.colors.blue, mode.colors.bg },
 	},
 }
 a = a + 1
@@ -191,93 +133,63 @@ gls.left[a] = {
 		provider = function()
 			return ""
 		end,
-		highlight = { colors.bg_dark, colors.blue },
-		condition = LspCondition,
+		highlight = { mode.colors.bg_dark, mode.colors.blue },
 	},
 }
 a = a + 1
 gls.left[a] = {
 	LspSectionBracket2 = {
 		provider = GetRightBracket,
-		highlight = { colors.blue, colors.lspBg },
-		condition = LspCondition,
+		highlight = { mode.colors.blue, mode.colors.lspBg },
 	},
 }
 
 a = a + 1
 
-function getclients()
-	msg = "No Lsp"
-	ignored_servers = {}
-
-	local clients = vim.lsp.get_clients()
-	if next(clients) == nil then
-		return msg
-	end
-
-	local client_names = ""
-	for _, client in pairs(clients) do
-		if not vim.tbl_contains(ignored_servers, client.name) then
-			if string.len(client_names) < 1 then
-				client_names = client_names .. client.name
-			else
-				client_names = client_names .. ", " .. client.name
-			end
-		end
-	end
-	return string.len(client_names) > 0 and client_names or msg
-end
-
 gls.left[a] = {
 	LspName = {
-		provider = getclients,
-		highlight = { colors.fg, colors.lspBg },
-		condition = LspCondition,
+		provider = lsp.GetLspClients,
+		highlight = { mode.colors.fg, mode.colors.lspBg },
 	},
 }
 a = a + 1
 gls.left[a] = {
 	DiagnosticError = {
-		provider = "DiagnosticError",
+		provider = lsp.GetLspError,
 		icon = "   ",
-		highlight = { colors.red, colors.lspBg },
-		condition = LspCondition,
+		highlight = { mode.colors.red, mode.colors.lspBg },
 	},
 }
 a = a + 1
 gls.left[a] = {
 	DiagnosticWarn = {
-		provider = "DiagnosticWarn",
+		provider = lsp.GetLspWarn,
 		icon = "   ",
-		highlight = { colors.yellow, colors.lspBg },
-		condition = LspCondition,
+		highlight = { mode.colors.yellow, mode.colors.lspBg },
 	},
 }
 a = a + 1
 gls.left[a] = {
 	DiagnosticHint = {
-		provider = "DiagnosticHint",
+		provider = lsp.GetLspHint,
 		icon = "   ",
-		highlight = { colors.cyan, colors.lspBg },
-		condition = LspCondition,
+		highlight = { mode.colors.cyan, mode.colors.lspBg },
 	},
 }
 
 a = a + 1
 gls.left[a] = {
 	DiagnosticInfo = {
-		provider = "DiagnosticInfo",
+		provider = lsp.GetLspInfo,
 		icon = "   ",
-		highlight = { colors.blue, colors.lspBg },
-		condition = LspCondition,
+		highlight = { mode.colors.blue, mode.colors.lspBg },
 	},
 }
 a = a + 1
 gls.left[a] = {
 	LspSectionBracket3 = {
 		provider = GetRightBracket,
-		highlight = { colors.lspBg, colors.bg },
-		condition = LspCondition,
+		highlight = { mode.colors.lspBg, mode.colors.bg },
 	},
 }
 
@@ -287,47 +199,41 @@ local b = 1
 gls.right[b] = {
 	FileInfoSectionBracket1 = {
 		provider = GetLeftBracket,
-		highlight = { colors.orange, colors.bg },
-		condition = CommonCondition,
+		highlight = { mode.colors.orange, mode.colors.bg },
 	},
 }
 b = b + 1
 gls.right[b] = {
 	FileIcon = {
-		provider = "FileIcon",
-		highlight = { colors.bg_dark, colors.orange },
-		condition = CommonCondition,
+		provider = file.getCurrentFileIcon,
+		highlight = { mode.colors.bg_dark, mode.colors.orange },
 	},
 }
 b = b + 1
 gls.right[b] = {
 	FileInfoSectionBracket2 = {
 		provider = GetRightBracket,
-		highlight = { colors.orange, colors.fileinfoBg },
-		condition = CommonCondition,
+		highlight = { mode.colors.orange, mode.colors.fileinfoBg },
 	},
 }
 b = b + 1
 gls.right[b] = {
 	CursorPosition = {
-		provider = GetCursorPostion,
-		highlight = { colors.fg, colors.fileinfoBg },
-		condition = CommonCondition,
+		provider = file.GetCursorPostion,
+		highlight = { mode.colors.fg, mode.colors.fileinfoBg },
 	},
 }
 b = b + 1
 gls.right[b] = {
 	FileProgress = {
-		provider = GetCursorPercentage,
-		highlight = { colors.fg, colors.fileinfoBg },
-		condition = CommonCondition,
+		provider = file.GetCursorPercentage,
+		highlight = { mode.colors.fg, mode.colors.fileinfoBg },
 	},
 }
 b = b + 1
 gls.right[b] = {
 	FileInfoSectionBracket3 = {
 		provider = GetRightBracket,
-		highlight = { colors.fileinfoBg, colors.bg },
-		condition = CommonCondition,
+		highlight = { mode.colors.fileinfoBg, mode.colors.bg },
 	},
 }

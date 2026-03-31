@@ -78,13 +78,12 @@ if ok then
 			},
 		},
 		completion = {
-			accept = { auto_brackets = { enabled = false } },
+			accept = { auto_brackets = { enabled = true } },
 			menu = {
 				border = "rounded",
-
 				cmdline_position = function()
 					if vim.g.ui_cmdline_pos ~= nil then
-						local pos = vim.g.ui_cmdline_pos -- (1, 0)-indexed
+						local pos = vim.g.ui_cmdline_pos
 						return { pos[1] - 1, pos[2] }
 					end
 					local height = (vim.o.cmdheight == 0) and 1 or vim.o.cmdheight
@@ -118,50 +117,17 @@ if ok then
 						},
 					},
 				},
-				-- menu = {
-				-- 	border = "single",
-				-- 	draw = {
-				-- 		treesitter = { "lsp" },
-				-- 		components = {
-				-- 			kind_icon = {
-				-- 				text = function(ctx)
-				-- 					local icon = ctx.kind_icon
-				-- 					if vim.tbl_contains({ "Path" }, ctx.source_name) then
-				-- 						local dev_icon, _ = require("nvim-web-devicons").get_icon(ctx.label)
-				-- 						if dev_icon then
-				-- 							icon = dev_icon
-				-- 						end
-				-- 					end
-				-- 					return icon .. ctx.icon_gap
-				-- 				end,
-				-- 				highlight = function(ctx)
-				-- 					local hl = ctx.kind_hl
-				-- 					if vim.tbl_contains({ "Path" }, ctx.source_name) then
-				-- 						local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
-				-- 						if dev_icon then
-				-- 							hl = dev_hl
-				-- 						end
-				-- 					end
-				-- 					return hl
-				-- 				end,
-				-- 			},
-				-- 		},
-				-- 	},
 			},
 			documentation = {
 				auto_show = true,
 				auto_show_delay_ms = 250,
 				treesitter_highlighting = true,
-				window = {
-					border = "single",
-				},
+				window = { border = "single", },
 			},
 		},
 
 		signature = { window = { border = "single" } },
-
 		sources = { default = { "lsp", "path", "snippets", "buffer" } },
-
 		fuzzy = {
 			implementation = "prefer_rust_with_warning",
 			sorts = {
