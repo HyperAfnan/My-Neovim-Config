@@ -96,11 +96,11 @@ end
 function M.concat_all(paths, ft, descs)
 	local all_snippets = { isIncomplete = false, items = {} }
 	for i, pkg_path in ipairs(paths) do
-		local snippet_paths = parse_pkg(pkg_path, ft)
+		local snippet_paths = M.parse_pkg(pkg_path, ft)
 		for _, snips_path in ipairs(snippet_paths) do
 			local snips = M.read_file(snips_path)
 			local desc = descs and descs[i] or "SN"
-			local lsp_snip = process_snippets(snips, desc)
+			local lsp_snip = M.process_snippets(snips, desc)
 			if lsp_snip and lsp_snip.items then
 				for _, snippet_item in ipairs(lsp_snip.items) do
 					table.insert(all_snippets.items, snippet_item)
@@ -169,7 +169,7 @@ function M.start_mock_lsp(completion_source)
 		end,
 	}
 	local client_id = vim.lsp.start({
-		name = "sn_ls",
+		name = "snippets_ls",
 		cmd = server,
 		root_dir = vim.uv.cwd(),
 		on_init = function(client)
@@ -189,11 +189,11 @@ end
 ---@param descs string[] List of descriptions for the snippet sources
 function M.snippet_handler(paths, ft, descs)
 	-- Stop the previous LSP client if it exists
-	local client = vim.lsp.get_clients({ name = "sn_ls" })[1]
+	local client = vim.lsp.get_clients({ name = "snippets_ls" })[1]
 	if client then
 		client:stop()
 		if false then
-			vim.notify("Stopped previous sn_ls client with " .. client.id, vim.log.levels.INFO)
+			vim.notify("Stopped previous snippets_ls client with " .. client.id, vim.log.levels.INFO)
 		end
 	end
 	-- Make sure the new server is started after the previous one is stopped
@@ -203,7 +203,7 @@ function M.snippet_handler(paths, ft, descs)
 			local client_id = M.start_mock_lsp(all_snippets)
 			if false then
 				vim.notify(
-					"Started new sn_ls client with " .. client_id .. " for " .. ft,
+					"Started new snippets_ls client with " .. client_id .. " for " .. ft,
 					vim.log.levels.INFO
 				)
 			end

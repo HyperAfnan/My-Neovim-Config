@@ -148,4 +148,3 @@ vim.api.nvim_create_autocmd({ "TextChangedP", "TextChangedI" }, {
 		complete_in_progress = false
 	end,
 })
-

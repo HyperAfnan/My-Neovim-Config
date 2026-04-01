@@ -84,3 +84,20 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 		end
 	end,
 })
+
+-- goto next/prev diagnostic with gk/gj when lsp is attached
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = vim.api.nvim_create_augroup("LspAttach", { clear = true }),
+	callback = function()
+		vim.keymap.set("n", "gk", vim.diagnostic.goto_next, { silent = true })
+		vim.keymap.set("n", "gj", vim.diagnostic.goto_prev, { silent = true })
+	end,
+})
+
+-- lazyload cloak.nvim when opening a .env file
+vim.api.nvim_create_autocmd("BufRead", {
+	callback = function()
+      print("Loading cloak.nvim for .env file")
+      require("afnan.cloak")
+	end,
+})
