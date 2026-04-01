@@ -40,19 +40,19 @@ local function get_nvim_lsp_diagnostic(diag_type)
 end
 
 function M.GetLspError()
-   return get_nvim_lsp_diagnostic(vim.diagnostic.severity.ERROR)
+	return get_nvim_lsp_diagnostic(vim.diagnostic.severity.ERROR)
 end
 
 function M.GetLspWarn()
-   return get_nvim_lsp_diagnostic(vim.diagnostic.severity.WARN)
+	return get_nvim_lsp_diagnostic(vim.diagnostic.severity.WARN)
 end
 
 function M.GetLspInfo()
-   return get_nvim_lsp_diagnostic(vim.diagnostic.severity.INFO)
+	return get_nvim_lsp_diagnostic(vim.diagnostic.severity.INFO)
 end
 
 function M.GetLspHint()
-   return get_nvim_lsp_diagnostic(vim.diagnostic.severity.HINT)
+	return get_nvim_lsp_diagnostic(vim.diagnostic.severity.HINT)
 end
 
 return M

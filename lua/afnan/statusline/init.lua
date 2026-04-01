@@ -15,8 +15,12 @@ local file = require("afnan.statusline.provider_file")
 local mode = require("afnan.statusline.provider_mode")
 local gls = gl.section
 
-local function GetLeftBracket() return " " .. "" end
-local function GetRightBracket() return "" .. " " end
+local function GetLeftBracket()
+	return " " .. ""
+end
+local function GetRightBracket()
+	return "" .. " "
+end
 
 vim.api.nvim_set_hl(0, "StatusLine", { bg = "NONE" })
 
@@ -121,7 +125,7 @@ gls.left[a] = {
 	LspSectionBracket1 = {
 		provider = GetLeftBracket,
 		highlight = { mode.colors.blue, mode.colors.bg },
-      condition =  lsp.LspCondition,
+		condition = lsp.LspCondition,
 	},
 }
 a = a + 1
@@ -131,7 +135,7 @@ gls.left[a] = {
 			return "  "
 		end,
 		highlight = { mode.colors.bg_dark, mode.colors.blue },
-      condition =  lsp.LspCondition,
+		condition = lsp.LspCondition,
 	},
 }
 a = a + 1
@@ -139,7 +143,7 @@ gls.left[a] = {
 	LspSectionBracket2 = {
 		provider = GetRightBracket,
 		highlight = { mode.colors.blue, mode.colors.lspBg },
-      condition =  lsp.LspCondition,
+		condition = lsp.LspCondition,
 	},
 }
 
@@ -149,7 +153,7 @@ gls.left[a] = {
 	LspName = {
 		provider = lsp.GetLspClients,
 		highlight = { mode.colors.fg, mode.colors.lspBg },
-      condition =  lsp.LspCondition,
+		condition = lsp.LspCondition,
 	},
 }
 a = a + 1
@@ -158,7 +162,7 @@ gls.left[a] = {
 		provider = lsp.GetLspError,
 		icon = "   ",
 		highlight = { mode.colors.red, mode.colors.lspBg },
-      condition =  lsp.LspCondition,
+		condition = lsp.LspCondition,
 	},
 }
 a = a + 1
@@ -167,7 +171,7 @@ gls.left[a] = {
 		provider = lsp.GetLspWarn,
 		icon = "   ",
 		highlight = { mode.colors.yellow, mode.colors.lspBg },
-      condition =  lsp.LspCondition,
+		condition = lsp.LspCondition,
 	},
 }
 a = a + 1
@@ -176,7 +180,7 @@ gls.left[a] = {
 		provider = lsp.GetLspHint,
 		icon = "   ",
 		highlight = { mode.colors.cyan, mode.colors.lspBg },
-      condition =  lsp.LspCondition,
+		condition = lsp.LspCondition,
 	},
 }
 
@@ -186,7 +190,7 @@ gls.left[a] = {
 		provider = lsp.GetLspInfo,
 		icon = "   ",
 		highlight = { mode.colors.blue, mode.colors.lspBg },
-      condition =  lsp.LspCondition,
+		condition = lsp.LspCondition,
 	},
 }
 a = a + 1
@@ -194,7 +198,7 @@ gls.left[a] = {
 	LspSectionBracket3 = {
 		provider = GetRightBracket,
 		highlight = { mode.colors.lspBg, mode.colors.bg },
-      condition =  lsp.LspCondition,
+		condition = lsp.LspCondition,
 	},
 }
 
@@ -204,7 +208,7 @@ gls.right[b] = {
 	FileInfoSectionBracket1 = {
 		provider = GetLeftBracket,
 		highlight = { mode.colors.orange, mode.colors.bg },
-      condition = file.FileCondition,
+		condition = file.FileCondition,
 	},
 }
 b = b + 1
@@ -212,7 +216,7 @@ gls.right[b] = {
 	FileIcon = {
 		provider = file.getCurrentFileIcon,
 		highlight = { mode.colors.bg_dark, mode.colors.orange },
-      condition = file.FileCondition,
+		condition = file.FileCondition,
 	},
 }
 b = b + 1
@@ -220,7 +224,7 @@ gls.right[b] = {
 	FileInfoSectionBracket2 = {
 		provider = GetRightBracket,
 		highlight = { mode.colors.orange, mode.colors.fileinfoBg },
-      condition = file.FileCondition,
+		condition = file.FileCondition,
 	},
 }
 b = b + 1
@@ -228,7 +232,7 @@ gls.right[b] = {
 	CursorPosition = {
 		provider = file.GetCursorPostion,
 		highlight = { mode.colors.fg, mode.colors.fileinfoBg },
-      condition = file.FileCondition,
+		condition = file.FileCondition,
 	},
 }
 b = b + 1
@@ -236,7 +240,7 @@ gls.right[b] = {
 	FileProgress = {
 		provider = file.GetCursorPercentage,
 		highlight = { mode.colors.fg, mode.colors.fileinfoBg },
-      condition = file.FileCondition,
+		condition = file.FileCondition,
 	},
 }
 b = b + 1
@@ -244,6 +248,6 @@ gls.right[b] = {
 	FileInfoSectionBracket3 = {
 		provider = GetRightBracket,
 		highlight = { mode.colors.fileinfoBg, mode.colors.bg },
-      condition = file.FileCondition,
+		condition = file.FileCondition,
 	},
 }
