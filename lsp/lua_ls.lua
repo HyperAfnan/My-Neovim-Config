@@ -1,13 +1,3 @@
-local gh = require("afnan.pack").gh
-
-vim.pack.add({
-	{ src = gh("neovim/nvim-lspconfig") },
-	{ src = gh("b0o/schemastore.nvim") },
-})
-vim.cmd.packadd("nvim-lspconfig")
-
-vim.lsp.config("*", { capabilities = require("blink.cmp").get_lsp_capabilities() })
-
 local runtime_path = vim.split(package.path, ";")
 
 table.insert(runtime_path, "lua/?.lua")
@@ -21,7 +11,7 @@ if vim.fn.getcwd() == vim.fn.stdpath("config") then
 	table.insert(library, vim.fn.stdpath("config") .. "/lua")
 end
 
-vim.lsp.config.lua_ls = {
+return {
 	on_init = function(client)
 		if client.workspace_folders then
 			local path = client.workspace_folders[1].name
@@ -81,34 +71,5 @@ vim.lsp.config.lua_ls = {
 		telemetry = { enable = false },
 	},
 	filetypes = { "lua" },
+	cmd = { "lua-language-server" },
 }
-vim.lsp.enable("lua_ls")
-vim.lsp.enable("ts_ls")
-
-local schemastore = require("schemastore")
-
-vim.lsp.config("jsonls", {
-	filetypes = { "json", "jsonc" },
-	init_options = { provideFormatter = false },
-	single_file_support = true,
-	settings = {
-		json = {
-			schemas = schemastore.json.schemas(),
-		},
-	},
-})
-
-vim.lsp.enable("jsonls")
-vim.lsp.enable("emmet_language_server")
-
-vim.lsp.config("clangd", {
-	cmd = {
-		"clangd",
-		"--background-index",
-		"--clang-tidy",
-		"--completion-style=detailed",
-		"--header-insertion=never",
-	},
-	single_file_support = true,
-})
-vim.lsp.enable("clangd")

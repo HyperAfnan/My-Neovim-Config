@@ -67,7 +67,7 @@ set.splitright = false
 set.splitbelow = false
 set.splitkeep = "cursor"
 
-set.formatoptions:remove("cro")
+set.formatoptions:remove({ "c", "r", "o" })
 set.shortmess:append("c")
 set.hlsearch = true
 set.ignorecase = true

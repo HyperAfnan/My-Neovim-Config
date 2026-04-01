@@ -2,7 +2,6 @@ vim.cmd("colorscheme catppuccin")
 
 require("afnan.options")
 require("afnan.pack")
-require("afnan.completion")
 require("afnan.snacks")
 require("afnan.autocommands")
 require("afnan.keymaps")
@@ -14,4 +13,3 @@ require("afnan.treesitter")
 require("afnan.harpoon")
 require("afnan.git")
 require("afnan.statusline")
-
