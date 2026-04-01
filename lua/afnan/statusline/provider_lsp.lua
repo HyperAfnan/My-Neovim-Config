@@ -1,14 +1,16 @@
 local M = {}
 
+local bufnr = vim.api.nvim_get_current_buf()
+
 function M.LspCondition()
-	return not vim.tbl_isempty(vim.lsp.get_clients())
+	return not vim.tbl_isempty(vim.lsp.get_clients({ bufnr = bufnr }))
 end
 
 function M.GetLspClients()
 	msg = "No Lsp"
 	ignored_servers = {}
 
-	local clients = vim.lsp.get_clients()
+	local clients = vim.lsp.get_clients({ bufnr = bufnr })
 	if next(clients) == nil then
 		return msg
 	end
@@ -27,45 +29,30 @@ function M.GetLspClients()
 end
 
 local function get_nvim_lsp_diagnostic(diag_type)
-	if next(vim.lsp.get_clients()) == nil then
-		return ""
-	end
-	local active_clients = vim.lsp.get_clients()
+	local active_clients = vim.lsp.get_clients({ bufnr = bufnr })
 
 	if active_clients then
-		local result = vim.diagnostic.get(vim.api.nvim_get_current_buf(), { severity = diag_type })
+		local result = vim.diagnostic.get(bufnr, { severity = diag_type })
 		if result and #result ~= 0 then
-			return #result .. " "
+			return #result
 		end
 	end
 end
 
 function M.GetLspError()
-	if not vim.tbl_isempty(vim.lsp.get_clients()) then
-		return get_nvim_lsp_diagnostic(vim.diagnostic.severity.ERROR)
-	end
-	return ""
+   return get_nvim_lsp_diagnostic(vim.diagnostic.severity.ERROR)
 end
 
 function M.GetLspWarn()
-	if not vim.tbl_isempty(vim.lsp.get_clients()) then
-		return get_nvim_lsp_diagnostic(vim.diagnostic.severity.WARN)
-	end
-	return ""
+   return get_nvim_lsp_diagnostic(vim.diagnostic.severity.WARN)
 end
 
 function M.GetLspInfo()
-	if not vim.tbl_isempty(vim.lsp.get_clients()) then
-		return get_nvim_lsp_diagnostic(vim.diagnostic.severity.INFO)
-	end
-	return ""
+   return get_nvim_lsp_diagnostic(vim.diagnostic.severity.INFO)
 end
 
 function M.GetLspHint()
-	if not vim.tbl_isempty(vim.lsp.get_clients()) then
-		return get_nvim_lsp_diagnostic(vim.diagnostic.severity.HINT)
-	end
-	return ""
+   return get_nvim_lsp_diagnostic(vim.diagnostic.severity.HINT)
 end
 
 return M
