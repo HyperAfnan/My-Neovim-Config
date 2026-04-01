@@ -1,5 +1,8 @@
 local M = {}
 
+function M.LspCondition()
+	return not vim.tbl_isempty(vim.lsp.get_clients())
+end
 
 function M.GetLspClients()
 	msg = "No Lsp"
@@ -24,41 +27,45 @@ function M.GetLspClients()
 end
 
 local function get_nvim_lsp_diagnostic(diag_type)
-  if next(vim.lsp.get_clients()) == nil then return '' end
-  local active_clients = vim.lsp.get_clients()
+	if next(vim.lsp.get_clients()) == nil then
+		return ""
+	end
+	local active_clients = vim.lsp.get_clients()
 
-  if active_clients then
-    local result = vim.diagnostic.get(vim.api.nvim_get_current_buf(), { severity = diag_type })
-    if result and #result ~= 0 then return #result .. ' ' end
-  end
+	if active_clients then
+		local result = vim.diagnostic.get(vim.api.nvim_get_current_buf(), { severity = diag_type })
+		if result and #result ~= 0 then
+			return #result .. " "
+		end
+	end
 end
 
 function M.GetLspError()
-   if not vim.tbl_isempty(vim.lsp.get_clients()) then
-    return get_nvim_lsp_diagnostic(vim.diagnostic.severity.ERROR)
-  end
-  return ''
+	if not vim.tbl_isempty(vim.lsp.get_clients()) then
+		return get_nvim_lsp_diagnostic(vim.diagnostic.severity.ERROR)
+	end
+	return ""
 end
 
 function M.GetLspWarn()
-   if not vim.tbl_isempty(vim.lsp.get_clients()) then
-    return get_nvim_lsp_diagnostic(vim.diagnostic.severity.WARN)
-  end
-  return ''
+	if not vim.tbl_isempty(vim.lsp.get_clients()) then
+		return get_nvim_lsp_diagnostic(vim.diagnostic.severity.WARN)
+	end
+	return ""
 end
 
 function M.GetLspInfo()
-   if not vim.tbl_isempty(vim.lsp.get_clients()) then
-    return get_nvim_lsp_diagnostic(vim.diagnostic.severity.INFO)
-  end
-  return ''
+	if not vim.tbl_isempty(vim.lsp.get_clients()) then
+		return get_nvim_lsp_diagnostic(vim.diagnostic.severity.INFO)
+	end
+	return ""
 end
 
 function M.GetLspHint()
-   if not vim.tbl_isempty(vim.lsp.get_clients()) then
-    return get_nvim_lsp_diagnostic(vim.diagnostic.severity.HINT)
-  end
-  return ''
+	if not vim.tbl_isempty(vim.lsp.get_clients()) then
+		return get_nvim_lsp_diagnostic(vim.diagnostic.severity.HINT)
+	end
+	return ""
 end
 
 return M

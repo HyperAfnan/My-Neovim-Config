@@ -37,7 +37,6 @@ M.colors = {
 	fileinfoBg = "#5C2C2E",
 }
 
-
 function M.ModeColor(m)
 	local mode_colors = {
 		n = M.colors.blue,
@@ -67,7 +66,6 @@ function M.ModeColor(m)
 	return mode_colors[m]
 end
 
-
 function M.GetModeColor()
 	local m = vim.fn.mode() or vim.fn.visualmode()
 	local color = M.ModeColor(m)
@@ -75,6 +73,5 @@ function M.GetModeColor()
 	vim.api.nvim_command("hi GalaxyModeColorReverse guifg=" .. color)
 	return " "
 end
-
 
 return M
