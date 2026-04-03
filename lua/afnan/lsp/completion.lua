@@ -6,21 +6,23 @@ vim.cmd.packadd("colorful-menu.nvim")
 
 local colorful = require("colorful-menu")
 
+local completion_keys_group = vim.api.nvim_create_augroup("NativeCompletionKeys", { clear = false })
+local completion_triggers_group = vim.api.nvim_create_augroup("NativeCompletionTriggers", { clear = false })
+
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("EnableNativeCompletion", { clear = true }),
 	desc = "Enable vim.lsp.completion and documentation",
 	callback = function(args)
 		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-		vim.o.autocompletedelay = 10000
 		if client:supports_method("textDocument/completion") then
-			vim.o.completeopt = "fuzzy,menuone,noselect,popup"
+			vim.o.completeopt = "fuzzy,menuone,noselect,popup,preinsert,preview"
 			vim.o.complete = ".,o"
 			vim.o.pumheight = 15
 			vim.o.pummaxwidth = 80
 			vim.o.pumwidth = 30
 			vim.o.pumborder = "single"
 
-			vim.lsp.inline_completion.enable()
+			-- vim.lsp.inline_completion.enable()
 
 			vim.lsp.completion.enable(true, client.id, args.buf, {
 				convert = function(item)
@@ -52,61 +54,99 @@ vim.api.nvim_create_autocmd("LspAttach", {
 					}
 				end,
 
-				autotrigger = true,
-				-- cmp = function(_, _) end
-			})
-			vim.bo.autocomplete = vim.bo.buftype == ""
-
-			vim.keymap.set("i", "<Tab>", function()
-				if utils.has_words_before() then
-					return "<C-n>"
-				else
-					return "<Tab>"
-				end
-			end, { expr = true, silent = true })
-
-			vim.keymap.set("i", "<C-y>", function()
-				if not vim.lsp.inline_completion.get() then
-					print("s")
-					return "<C-y>"
-				end
-			end, { expr = true })
-
-			vim.keymap.set("i", "<S-Tab>", function()
-				if utils.has_words_before() then
-					return "<C-p>"
-				else
-					return "<S-Tab>"
-				end
-			end, { expr = true, silent = true })
-			vim.keymap.set("i", "<CR>", function()
-				if utils.has_words_before() then
-					local item = vim.v.completed_item
-					if item.word then
-						return "<C-y>"
-					else
-						return "<C-n><C-y>"
+				autotrigger = client.name ~= "snippets_ls",
+				cmp = function(a, b)
+					local score_a = a._fuzzy_score or 0
+					local score_b = b._fuzzy_score or 0
+					if score_a ~= score_b then
+						return score_a > score_b
 					end
-				else
-					return "<CR>"
-				end
-			end, { expr = true, silent = true })
 
-			-- ignore . and do not open menu
-			vim.api.nvim_create_autocmd("InsertCharPre", {
-				callback = function()
-					if vim.fn.pumvisible() == 1 or vim.fn.state("m") == "m" then
-						return
+					local rank_a = utils.get_kind_rank(a)
+					local rank_b = utils.get_kind_rank(b)
+					if rank_a ~= rank_b then
+						return rank_a < rank_b
 					end
-					if vim.v.char == "." or vim.v.char == " " then
-						local key = vim.keycode("<c-x><c-o>")
-						vim.api.nvim_feedkeys(key, "m", false)
-					elseif vim.v.char == "/" then
-						-- shows path completion when / is entered
-						vim.api.nvim_feedkeys(vim.keycode("<C-X><C-F>"), "ni", false)
-					end
+
+					return utils.get_sort_key(a) < utils.get_sort_key(b)
 				end,
 			})
+			vim.bo[args.buf].autocomplete = vim.bo[args.buf].buftype == ""
+
+			if not vim.b[args.buf].native_completion_keys then
+				vim.b[args.buf].native_completion_keys = true
+
+				vim.api.nvim_clear_autocmds({ group = completion_keys_group, buffer = args.buf })
+				vim.api.nvim_clear_autocmds({ group = completion_triggers_group, buffer = args.buf })
+
+				local function feed(keys)
+					vim.api.nvim_feedkeys(vim.keycode(keys), "n", false)
+				end
+
+				vim.keymap.set({ "i", "s" }, "<Tab>", function()
+					if vim.snippet and vim.snippet.active({ direction = 1 }) then
+						vim.snippet.jump(1)
+						return
+					end
+					if vim.fn.pumvisible() == 1 then
+						feed("<C-n>")
+						return
+					end
+					if utils.has_words_before() then
+						feed("<C-n>")
+					else
+						feed("<Tab>")
+					end
+				end, { silent = true, buffer = args.buf })
+
+				vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
+					if vim.snippet and vim.snippet.active({ direction = -1 }) then
+						vim.snippet.jump(-1)
+						return
+					end
+					if vim.fn.pumvisible() == 1 then
+						feed("<C-p>")
+						return
+					end
+					if utils.has_words_before() then
+						feed("<C-p>")
+					else
+						feed("<S-Tab>")
+					end
+				end, { silent = true, buffer = args.buf })
+
+				vim.keymap.set("i", "<C-y>", function()
+					if not vim.lsp.inline_completion.get() then
+						return "<C-y>"
+					end
+				end, { expr = true, buffer = args.buf })
+
+				vim.keymap.set("i", "<CR>", function()
+					if vim.fn.pumvisible() ~= 1 then
+						return "<CR>"
+					end
+
+					local info = vim.fn.complete_info({ "selected" })
+					if info.selected == -1 then
+						return "<C-n><C-y>"
+					end
+					return "<C-y>"
+				end, { expr = true, silent = true, buffer = args.buf })
+
+				-- Trigger path completion when "/" is entered (buffer-local).
+				vim.api.nvim_create_autocmd("InsertCharPre", {
+					group = completion_triggers_group,
+					buffer = args.buf,
+					callback = function()
+						if vim.fn.pumvisible() == 1 then
+							return
+						end
+						if vim.v.char == "/" then
+							vim.api.nvim_feedkeys(vim.keycode("<C-X><C-F>"), "ni", false)
+						end
+					end,
+				})
+			end
 		end
 	end,
 })

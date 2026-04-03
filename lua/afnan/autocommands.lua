@@ -97,7 +97,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- lazyload cloak.nvim when opening a .env file
 vim.api.nvim_create_autocmd("BufRead", {
 	callback = function()
-      print("Loading cloak.nvim for .env file")
-      require("afnan.cloak")
+		require("afnan.cloak")
 	end,
 })

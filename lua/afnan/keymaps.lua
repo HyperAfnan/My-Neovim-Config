@@ -44,3 +44,20 @@ keymap("i", "<A-h>", "<esc><C-w>hi")
 keymap("i", "<A-j>", "<esc><C-w>ji")
 keymap("i", "<A-k>", "<esc><C-w>ki")
 keymap("i", "<A-l>", "<esc><C-w>li")
+
+-- incremental selection treesitter/lsp
+keymap({ "n", "x", "o" }, "<A-o>", function()
+	if vim.treesitter.get_parser(nil, nil, { error = false }) then
+		require("vim.treesitter._select").select_parent(vim.v.count1)
+	else
+		vim.lsp.buf.selection_range(vim.v.count1)
+	end
+end)
+
+keymap({ "n", "x", "o" }, "<A-i>", function()
+	if vim.treesitter.get_parser(nil, nil, { error = false }) then
+		require("vim.treesitter._select").select_child(vim.v.count1)
+	else
+		vim.lsp.buf.selection_range(-vim.v.count1)
+	end
+end)

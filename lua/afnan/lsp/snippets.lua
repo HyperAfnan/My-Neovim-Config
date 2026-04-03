@@ -121,9 +121,7 @@ local function new_server(completion_source)
 			if method == "initialize" then
 				handler(nil, {
 					capabilities = {
-						completionProvider = {
-							triggerCharacters = { "" },
-						},
+						completionProvider = {},
 					},
 				})
 			elseif method == "textDocument/completion" then
