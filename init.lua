@@ -1,4 +1,5 @@
 vim.cmd("colorscheme catppuccin")
+vim.loader.enable()
 
 require("afnan.options")
 require("afnan.pack")

@@ -1,5 +1,3 @@
--- https://github.com/lewis6991/gitsigns.nvim
-
 local gh = require("afnan.pack").gh
 
 vim.pack.add({ gh("lewis6991/gitsigns.nvim") })

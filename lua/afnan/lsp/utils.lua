@@ -99,5 +99,4 @@ function M.get_kind_rank(item)
 	return M.kind_rank[kind] or 100
 end
 
-
 return M

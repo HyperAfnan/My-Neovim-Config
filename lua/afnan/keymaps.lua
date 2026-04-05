@@ -61,3 +61,10 @@ keymap({ "n", "x", "o" }, "<A-i>", function()
 		vim.lsp.buf.selection_range(-vim.v.count1)
 	end
 end)
+
+keymap("n", ",tf", function()
+	Snacks.picker.files()
+end)
+
+keymap("v", "K", ":m '>+1<CR>gv=gv")
+keymap("v", "J", ":m '<-2<CR>gv=gv")

@@ -4,4 +4,8 @@ vim.pack.add({ gh("folke/snacks.nvim") })
 
 vim.cmd.packadd({ "snacks.nvim" })
 
-require("snacks").setup({ explorer = { enabled = true } })
+require("snacks").setup({
+	explorer = { enabled = true },
+	scroll = { enabled = true },
+	fuzzy = { enabled = true },
+})

@@ -89,8 +89,12 @@ vim.api.nvim_create_autocmd("CursorMoved", {
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("LspAttach", { clear = true }),
 	callback = function()
-		vim.keymap.set("n", "gk", vim.diagnostic.goto_next, { silent = true })
-		vim.keymap.set("n", "gj", vim.diagnostic.goto_prev, { silent = true })
+		vim.keymap.set("n", "gk", function()
+			vim.diagnostic.jump({ count = 1 })
+		end)
+		vim.keymap.set("n", "gj", function()
+			vim.diagnostic.jump({ count = -1 })
+		end)
 	end,
 })
 
@@ -98,5 +102,66 @@ vim.api.nvim_create_autocmd("LspAttach", {
 vim.api.nvim_create_autocmd("BufRead", {
 	callback = function()
 		require("afnan.cloak")
+	end,
+})
+--
+-- vim.api.nvim_create_autocmd("LspProgress", {
+-- 	buffer = vim.api.nvim_get_current_buf(),
+-- 	callback = function(ev)
+-- 		local value = ev.data.params.value
+-- 		vim.api.nvim_echo({ { value.message or "done" } }, false, {
+-- 			id = "lsp." .. ev.data.client_id,
+-- 			kind = "progress",
+-- 			source = "vim.lsp",
+-- 			title = value.title,
+-- 			status = value.kind ~= "end" and "running" or "success",
+-- 			percent = value.percentage,
+-- 		})
+-- 	end,
+-- })
+--
+-- vim.api.nvim_create_autocmd("LspProgress", {
+--     callback = function(ev)
+--         local value = ev.data.params.value or {}
+--         if not value.kind then return end
+--
+--         local status = value.kind == "end" and 0 or 1
+--         local percent = value.percentage or 0
+--
+--         local osc_seq = string.format("\27]9;4;%d;%d\a", status, percent)
+--
+--         if os.getenv("TMUX") then
+--             osc_seq = string.format("\27Ptmux;\27%s\27\\", osc_seq)
+--         end
+--
+--         io.stdout:write(osc_seq)
+--         io.stdout:flush()
+--     end,
+-- })
+--
+vim.api.nvim_create_autocmd("LspProgress", {
+	callback = function(ev)
+		local value = ev.data.params.value or {}
+		local msg = value.message or "done"
+
+		-- rust analyszer in particular has really long LSP messages so truncate them
+		if #msg > 40 then
+			msg = msg:sub(1, 37) .. "..."
+		end
+
+		-- :h LspProgress
+		vim.api.nvim_echo({ { value.title or value.message or "LSP" } }, false, {
+			id = "lsp",
+			kind = "progress",
+			title = value.title,
+			status = value.kind ~= "end" and "running" or "success",
+			percent = value.percentage,
+			source = "lua_ls",
+		})
+
+		-- vim.api.nvim_echo({ { value.title or value.message or "LSP" } }, false, {
+		--      id = "lsp_progress",
+		--      kind = "progress", -- This 'kind' is key for Ghostty integration
+		--    })
 	end,
 })

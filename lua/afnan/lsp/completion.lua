@@ -22,7 +22,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.o.pumwidth = 30
 			vim.o.pumborder = "single"
 
-			-- vim.lsp.inline_completion.enable()
+			vim.lsp.inline_completion.enable()
 
 			vim.lsp.completion.enable(true, client.id, args.buf, {
 				convert = function(item)
@@ -54,7 +54,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 					}
 				end,
 
-				autotrigger = client.name ~= "snippets_ls",
+				autotrigger = true,
 				cmp = function(a, b)
 					local score_a = a._fuzzy_score or 0
 					local score_b = b._fuzzy_score or 0
