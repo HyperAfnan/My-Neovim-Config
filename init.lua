@@ -14,3 +14,8 @@ require("afnan.treesitter")
 require("afnan.harpoon")
 require("afnan.git")
 require("afnan.statusline")
+require("afnan.ai")
+require("afnan.noneckpain")
+
+vim.opt.rtp:append("/home/afnan/dev/present.nvim")
+vim.opt.rtp:append("/home/afnan/dev/docker-containers.nvim/")

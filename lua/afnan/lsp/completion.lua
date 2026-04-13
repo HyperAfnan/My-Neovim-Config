@@ -7,7 +7,8 @@ vim.cmd.packadd("colorful-menu.nvim")
 local colorful = require("colorful-menu")
 
 local completion_keys_group = vim.api.nvim_create_augroup("NativeCompletionKeys", { clear = false })
-local completion_triggers_group = vim.api.nvim_create_augroup("NativeCompletionTriggers", { clear = false })
+local completion_triggers_group =
+	vim.api.nvim_create_augroup("NativeCompletionTriggers", { clear = false })
 
 vim.api.nvim_create_autocmd("LspAttach", {
 	group = vim.api.nvim_create_augroup("EnableNativeCompletion", { clear = true }),
@@ -31,6 +32,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
 					local abbr = item.label:gsub("%b()", ""):gsub("%b{}", ""):match("[%w_.]+.*")
 						or item.label
 					local menu = "[LSP]"
+					local file = io.open("completion.log", "a")
+					if file then
+						file:write("Completion item abbr: " .. abbr .. "\n")
+						file:write("Completion item highlight: " .. vim.inspect(nchigh) .. "\n")
+						file:close()
+					end
 
 					return {
 						abbr = abbr,
@@ -54,7 +61,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 					}
 				end,
 
-				autotrigger = true,
+				autotrigger = false,
 				cmp = function(a, b)
 					local score_a = a._fuzzy_score or 0
 					local score_b = b._fuzzy_score or 0
