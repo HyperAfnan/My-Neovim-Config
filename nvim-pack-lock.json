@@ -16,6 +16,10 @@
       "rev": "b51a659459df8d078201aefc995db8175ed55e84",
       "src": "https://github.com/xzbdmw/colorful-menu.nvim"
     },
+    "comfy-line-numbers.nvim": {
+      "rev": "9adedbaf1f410cdaacf4fb2ca8eb44f3d5f6d010",
+      "src": "https://github.com/mluders/comfy-line-numbers.nvim"
+    },
     "cord.nvim": {
       "rev": "283e4a5bdafd0d6187f28e5b739cccab6b4c9c64",
       "src": "https://github.com/vyfor/cord.nvim"
