@@ -48,7 +48,11 @@ return {
 				library = library,
 			},
 		},
-		completion = { showWord = "Disable", callSnippet = "Replace" },
+		completion = {
+			showWord = "Disable",
+			displayContext = 0,
+			callSnippet = "Replace",
+		},
 		IntelliSense = {
 			traceBeSetted = true,
 			traceFieldInject = true,
