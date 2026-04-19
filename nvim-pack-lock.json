@@ -1,7 +1,7 @@
 {
   "plugins": {
     "CopilotChat.nvim": {
-      "rev": "0b3133ffbb470b1616c47170b544d0b9a3bbcf5b",
+      "rev": "ee142480a5f13226d1d2e6b9bff1642f0b175795",
       "src": "https://github.com/CopilotC-Nvim/CopilotChat.nvim"
     },
     "cloak.nvim": {
@@ -21,7 +21,7 @@
       "src": "https://github.com/mluders/comfy-line-numbers.nvim"
     },
     "cord.nvim": {
-      "rev": "283e4a5bdafd0d6187f28e5b739cccab6b4c9c64",
+      "rev": "0be090969e978f7442870ef227e09eff7bf3480d",
       "src": "https://github.com/vyfor/cord.nvim"
     },
     "friendly-snippets": {
@@ -29,11 +29,11 @@
       "src": "https://github.com/rafamadriz/friendly-snippets"
     },
     "galaxyline.nvim": {
-      "rev": "fd1b0f62b14e285e7ebd9f0a45558624f93ed97a",
-      "src": "https://github.com/jamesyoon11/galaxyline.nvim"
+      "rev": "220aba72b6b24863c220d056a2cc47d5b7a5eb29",
+      "src": "https://github.com/hyperafnan/galaxyline.nvim"
     },
     "gitsigns.nvim": {
-      "rev": "e1fb5425c8812214209b3f24eaa582c6c552cf98",
+      "rev": "8d82c240f190fc33723d48c308ccc1ed8baad69d",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "harpoon": {
@@ -46,32 +46,36 @@
       "src": "https://github.com/lukas-reineke/indent-blankline.nvim"
     },
     "neogit": {
-      "rev": "5a7fca171e3ad07380745d573d791e95268b8f3f",
-      "src": "https://github.com/neogitorg/neogit"
+      "rev": "e06745228600a585b88726fc9fba44a373c15a47",
+      "src": "https://github.com/NeogitOrg/neogit"
     },
     "no-neck-pain.nvim": {
       "rev": "4bc52782524fd50c5658685d584df6fa48fe49f9",
       "src": "https://github.com/shortcuts/no-neck-pain.nvim"
     },
     "nvim-treesitter": {
-      "rev": "539abf6da5ee8702e37b82cc953131dadd570da2",
+      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "nvim-web-devicons": {
-      "rev": "40e9d5a6cc3db11b309e39593fc7ac03bb844e38",
+      "rev": "c72328a5494b4502947a022fe69c0c47e53b6aa6",
       "src": "https://github.com/nvim-tree/nvim-web-devicons"
     },
     "plenary.nvim": {
-      "rev": "b9fd5226c2f76c951fc8ed5923d85e4de065e509",
+      "rev": "74b06c6c75e4eeb3108ec01852001636d85a932b",
       "src": "https://github.com/nvim-lua/plenary.nvim"
     },
     "schemastore.nvim": {
-      "rev": "b723fc6f6046a9955069e5c9071afa70d70cab48",
+      "rev": "0ce1f8aba51db6812382a4135f5b20a9f0c959ec",
       "src": "https://github.com/b0o/schemastore.nvim"
     },
     "snacks.nvim": {
       "rev": "ad9ede6a9cddf16cedbd31b8932d6dcdee9b716e",
       "src": "https://github.com/folke/snacks.nvim"
+    },
+    "vim-tpipeline": {
+      "rev": "bc6dfc10e26a8dd1ec2f0512050a8a0afaa9d090",
+      "src": "https://github.com/vimpostor/vim-tpipeline"
     }
   }
 }

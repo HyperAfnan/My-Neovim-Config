@@ -8,4 +8,8 @@ require("snacks").setup({
 	explorer = { enabled = true },
 	scroll = { enabled = true },
 	fuzzy = { enabled = true },
+	zen = { enabled = true },
+   notifier = { enabled = true },
 })
+
+vim.notify = Snacks.notifier.notify

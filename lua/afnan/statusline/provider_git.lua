@@ -22,17 +22,17 @@ end
 
 function M.GetAddGitStatus()
 	local status = get_gitsigns_status()
-	return status and status.added or 0
+	return status and status.added
 end
 
 function M.GetModifiedGitStatus()
 	local status = get_gitsigns_status()
-	return status and status.changed or 0
+	return status and status.changed
 end
 
 function M.GetRemovedGitStatus()
 	local status = get_gitsigns_status()
-	return status and status.removed or 0
+	return status and status.removed
 end
 
 return M

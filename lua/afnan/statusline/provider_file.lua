@@ -16,10 +16,10 @@ function M.GetCursorPercentage()
 	return " :" .. math.floor(vim.fn.line(".") / vim.fn.line("$") * 100) .. "%"
 end
 
-function M.getCurrentFileIcon()
+function M.GetCurrentFileIcon()
 	local icon = devicons.get_icon_by_filetype(vim.o.ft, {})
 	if icon then
-		return " " .. icon .. " "
+		return icon
 	else
 		return " "
 	end

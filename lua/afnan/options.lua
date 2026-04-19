@@ -24,7 +24,7 @@ set.showmode = false
 set.signcolumn = "auto:1-2"
 
 set.hidden = true
-set.cmdheight = 1
+set.cmdheight = 0
 set.backup = false
 set.writebackup = false
 
@@ -50,7 +50,7 @@ set.expandtab = true
 
 set.laststatus = 3
 
-set.showtabline = 0
+set.showtabline = 1
 
 set.updatetime = 100
 

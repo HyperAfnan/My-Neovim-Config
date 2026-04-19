@@ -66,11 +66,45 @@ function M.ModeColor(m)
 	return mode_colors[m]
 end
 
-function M.GetModeColor()
+function M.SetupHighlights()
 	local m = vim.fn.mode() or vim.fn.visualmode()
 	local color = M.ModeColor(m)
-	vim.api.nvim_command("hi GalaxyModeColor guibg=" .. color)
-	vim.api.nvim_command("hi GalaxyModeColorReverse guifg=" .. color)
+	vim.api.nvim_command("hi StatuslineModeColor guibg=" .. color .. " guifg=" .. M.colors.bg_dark)
+	vim.api.nvim_command("hi StatuslineModeColorReverse guifg=" .. color)
+
+	vim.api.nvim_set_hl(0, "StatuslineGitPrimary", { fg = M.colors.green })
+	vim.api.nvim_set_hl(
+		0,
+		"StatuslineGitPrimaryReverse",
+		{ bg = M.colors.green, fg = M.colors.bg_dark }
+	)
+	vim.api.nvim_set_hl(0, "StatuslineGitSecondary", { bg = M.colors.gitBg, fg = M.colors.fg })
+	vim.api.nvim_set_hl(0, "StatuslineGitSecondaryReverse", { fg = M.colors.gitBg })
+	vim.api.nvim_set_hl(0, "StatuslineGitAdd", { bg = M.colors.gitBg, fg = M.colors.green })
+	vim.api.nvim_set_hl(0, "StatuslineGitModified", { bg = M.colors.gitBg, fg = M.colors.yellow })
+	vim.api.nvim_set_hl(0, "StatuslineGitRemoved", { bg = M.colors.gitBg, fg = M.colors.red })
+
+	vim.api.nvim_set_hl(0, "StatuslineLspPrimary", { fg = M.colors.blue })
+	vim.api.nvim_set_hl(
+		0,
+		"StatuslineLspPrimaryReverse",
+		{ bg = M.colors.blue, fg = M.colors.bg_dark }
+	)
+	vim.api.nvim_set_hl(0, "StatuslineLspSecondary", { bg = M.colors.lspBg, fg = M.colors.fg })
+	vim.api.nvim_set_hl(0, "StatuslineLspSecondaryReverse", { fg = M.colors.lspBg })
+	vim.api.nvim_set_hl(0, "StatuslineLspError", { bg = M.colors.lspBg, fg = M.colors.red })
+	vim.api.nvim_set_hl(0, "StatuslineLspWarn", { bg = M.colors.lspBg, fg = M.colors.yellow })
+	vim.api.nvim_set_hl(0, "StatuslineLspInfo", { bg = M.colors.lspBg, fg = M.colors.blue })
+	vim.api.nvim_set_hl(0, "StatuslineLspHint", { bg = M.colors.lspBg, fg = M.colors.cyan })
+
+	vim.api.nvim_set_hl(0, "StatuslineFilePrimary", { fg = M.colors.orange })
+	vim.api.nvim_set_hl(
+		0,
+		"StatuslineFilePrimaryReverse",
+		{ bg = M.colors.orange, fg = M.colors.bg_dark }
+	)
+	vim.api.nvim_set_hl(0, "StatuslineFileSecondary", { bg = M.colors.fileinfoBg, fg = M.colors.fg })
+	vim.api.nvim_set_hl(0, "StatuslineFileSecondaryReverse", { fg = M.colors.fileinfoBg })
 	return " "
 end
 

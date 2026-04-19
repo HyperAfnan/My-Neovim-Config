@@ -15,8 +15,4 @@ require("afnan.harpoon")
 require("afnan.git")
 require("afnan.statusline")
 require("afnan.ai")
-require("afnan.noneckpain")
 require("afnan.comfy-line-numbers")
-
-vim.opt.rtp:append("/home/afnan/dev/present.nvim")
-vim.opt.rtp:append("/home/afnan/dev/docker-containers.nvim/")
