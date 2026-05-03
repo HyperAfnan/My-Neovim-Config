@@ -27,25 +27,18 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 			vim.lsp.completion.enable(true, client.id, args.buf, {
 				convert = function(item)
-					local nchigh = colorful.native_completion_highlight(item, client)
+					-- local nchigh = colorful.native_completion_highlight(item, client)
 
 					local abbr = item.label:gsub("%b()", ""):gsub("%b{}", ""):match("[%w_.]+.*")
 						or item.label
 					local menu = "[LSP]"
-					local file = io.open("completion.log", "a")
-					if file then
-						file:write("Completion item abbr: " .. abbr .. "\n")
-						file:write("Completion item highlight: " .. vim.inspect(nchigh) .. "\n")
-						file:close()
-					end
-
 					return {
 						abbr = abbr,
-						abbr_hlgroup = nchigh.highlights,
-						label = nchigh.label,
+						-- abbr_hlgroup = nchigh.highlights,
+						-- label = nchigh.label,
 						menu = menu,
 						kind = utils.kind_map[item.kind],
-						kind_hlgroup = nchigh.highlights,
+						-- kind_hlgroup = nchigh.highlights,
 						--
 						-- abbr = "abbr",
 						-- label = "label",

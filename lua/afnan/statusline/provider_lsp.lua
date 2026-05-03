@@ -8,7 +8,6 @@ end
 
 function M.GetLspClients()
 	msg = "No Lsp"
-	ignored_servers = {}
 
 	local clients = vim.lsp.get_clients({ bufnr = bufnr })
 	if next(clients) == nil then

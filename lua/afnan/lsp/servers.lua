@@ -10,6 +10,8 @@ vim.lsp.enable("lua_ls")
 vim.lsp.enable("ts_ls")
 vim.lsp.enable("jsonls")
 vim.lsp.enable("emmet_language_server")
+vim.lsp.enable("rust-analyzer")
+vim.lsp.enable("kotlin_lsp")
 
 vim.lsp.config("clangd", {
 	cmd = {

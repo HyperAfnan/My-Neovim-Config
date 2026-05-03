@@ -14,7 +14,7 @@ keymap("n", "sv", ":vsplit %<CR>")
 
 keymap("n", "<S-q>", ":bd<CR>")
 
-keymap("n", "<C-n>", function()
+keymap("n", "<C-f>", function()
 	Snacks.explorer()
 end)
 
@@ -44,6 +44,9 @@ keymap("i", "<A-h>", "<esc><C-w>hi")
 keymap("i", "<A-j>", "<esc><C-w>ji")
 keymap("i", "<A-k>", "<esc><C-w>ki")
 keymap("i", "<A-l>", "<esc><C-w>li")
+
+keymap("n", "<C-n>", ":cnext<CR>")
+keymap("n", "<C-p>", ":cprev<CR>")
 
 -- incremental selection treesitter/lsp
 keymap({ "n", "x", "o" }, "<A-o>", function()
