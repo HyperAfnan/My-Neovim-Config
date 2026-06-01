@@ -12,6 +12,7 @@ vim.lsp.enable("jsonls")
 vim.lsp.enable("emmet_language_server")
 vim.lsp.enable("rust-analyzer")
 vim.lsp.enable("kotlin_lsp")
+vim.lsp.enable("tailwindcss-intellisense")
 
 vim.lsp.config("clangd", {
 	cmd = {

@@ -6,6 +6,14 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+vim.api.nvim_create_autocmd("BufWritePre", {
+   desc = "Loads live-server.nvim in html,css,js files",
+   pattern = { "*.html", "*.css", "*.js" },
+	callback = function()
+      vim.cmd.packadd("live-server.nvim")
+	end,
+})
+
 -- -- Hides tmux statusline when in neovim
 -- local tmux_group = vim.api.nvim_create_augroup("TmuxStatusControl", { clear = true })
 -- vim.api.nvim_create_autocmd("VimEnter", {
