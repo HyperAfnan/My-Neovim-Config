@@ -1,190 +1,332 @@
-local utils = require("afnan.lsp.utils")
+---@diagnostic disable: undefined-field, redundant-parameter, param-type-mismatch
 local gh = require("afnan.pack").gh
 
-vim.pack.add({ gh("xzbdmw/colorful-menu.nvim") })
-vim.cmd.packadd("colorful-menu.nvim")
+vim.pack.add({
+	{ src = gh("hrsh7th/nvim-cmp") },
+	{ src = gh("hrsh7th/cmp-nvim-lsp") },
+	{ src = gh("hrsh7th/cmp-buffer") },
+	{ src = gh("hrsh7th/cmp-path") },
+	{ src = gh("hrsh7th/cmp-cmdline") },
+	{ src = gh("hrsh7th/cmp-nvim-lua") },
+	{ src = gh("hrsh7th/cmp-nvim-lsp-signature-help") },
+	{ src = gh("L3MON4D3/LuaSnip") },
+	{ src = gh("saadparwaiz1/cmp_luasnip") },
+	{ src = gh("rafamadriz/friendly-snippets") },
+	{ src = gh("nvim-tree/nvim-web-devicons") },
+})
 
-local colorful = require("colorful-menu")
+local ls = require("luasnip")
+local types = require("luasnip.util.types")
 
-local completion_keys_group = vim.api.nvim_create_augroup("NativeCompletionKeys", { clear = false })
-local completion_triggers_group =
-	vim.api.nvim_create_augroup("NativeCompletionTriggers", { clear = false })
+ls.config.setup({
+	history = true,
+	updateevents = "TextChangedI",
+	enable_autosnippets = true,
+	ext_opts = {
+		[types.choiceNode] = {
+			active = {
+				virt_text = { { "<-", "Error" } },
+			},
+		},
+	},
+})
 
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = vim.api.nvim_create_augroup("EnableNativeCompletion", { clear = true }),
-	desc = "Enable vim.lsp.completion and documentation",
-	callback = function(args)
-		local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
-		if client:supports_method("textDocument/completion") then
-			vim.o.completeopt = "fuzzy,menuone,noselect,popup,preinsert,preview"
-			vim.o.complete = ".,o"
-			vim.o.pumheight = 15
-			vim.o.pummaxwidth = 80
-			vim.o.pumwidth = 30
-			vim.o.pumborder = "single"
+require("luasnip.loaders.from_vscode").lazy_load()
 
-			vim.lsp.inline_completion.enable()
+local cmp = require("cmp")
+local context = require("cmp.config.context")
 
-			vim.lsp.completion.enable(true, client.id, args.buf, {
-				convert = function(item)
-					-- local nchigh = colorful.native_completion_highlight(item, client)
+local kind = {
+	Text = "  ",
+	Method = "  ",
+	Function = " 󰊕 ",
+	Constructor = "  ",
+	Field = "  ",
+	Variable = "[]",
+	Class = " פּ ",
+	Interface = "  ",
+	Module = " 󱒌 ",
+	Property = "  ",
+	Unit = "  ",
+	Value = "  ",
+	Enum = "  ",
+	Keyword = "  ",
+	Snippet = "  ",
+	Color = "  ",
+	File = "  ",
+	Reference = "  ",
+	Folder = "  ",
+	EnumMember = "  ",
+	Constant = "  ",
+	Struct = "  ",
+	Event = "  ",
+	Operator = "  ",
+	TypeParameter = "  ",
+}
 
-					local abbr = item.label:gsub("%b()", ""):gsub("%b{}", ""):match("[%w_.]+.*")
-						or item.label
-					local menu = "[LSP]"
-					return {
-						abbr = abbr,
-						-- abbr_hlgroup = nchigh.highlights,
-						-- label = nchigh.label,
-						menu = menu,
-						kind = utils.kind_map[item.kind],
-						-- kind_hlgroup = nchigh.highlights,
-						--
-						-- abbr = "abbr",
-						-- label = "label",
-						-- menu = "menu",
-						-- kind = "kind",
-						--
-						--             abbr = utils.kind_map[item.kind],
-						--             abbr_hlgroup = nchigh.highlights,
-						--             kind = abbr,
-						-- kind_hlgroup = nchigh.highlights,
-						--             menu = menu,
-						--             label = nchigh.label
-					}
-				end,
+local function kind_settings1(entry, vim_item)
+	if entry.source.name == "plugins" then
+		return "Plugin"
+	elseif vim.split(entry.source:get_debug_name(), ":")[2] == "emmet_language_server" then
+		return "Emmet"
+	else
+		return vim_item.kind
+	end
+end
 
-				autotrigger = false,
-				cmp = function(a, b)
-					local score_a = a._fuzzy_score or 0
-					local score_b = b._fuzzy_score or 0
-					if score_a ~= score_b then
-						return score_a > score_b
-					end
+local function kind_settings2(entry, vim_item)
+	if entry.source.name == "plugins" then
+		return "  "
+	elseif vim.split(entry.source:get_debug_name(), ":")[2] == "emmet_language_server" then
+		return "  "
+	else
+		return kind[vim_item.kind]
+	end
+end
 
-					local rank_a = utils.get_kind_rank(a)
-					local rank_b = utils.get_kind_rank(b)
-					if rank_a ~= rank_b then
-						return rank_a < rank_b
-					end
+local sources = {
+	{ name = "vim-dadbod-completion" },
+	{ name = "devicons" },
+	{ name = "path" },
+	{ name = "luasnip", max_item_count = 2 },
+	{ name = "nvim_lsp" },
+	{ name = "buffer", max_item_count = 2 },
+	{ name = "nvim_lsp_signature_help" },
+}
 
-					return utils.get_sort_key(a) < utils.get_sort_key(b)
-				end,
-			})
-			vim.bo[args.buf].autocomplete = vim.bo[args.buf].buftype == ""
+if vim.bo.filetype == "lua" then
+	table.insert(sources, { name = "nvim_lua" })
+	table.insert(sources, { name = "plugins" })
+end
 
-			if not vim.b[args.buf].native_completion_keys then
-				vim.b[args.buf].native_completion_keys = true
+if vim.bo.filetype == "html" then
+	if context.in_treesitter_capture("attribute_value") then
+		sources = {
+			{ name = "nvim_lsp", max_item_count = 4 },
+		}
+	end
+end
 
-				vim.api.nvim_clear_autocmds({ group = completion_keys_group, buffer = args.buf })
-				vim.api.nvim_clear_autocmds({ group = completion_triggers_group, buffer = args.buf })
+function DeviconsCompletion()
+	local devicons = require("nvim-web-devicons")
 
-				local function feed(keys)
-					vim.api.nvim_feedkeys(vim.keycode(keys), "n", false)
-				end
+	cmp.register_source("devicons", {
+		complete = function(_, _, callback)
+			local items = {}
 
-				vim.keymap.set({ "i", "s" }, "<Tab>", function()
-					if vim.snippet and vim.snippet.active({ direction = 1 }) then
-						vim.snippet.jump(1)
-						return
-					end
-					if vim.fn.pumvisible() == 1 then
-						feed("<C-n>")
-						return
-					end
-					if utils.has_words_before() then
-						feed("<C-n>")
-					else
-						feed("<Tab>")
-					end
-				end, { silent = true, buffer = args.buf })
-
-				vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
-					if vim.snippet and vim.snippet.active({ direction = -1 }) then
-						vim.snippet.jump(-1)
-						return
-					end
-					if vim.fn.pumvisible() == 1 then
-						feed("<C-p>")
-						return
-					end
-					if utils.has_words_before() then
-						feed("<C-p>")
-					else
-						feed("<S-Tab>")
-					end
-				end, { silent = true, buffer = args.buf })
-
-				vim.keymap.set("i", "<C-y>", function()
-					if not vim.lsp.inline_completion.get() then
-						return "<C-y>"
-					end
-				end, { expr = true, buffer = args.buf })
-
-				vim.keymap.set("i", "<CR>", function()
-					if vim.fn.pumvisible() ~= 1 then
-						return "<CR>"
-					end
-
-					local info = vim.fn.complete_info({ "selected" })
-					if info.selected == -1 then
-						return "<C-n><C-y>"
-					end
-					return "<C-y>"
-				end, { expr = true, silent = true, buffer = args.buf })
-
-				-- Trigger path completion when "/" is entered (buffer-local).
-				vim.api.nvim_create_autocmd("InsertCharPre", {
-					group = completion_triggers_group,
-					buffer = args.buf,
-					callback = function()
-						if vim.fn.pumvisible() == 1 then
-							return
-						end
-						if vim.v.char == "/" then
-							vim.api.nvim_feedkeys(vim.keycode("<C-X><C-F>"), "ni", false)
-						end
-					end,
+			for _, icon in pairs(devicons.get_icons()) do
+				table.insert(items, {
+					label = icon.icon .. "  " .. icon.name,
+					insertText = icon.icon,
+					filterText = icon.name,
 				})
 			end
+
+			callback({ items = items })
+		end,
+	})
+end
+
+local lspkind_comparator = function(conf)
+	local lsp_types = require("cmp.types").lsp
+
+	return function(entry1, entry2)
+		if entry1.source.name ~= "nvim_lsp" then
+			if entry2.source.name == "nvim_lsp" then
+				return false
+			else
+				return nil
+			end
 		end
-	end,
+
+		local kind1 = lsp_types.CompletionItemKind[entry1:get_kind()]
+		local kind2 = lsp_types.CompletionItemKind[entry2:get_kind()]
+
+		if kind1 == "Variable" and entry1:get_completion_item().label:match("%w*=") then
+			kind1 = "Parameter"
+		end
+
+		if kind2 == "Variable" and entry2:get_completion_item().label:match("%w*=") then
+			kind2 = "Parameter"
+		end
+
+		local priority1 = conf.kind_priority[kind1] or 0
+		local priority2 = conf.kind_priority[kind2] or 0
+
+		if priority1 == priority2 then
+			return nil
+		end
+
+		return priority2 < priority1
+	end
+end
+
+local label_comparator = function(entry1, entry2)
+	return entry1.completion_item.label < entry2.completion_item.label
+end
+
+vim.api.nvim_create_user_command("CmpDevicons", DeviconsCompletion, {})
+
+vim.opt.pumheight = 9
+vim.o.pumblend = 20
+
+cmp.setup({
+	view = {
+		entries = {
+			name = "custom",
+			selection_order = "near_cursor",
+		},
+	},
+
+	completion = {
+		completeopt = "menu,menuone,preview,noselect,fuzzy",
+	},
+
+	snippet = {
+		expand = function(args)
+			ls.lsp_expand(args.body)
+		end,
+	},
+
+	window = {
+		documentation = {
+			border = "rounded",
+			winhighlight = "NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
+		},
+
+		completion = {
+			border = "rounded",
+			winhighlight = "NormalFloat:Pmenu,NormalFloat:Pmenu,CursorLine:PmenuSel,Search:None",
+			scrollbar = true,
+		},
+
+		scrollbar = true,
+	},
+
+	mapping = cmp.mapping.preset.insert({
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.abort(),
+
+		["<CR>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				if ls.expandable() then
+					ls.expand()
+				else
+					cmp.confirm({ select = true })
+				end
+			else
+				fallback()
+			end
+		end),
+
+		["<Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif ls.locally_jumpable(1) then
+				ls.jump(1)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif ls.locally_jumpable(-1) then
+				ls.jump(-1)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+	}),
+
+	sorting = {
+		comparators = {
+			cmp.config.compare.score,
+			cmp.config.compare.sort_text,
+
+			lspkind_comparator({
+				kind_priority = {
+					Parameter = 14,
+					Variable = 12,
+					Field = 11,
+					Property = 11,
+					Constant = 10,
+					Enum = 10,
+					EnumMember = 10,
+					Event = 10,
+					Function = 10,
+					Method = 10,
+					Operator = 10,
+					Reference = 10,
+					Struct = 10,
+					File = 8,
+					Folder = 8,
+					Class = 5,
+					Color = 5,
+					Module = 5,
+					Keyword = 2,
+					Constructor = 1,
+					Interface = 1,
+					Snippet = 0,
+					Text = 1,
+					TypeParameter = 1,
+					Unit = 1,
+					Value = 1,
+				},
+			}),
+
+			label_comparator,
+		},
+	},
+
+	formatting = {
+		fields = { "abbr", "kind", "menu" },
+		kind_icons = kind,
+
+		format = function(entry, vim_item)
+			vim_item.abbr = vim_item.abbr:sub(1, 30)
+
+			vim_item.kind = string.format(
+				"%s %s",
+				kind_settings1(entry, vim_item),
+				kind_settings2(entry, vim_item)
+			)
+
+			vim_item.dup = {
+				buffer = 0,
+				path = 0,
+				nvim_lsp = 0,
+				nvim_lua = 0,
+			}
+
+			return vim_item
+		end,
+	},
+
+	sources = sources,
 })
 
--- thanks https://www.reddit.com/user/i-eat-omelettes/ for this snippet
--- full snippet https://www.reddit.com/r/neovim/comments/1lkifhf/comment/mzt8agj
-
--- when typing too quickly and/or vim scanning too many words for completion
--- the completion trigger can fire again before previous completion has finished
--- and you get double-feeds of <C-N> or whatever which is bad
--- so we need this (ugly) lock variable to track if there's already a completion
--- in progress and kill attempts to do another completion if yes
--- a timer should be a less coarse solution but it works so touch it not
-local group = vim.api.nvim_create_augroup("ins-autocomplete", {})
-local complete_in_progress = false
-
-vim.api.nvim_create_autocmd("InsertCharPre", {
-	desc = "for tracking completion progress",
-	group = group,
-	callback = function(args)
-		if
-			complete_in_progress
-			or vim.fn.pumvisible() ~= 0
-			or vim.tbl_contains({ "terminal", "prompt", "help" }, vim.bo[args.buf].buftype)
-		then
-			return
-		end
-		complete_in_progress = true
-	end,
+cmp.setup.cmdline("/", {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = {
+		{ name = "buffer" },
+	},
 })
 
--- with this approach (InsertCharPre) the input char won't show up
--- (e.g. TextChanged events won't be trigger) until candidates are found
--- therefore we can confidently say completion has finished upon text change
-vim.api.nvim_create_autocmd({ "TextChangedP", "TextChangedI" }, {
-	desc = "reset complete_in_progress lock",
-	group = group,
-	callback = function()
-		complete_in_progress = false
-	end,
+cmp.setup.cmdline(":", {
+	mapping = cmp.mapping.preset.cmdline(),
+
+	sources = cmp.config.sources({
+		{ name = "path" },
+	}, {
+		{
+			name = "cmdline",
+			option = {
+				ignore_cmds = { "Man", "!" },
+			},
+		},
+	}),
 })

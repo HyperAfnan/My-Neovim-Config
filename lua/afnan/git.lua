@@ -30,6 +30,16 @@ if in_git_repo() then
 
 	vim.keymap.set("n", ",gg", "<cmd>Neogit<cr>", { desc = "Show Neogit UI" })
 	vim.keymap.set("n", ",gv", "<cmd>Neogit kind=vsplit<cr>", { desc = "Show Neogit UI in vsplit" })
+   
+   vim.keymap.set("n", ",ghs", "<cmd>lua require('gitsigns').stage_hunk()<cr>", { desc = "Stage current hunk" })
+   vim.keymap.set("n", ",ghr", "<cmd>lua require('gitsigns').reset_hunk()<cr>", { desc = "Reset current hunk" })
+   vim.keymap.set("n", ",ghS", "<cmd>lua require('gitsigns').stage_buffer()<cr>", { desc = "Stage entire buffer" })
+   vim.keymap.set("n", ",ghu", "<cmd>lua require('gitsigns').undo_stage_hunk()<cr>", { desc = "Undo stage current hunk" })
+   vim.keymap.set("n", ",ghp", "<cmd>lua require('gitsigns').preview_hunk()<cr>", { desc = "Preview current hunk" })
+   vim.keymap.set("n", ",ghb", "<cmd>lua require('gitsigns').blame_line()<cr>", { desc = "Blame current line" })
+   vim.keymap.set("n", ",ghd", "<cmd>lua require('gitsigns').diffthis()<cr>", { desc = "Diff current buffer" })
+   vim.keymap.set("n", ",ghD", "<cmd>lua require('gitsigns').diffthis('~')<cr>", { desc = "Diff current buffer against previous commit" })
+   vim.keymap.set("n", ",ghR", "<cmd>lua require('gitsigns').reset_buffer()<cr>", { desc = "Reset entire buffer" })
 
 	require("gitsigns").setup({
 		signs = {
