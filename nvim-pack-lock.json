@@ -60,6 +60,10 @@
       "rev": "0be090969e978f7442870ef227e09eff7bf3480d",
       "src": "https://github.com/vyfor/cord.nvim"
     },
+    "docker-containers.nvim": {
+      "rev": "2695c49b718815234cf5c273404f2f7907ffdaa4",
+      "src": "https://github.com/HyperAfnan/docker-containers.nvim"
+    },
     "friendly-snippets": {
       "rev": "6cd7280adead7f586db6fccbd15d2cac7e2188b9",
       "src": "https://github.com/rafamadriz/friendly-snippets"
