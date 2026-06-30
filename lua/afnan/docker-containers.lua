@@ -1,8 +1,8 @@
--- vim.opt.rtp:append("~/Projects/docker-containers.nvim")
+vim.opt.rtp:append("~/Projects/docker-containers.nvim")
 local gh = require("afnan.pack").gh
-
-vim.pack.add({ gh("HyperAfnan/docker-containers.nvim") })
-vim.cmd.packadd("docker-containers.nvim")
+--
+vim.pack.add({ gh("akinsho/toggleterm.nvim") })
+vim.cmd.packadd("toggleterm.nvim")
 
 require("docker-containers").setup({
   position = "right",

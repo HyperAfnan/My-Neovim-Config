@@ -56,6 +56,10 @@
       "rev": "9adedbaf1f410cdaacf4fb2ca8eb44f3d5f6d010",
       "src": "https://github.com/mluders/comfy-line-numbers.nvim"
     },
+    "conform.nvim": {
+      "rev": "619363c30309d29ffa631e67c8183f2a72caa373",
+      "src": "https://github.com/stevearc/conform.nvim"
+    },
     "cord.nvim": {
       "rev": "0be090969e978f7442870ef227e09eff7bf3480d",
       "src": "https://github.com/vyfor/cord.nvim"
@@ -101,6 +105,10 @@
       "rev": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca",
       "src": "https://github.com/hrsh7th/nvim-cmp"
     },
+    "nvim-jdtls": {
+      "rev": "6e9d953f0b82bccdb834cfde0e893f3119c22592",
+      "src": "https://github.com/mfussenegger/nvim-jdtls"
+    },
     "nvim-treesitter": {
       "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
@@ -120,6 +128,10 @@
     "snacks.nvim": {
       "rev": "882c996cf28183f4d63640de0b4c02ec886d01f2",
       "src": "https://github.com/folke/snacks.nvim"
+    },
+    "toggleterm.nvim": {
+      "rev": "9a88eae817ef395952e08650b3283726786fb5fb",
+      "src": "https://github.com/akinsho/toggleterm.nvim"
     },
     "vim-tpipeline": {
       "rev": "bc6dfc10e26a8dd1ec2f0512050a8a0afaa9d090",
